@@ -6,7 +6,7 @@ Medical professional transitioning into tech, combining healthcare domain knowle
 
 **Current Role:**
 - 🏥 Medical Examiner (Perícia Médica) in Florianópolis, SC
-- 💻 Active contributor to open-source projects
+- 💻 Active contributor to CamUp and open-source projects
 - 🔐 Studying cybersecurity and secure development practices
 
 **Open to:**
