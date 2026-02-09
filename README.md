@@ -2,10 +2,9 @@
 
 ## 🎯 About Me
 
-Medical professional transitioning into tech, combining healthcare domain knowledge with software development and cybersecurity expertise.
+Full-Stack Software Developer focused on developing modern, scalable, and secure web applications, with strong attention to performance, maintainability, and user experience.
 
 **Current Role:**
-- 🏥 Medical Examiner (Perícia Médica) in Florianópolis, SC
 - 💻 Active contributor to CamUp and open-source projects
 - 🔐 Studying cybersecurity and secure development practices
 
