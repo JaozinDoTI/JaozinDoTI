@@ -1,6 +1,6 @@
 """SVG template: Mission Telemetry stats card (850x180)."""
 
-from generator.utils import METRIC_ICONS, METRIC_LABELS, METRIC_COLORS, format_number
+from generator.utils import METRIC_COLORS, METRIC_ICONS, METRIC_LABELS, format_number
 
 WIDTH, HEIGHT = 850, 180
 
@@ -26,7 +26,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
         icon_path = METRIC_ICONS.get(key, "")
         delay = f"{i * 0.3}s"
 
-        cells.append(f'''    <g class="metric-cell" transform="translate({cx}, 95)">
+        cells.append(f"""    <g class="metric-cell" transform="translate({cx}, 95)">
       <g transform="translate(-8, -30) scale(1)">
         <svg viewBox="0 0 16 16" width="16" height="16" fill="{icon_color}" class="metric-icon" style="animation-delay: {delay}">
           {icon_path}
@@ -35,7 +35,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
       <text x="0" y="2" text-anchor="middle" fill="{icon_color}" font-size="28" font-weight="bold" font-family="sans-serif" opacity="0.35" filter="url(#num-glow)">{value}</text>
       <text x="0" y="2" text-anchor="middle" fill="{theme['text_bright']}" font-size="28" font-weight="bold" font-family="sans-serif">{value}</text>
       <text x="0" y="20" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="1">{label}</text>
-    </g>''')
+    </g>""")
 
         # Vertical divider between cells (not after last)
         if i < len(metrics) - 1:
@@ -48,7 +48,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
     cells_str = "\n".join(cells)
     dividers_str = "\n".join(dividers)
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
     <style>
       .metric-icon {{
@@ -76,4 +76,4 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
 
   <!-- Metric cells -->
 {cells_str}
-</svg>'''
+</svg>"""

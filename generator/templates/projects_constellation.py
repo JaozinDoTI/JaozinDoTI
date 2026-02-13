@@ -1,6 +1,6 @@
 """SVG template: Featured Systems / Projects Constellation (850x220)."""
 
-from generator.utils import wrap_text, deterministic_random, esc, resolve_arm_colors
+from generator.utils import deterministic_random, esc, resolve_arm_colors, wrap_text
 
 WIDTH, HEIGHT = 850, 220
 
@@ -12,7 +12,8 @@ def _build_defs(n, card_width, gap, card_colors, theme):
     # Glow filters per card
     for i in range(n):
         color = card_colors[i]
-        defs_parts.append(f'''    <filter id="proj-glow-{i}" x="-80%" y="-80%" width="260%" height="260%">
+        defs_parts.append(
+            f"""    <filter id="proj-glow-{i}" x="-80%" y="-80%" width="260%" height="260%">
       <feGaussianBlur stdDeviation="4" in="SourceGraphic" result="blur"/>
       <feFlood flood-color="{color}" flood-opacity="0.6" result="color"/>
       <feComposite in="color" in2="blur" operator="in" result="glow"/>
@@ -20,37 +21,38 @@ def _build_defs(n, card_width, gap, card_colors, theme):
         <feMergeNode in="glow"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
-    </filter>''')
+    </filter>"""
+        )
 
     # Card nebula filter
-    defs_parts.append('''    <filter id="card-nebula" x="-50%" y="-50%" width="200%" height="200%">
+    defs_parts.append("""    <filter id="card-nebula" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="15"/>
-    </filter>''')
+    </filter>""")
 
     # Card background gradients
     for i in range(n):
         color = card_colors[i]
-        defs_parts.append(f'''    <linearGradient id="card-bg-{i}" x1="0" y1="0" x2="0" y2="1">
+        defs_parts.append(f"""    <linearGradient id="card-bg-{i}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="{theme['star_dust']}" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="{theme['nebula']}" stop-opacity="0.9"/>
-    </linearGradient>''')
+    </linearGradient>""")
 
     # Connection line gradient (between card colors)
     if n >= 2:
-        defs_parts.append(f'''    <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
+        defs_parts.append(f"""    <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="{card_colors[0]}" stop-opacity="0.4"/>
       <stop offset="100%" stop-color="{card_colors[-1]}" stop-opacity="0.4"/>
-    </linearGradient>''')
+    </linearGradient>""")
 
     # Clip paths per card
     for i in range(n):
         card_x = gap + i * (card_width + gap)
-        defs_parts.append(f'''    <clipPath id="card-clip-{i}">
+        defs_parts.append(f"""    <clipPath id="card-clip-{i}">
       <rect x="{card_x}" y="55" width="{card_width}" height="140" rx="8" ry="8"/>
-    </clipPath>''')
+    </clipPath>""")
 
     # CSS keyframes
-    defs_parts.append('''    <style>
+    defs_parts.append("""    <style>
       @keyframes twinkle {
         0%, 100% { opacity: 0.1; }
         50% { opacity: 0.6; }
@@ -67,7 +69,7 @@ def _build_defs(n, card_width, gap, card_colors, theme):
         0% { transform: translateY(0); }
         100% { transform: translateY(160px); }
       }
-    </style>''')
+    </style>""")
 
     return "\n".join(defs_parts)
 
@@ -77,14 +79,24 @@ def _build_starfield(n, width, height, card_colors, theme):
     stars = []
     layers = [
         {
-            "prefix": "proj-star", "count": 15, "margin": 10,
-            "r": (0.3, 0.9), "o": (0.05, 0.25), "d": (5.0, 8.0),
-            "o_mult": 3, "o_cap": 0.6,
+            "prefix": "proj-star",
+            "count": 15,
+            "margin": 10,
+            "r": (0.3, 0.9),
+            "o": (0.05, 0.25),
+            "d": (5.0, 8.0),
+            "o_mult": 3,
+            "o_cap": 0.6,
         },
         {
-            "prefix": "proj-mstar", "count": 10, "margin": 15,
-            "r": (0.5, 1.2), "o": (0.10, 0.40), "d": (3.0, 6.0),
-            "o_mult": 2.5, "o_cap": 0.8,
+            "prefix": "proj-mstar",
+            "count": 10,
+            "margin": 15,
+            "r": (0.5, 1.2),
+            "o": (0.10, 0.40),
+            "d": (3.0, 6.0),
+            "o_mult": 2.5,
+            "o_cap": 0.8,
         },
     ]
     for layer in layers:
@@ -103,7 +115,7 @@ def _build_starfield(n, width, height, card_colors, theme):
                 f'fill="{fill}" opacity="{so[i]:.2f}">'
                 f'<animate attributeName="opacity" values="{so[i]:.2f};{min(so[i] * layer["o_mult"], layer["o_cap"]):.2f};{so[i]:.2f}" '
                 f'dur="{sd[i]:.1f}s" repeatCount="indefinite"/>'
-                f'</circle>'
+                f"</circle>"
             )
     return "\n".join(stars)
 
@@ -159,7 +171,7 @@ def _build_title_area(n, width, height, theme):
         f'\n    <polyline points="5,{height - bl - 5} 5,{height - 5} {bl + 5},{height - 5}" fill="none" stroke="{bk}" stroke-width="1.5"/>'
         # Bottom-right
         f'\n    <polyline points="{width - bl - 5},{height - 5} {width - 5},{height - 5} {width - 5},{height - bl - 5}" fill="none" stroke="{bk}" stroke-width="1.5"/>'
-        f'\n  </g>'
+        f"\n  </g>"
     )
     # Section title
     title_parts.append(
@@ -171,7 +183,7 @@ def _build_title_area(n, width, height, theme):
     title_parts.append(
         f'  <circle cx="218" cy="34" r="3" fill="{cyan}" opacity="0.8">'
         f'<animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>'
-        f'</circle>'
+        f"</circle>"
     )
     # Right-aligned status text
     title_parts.append(
@@ -193,7 +205,9 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     delay = f"{i * 0.3}s"
 
     card_parts = []
-    card_parts.append(f'  <g opacity="0" style="animation: card-appear 0.6s ease {delay} forwards">')
+    card_parts.append(
+        f'  <g opacity="0" style="animation: card-appear 0.6s ease {delay} forwards">'
+    )
 
     # Card container
     card_parts.append(
@@ -217,9 +231,9 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
         f'fill="{color}" opacity="0.1">'
         f'<animateTransform attributeName="transform" type="translate" '
         f'from="0 0" to="0 140" dur="6s" repeatCount="indefinite"/>'
-        f'</rect>'
+        f"</rect>"
     )
-    card_parts.append('    </g>')
+    card_parts.append("    </g>")
 
     # Star indicator — orbital ring + glow + core + center
     # Orbital ring (rotating dashed circle)
@@ -228,7 +242,7 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
         f'stroke="{color}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5">'
         f'<animateTransform attributeName="transform" type="rotate" '
         f'from="0 {card_cx} 85" to="360 {card_cx} 85" dur="12s" repeatCount="indefinite"/>'
-        f'</circle>'
+        f"</circle>"
     )
     # Glow halo
     card_parts.append(
@@ -242,12 +256,10 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
         f'begin="{delay}" repeatCount="indefinite"/>'
         f'<animate attributeName="r" values="4.5;5.5;4.5" dur="3s" '
         f'begin="{delay}" repeatCount="indefinite"/>'
-        f'</circle>'
+        f"</circle>"
     )
     # White center dot
-    card_parts.append(
-        f'    <circle cx="{card_cx}" cy="85" r="2" fill="#ffffff" opacity="0.9"/>'
-    )
+    card_parts.append(f'    <circle cx="{card_cx}" cy="85" r="2" fill="#ffffff" opacity="0.9"/>')
 
     # Project name (centered)
     card_parts.append(
@@ -279,7 +291,7 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
         f'opacity="0.85">{esc(tag_text)}</text>'
     )
 
-    card_parts.append('  </g>')
+    card_parts.append("  </g>")
     return "\n".join(card_parts)
 
 
@@ -291,7 +303,7 @@ def _build_scan_line(width, theme):
         f'fill="{cyan}" opacity="0.08">'
         f'<animateTransform attributeName="transform" type="translate" '
         f'from="0 0" to="0 160" dur="6s" repeatCount="indefinite"/>'
-        f'</rect>'
+        f"</rect>"
     )
 
 
@@ -309,18 +321,15 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
     if n == 0:
         # No projects — render an empty card
-        return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+        return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
   <text x="{WIDTH / 2}" y="{HEIGHT / 2}" fill="{theme['text_faint']}" font-size="12"
         font-family="monospace" text-anchor="middle" dominant-baseline="middle">No featured projects configured</text>
-</svg>'''
+</svg>"""
 
     # Adaptive card sizing
-    if n == 2:
-        card_width = 340
-    else:
-        card_width = 240
+    card_width = 340 if n == 2 else 240
     total_cards_width = card_width * n
     gap = (WIDTH - total_cards_width) / (n + 1)
 
@@ -371,7 +380,7 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
     # ── Layer 7: Global scan line ──
     scan_line = _build_scan_line(WIDTH, theme)
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
 {defs_str}
   </defs>
@@ -396,4 +405,4 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
   <!-- Global scan line -->
 {scan_line}
-</svg>'''
+</svg>"""

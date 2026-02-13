@@ -15,7 +15,7 @@ class GitHubAPI:
     GRAPHQL_URL = "https://api.github.com/graphql"
     REST_URL = "https://api.github.com"
 
-    def __init__(self, username: str, token: str = None):
+    def __init__(self, username: str, token: str | None = None):
         self.username = username
         self.token = token or os.environ.get("GITHUB_TOKEN", "")
         self.headers = {"Accept": "application/vnd.github.v3+json"}
@@ -112,8 +112,7 @@ class GitHubAPI:
 
         total_stars = sum(n["stargazerCount"] for n in repos["nodes"])
         total_commits = (
-            contrib["totalCommitContributions"]
-            + contrib["restrictedContributionsCount"]
+            contrib["totalCommitContributions"] + contrib["restrictedContributionsCount"]
         )
 
         return {
@@ -126,9 +125,7 @@ class GitHubAPI:
 
     def _fetch_stats_rest(self) -> dict:
         """Fallback: fetch stats via REST API (public data only)."""
-        user_resp = self._request(
-            "GET", f"{self.REST_URL}/users/{self.username}"
-        )
+        user_resp = self._request("GET", f"{self.REST_URL}/users/{self.username}")
         user_resp.raise_for_status()
         user_data = user_resp.json()
 
@@ -169,14 +166,18 @@ class GitHubAPI:
             "repos": user_data.get("public_repos", 0),
         }
 
-    def _paginate_repos(self):
-        """Yield pages of owned repos from the REST API."""
+    def _paginate_repos(self, repo_type: str = "owner"):
+        """Yield pages of repos from the REST API.
+
+        Args:
+            repo_type: GitHub repo listing type (owner, member, all).
+        """
         page = 1
         while True:
             repos_resp = self._request(
                 "GET",
                 f"{self.REST_URL}/users/{self.username}/repos",
-                params={"per_page": 100, "page": page, "type": "owner"},
+                params={"per_page": 100, "page": page, "type": repo_type},
             )
             repos_resp.raise_for_status()
             repos = repos_resp.json()
@@ -223,10 +224,16 @@ class GitHubAPI:
         return 0
 
     def fetch_languages(self) -> dict:
-        """Fetch language byte counts aggregated across all owned non-fork repos."""
+        """Fetch language byte counts across visible non-fork repos (owner + member)."""
         languages = {}
-        for repos in self._paginate_repos():
+        seen_repos = set()
+        for repos in self._paginate_repos(repo_type="all"):
             for repo in repos:
+                full_name = repo.get("full_name")
+                if not full_name or full_name in seen_repos:
+                    continue
+                seen_repos.add(full_name)
+
                 if repo.get("fork"):
                     continue
                 try:

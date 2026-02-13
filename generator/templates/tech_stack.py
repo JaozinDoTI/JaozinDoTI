@@ -2,7 +2,7 @@
 
 import math
 
-from generator.utils import calculate_language_percentages, esc, svg_arc_path, resolve_arm_colors
+from generator.utils import calculate_language_percentages, esc, resolve_arm_colors, svg_arc_path
 
 WIDTH = 850
 
@@ -27,13 +27,13 @@ def _build_language_bars(lang_data, theme, left_x, start_y):
         bar_w = max(4, (lang["percentage"] / 100) * bar_max_width)
         delay = f"{i * 0.1}s"
 
-        bar_lines.append(f'''    <g transform="translate({left_x}, {y})">
+        bar_lines.append(f"""    <g transform="translate({left_x}, {y})">
       <text x="0" y="0" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif" dominant-baseline="middle">{esc(lang['name'])}</text>
       <rect x="110" y="-6" width="{bar_w}" height="12" rx="3" fill="{lang['color']}" opacity="0.85">
         <animate attributeName="width" from="0" to="{bar_w}" dur="0.8s" begin="{delay}" fill="freeze"/>
       </rect>
       <text x="320" y="0" fill="{theme['text_faint']}" font-size="10" font-family="monospace" dominant-baseline="middle">{lang['percentage']}%</text>
-    </g>''')
+    </g>""")
 
     return "\n".join(bar_lines)
 
@@ -120,23 +120,23 @@ def _build_radar_needle(rcx, rcy, radius, theme):
     inner_hw = 0.8
 
     needle = (
-        f'    <g>'
-        f'\n      <!-- Sweep trail -->'
+        f"    <g>"
+        f"\n      <!-- Sweep trail -->"
         f'\n      <path d="{sweep_d}" fill="{scan_color}" fill-opacity="0.07"/>'
-        f'\n      <!-- Outer wedge -->'
+        f"\n      <!-- Outer wedge -->"
         f'\n      <polygon points="{rcx - outer_hw},{rcy} {tip_x},{tip_y} {rcx + outer_hw},{rcy}" '
         f'fill="{scan_color}" opacity="0.25"/>'
-        f'\n      <!-- Inner bright core -->'
+        f"\n      <!-- Inner bright core -->"
         f'\n      <polygon points="{rcx - inner_hw},{rcy} {tip_x},{tip_y} {rcx + inner_hw},{rcy}" '
         f'fill="{scan_color}" opacity="0.5"/>'
-        f'\n      <!-- Tip glow -->'
+        f"\n      <!-- Tip glow -->"
         f'\n      <circle cx="{tip_x}" cy="{tip_y}" r="2" fill="{scan_color}" opacity="0.6">'
         f'\n        <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>'
-        f'\n      </circle>'
+        f"\n      </circle>"
         f'\n      <animateTransform attributeName="transform" type="rotate" '
         f'from="0 {rcx} {rcy}" to="360 {rcx} {rcy}" '
         f'dur="8s" repeatCount="indefinite"/>'
-        f'\n    </g>'
+        f"\n    </g>"
     )
 
     return needle
@@ -194,7 +194,7 @@ def _build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, the
         items = arm.get("items", [])
         item_count = len(items)
         edge_pad = 10  # degrees of padding from sector edges
-        for j, item in enumerate(items):
+        for j, _item in enumerate(items):
             # Angular: evenly spread within sector with edge padding
             usable_start = sec["start_deg"] + edge_pad
             usable_end = sec["end_deg"] - edge_pad
@@ -218,7 +218,7 @@ def _build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, the
                 f'values="0.35;0.35;1.0;0.35;0.35" '
                 f'keyTimes="0;0.04;0.06;0.10;1" '
                 f'dur="8s" begin="{pulse_begin:.2f}s" repeatCount="indefinite"/>'
-                f'\n    </circle>'
+                f"\n    </circle>"
             )
 
     return "\n".join(parts)
@@ -256,13 +256,15 @@ def render(
     for i, arm in enumerate(galaxy_arms):
         color = all_arm_colors[i]
         items = arm.get("items", [])
-        sector_data.append({
-            "name": arm["name"],
-            "color": color,
-            "items": len(items),
-            "start_deg": i * 120 + 1,
-            "end_deg": (i + 1) * 120 - 1,
-        })
+        sector_data.append(
+            {
+                "name": arm["name"],
+                "color": color,
+                "items": len(items),
+                "start_deg": i * 120 + 1,
+                "end_deg": (i + 1) * 120 - 1,
+            }
+        )
 
     # Radar geometry
     radius = 65
@@ -281,11 +283,13 @@ def render(
     radar_parts.append(_build_radar_grid(rcx, rcy, grid_rings, theme))
     radar_parts.append(_build_radar_sectors(sector_data, rcx, rcy, radius, theme))
     radar_parts.append(_build_radar_needle(rcx, rcy, radius, theme))
-    radar_parts.append(_build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, theme))
+    radar_parts.append(
+        _build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, theme)
+    )
 
     radar_str = "\n".join(radar_parts)
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
   <defs/>
 
   <!-- Card background -->
@@ -304,4 +308,4 @@ def render(
 {bars_str}
 
 {radar_str}
-</svg>'''
+</svg>"""

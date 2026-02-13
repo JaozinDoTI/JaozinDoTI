@@ -23,7 +23,7 @@ class TestValidateConfig:
 
     def test_profile_name_required(self, cfg):
         cfg["profile"]["name"] = ""
-        with pytest.raises(ConfigError, match="profile.name"):
+        with pytest.raises(ConfigError, match=r"profile\.name"):
             validate_config(cfg)
 
     def test_galaxy_arms_must_be_nonempty_list(self, cfg):

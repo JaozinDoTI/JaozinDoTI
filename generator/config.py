@@ -1,6 +1,6 @@
 """Config validation and defaults for the Galaxy Profile generator."""
 
-from generator.utils import resolve_theme, HEX_COLOR_RE
+from generator.utils import HEX_COLOR_RE, resolve_theme
 
 
 class ConfigError(ValueError):

@@ -1,7 +1,8 @@
 """SVG template: Galaxy Header — the signature spiral galaxy banner (850x280)."""
 
 import math
-from generator.utils import spiral_points, deterministic_random, esc, resolve_arm_colors
+
+from generator.utils import deterministic_random, esc, resolve_arm_colors, spiral_points
 
 # ── Module-level constants ──
 WIDTH, HEIGHT = 850, 280
@@ -16,18 +17,18 @@ START_ANGLES = [25, 150, 265]
 def _build_glow_filters(galaxy_arms, arm_colors):
     """Build the star glow filters, one per arm."""
     glow_filters = []
-    for i, arm in enumerate(galaxy_arms):
+    for i, _arm in enumerate(galaxy_arms):
         color = arm_colors[i]
         glow_filters.append(
             f'    <filter id="star-glow-{i}" x="-100%" y="-100%" width="300%" height="300%">\n'
             f'      <feGaussianBlur stdDeviation="3" result="blur"/>\n'
             f'      <feFlood flood-color="{color}" flood-opacity="0.5" result="color"/>\n'
             f'      <feComposite in="color" in2="blur" operator="in" result="glow"/>\n'
-            f'      <feMerge>\n'
+            f"      <feMerge>\n"
             f'        <feMergeNode in="glow"/>\n'
             f'        <feMergeNode in="SourceGraphic"/>\n'
-            f'      </feMerge>\n'
-            f'    </filter>'
+            f"      </feMerge>\n"
+            f"    </filter>"
         )
     return "\n".join(glow_filters)
 
@@ -36,22 +37,34 @@ def _build_starfield(username, width, height, theme):
     """Build all 3 star depth layers (bg, mid, fg)."""
     star_layers = [
         {
-            "count": 40, "label": "bg",
-            "r_min": 0.3, "r_max": 0.8,
-            "o_min": 0.08, "o_max": 0.3,
-            "dur_min": 5.0, "dur_max": 9.0,
+            "count": 40,
+            "label": "bg",
+            "r_min": 0.3,
+            "r_max": 0.8,
+            "o_min": 0.08,
+            "o_max": 0.3,
+            "dur_min": 5.0,
+            "dur_max": 9.0,
         },
         {
-            "count": 20, "label": "mid",
-            "r_min": 0.6, "r_max": 1.2,
-            "o_min": 0.15, "o_max": 0.5,
-            "dur_min": 3.5, "dur_max": 7.0,
+            "count": 20,
+            "label": "mid",
+            "r_min": 0.6,
+            "r_max": 1.2,
+            "o_min": 0.15,
+            "o_max": 0.5,
+            "dur_min": 3.5,
+            "dur_max": 7.0,
         },
         {
-            "count": 10, "label": "fg",
-            "r_min": 1.0, "r_max": 1.8,
-            "o_min": 0.4, "o_max": 0.7,
-            "dur_min": 2.0, "dur_max": 4.5,
+            "count": 10,
+            "label": "fg",
+            "r_min": 1.0,
+            "r_max": 1.8,
+            "o_min": 0.4,
+            "o_max": 0.7,
+            "dur_min": 2.0,
+            "dur_max": 4.5,
         },
     ]
 
@@ -138,7 +151,7 @@ def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
     opacity_steps = [0.50, 0.40, 0.30, 0.20]
     width_steps = [2.0, 1.7, 1.4, 1.1]
 
-    for arm_idx, arm in enumerate(galaxy_arms):
+    for arm_idx, _arm in enumerate(galaxy_arms):
         color = arm_colors[arm_idx]
         points = all_arm_points[arm_idx]
 
@@ -167,7 +180,7 @@ def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
                 f'stroke-width="{sw:.1f}" opacity="{op:.2f}" stroke-linecap="round">'
                 f'\n      <animate attributeName="opacity" values="{op - 0.1:.2f};{op + 0.1:.2f};{op - 0.1:.2f}" '
                 f'dur="8s" begin="{arm_idx}s" repeatCount="indefinite"/>'
-                f'\n    </path>'
+                f"\n    </path>"
             )
 
         # Arm particles — 2 per arm (Step 7)
@@ -179,7 +192,7 @@ def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
                 f'path="{full_path_d}"/>\n'
                 f'      <animate attributeName="opacity" values="0;0.7;0.3;0" dur="12s" '
                 f'begin="{delay}s" repeatCount="indefinite"/>\n'
-                f'    </circle>'
+                f"    </circle>"
             )
 
     return "\n".join(arm_paths), "\n".join(arm_particles)
@@ -229,7 +242,7 @@ def _build_tech_labels(galaxy_arms, arm_colors, all_arm_points, cx, cy):
             arm_dots.append(
                 f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="2.5" fill="{color}" opacity="0.85">\n'
                 f'      <animate attributeName="opacity" values="0.85;1;0.85" dur="5s" begin="{i * 0.7}s" repeatCount="indefinite"/>\n'
-                f'    </circle>'
+                f"    </circle>"
             )
 
             # Leader line — dashed, subtle (Step 3)
@@ -259,7 +272,6 @@ def _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points):
     project_stars = []
     for proj in projects[:3]:
         arm_idx = proj.get("arm", 0) % len(galaxy_arms)
-        arm = galaxy_arms[arm_idx]
         color = arm_colors[arm_idx]
         points = all_arm_points[arm_idx]
 
@@ -270,7 +282,7 @@ def _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points):
         project_stars.append(
             f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{color}" filter="url(#star-glow-{arm_idx})">\n'
             f'      <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="{delay}" repeatCount="indefinite"/>\n'
-            f'    </circle>'
+            f"    </circle>"
         )
 
     return "\n".join(project_stars)
@@ -284,37 +296,37 @@ def _build_orbital_rings(cx, cy, theme):
         f'stroke-dasharray="4 6">\n'
         f'      <animateTransform attributeName="transform" type="rotate" '
         f'from="0 {cx} {cy}" to="360 {cx} {cy}" dur="20s" repeatCount="indefinite"/>\n'
-        f'    </ellipse>\n'
+        f"    </ellipse>\n"
         f'    <ellipse cx="{cx}" cy="{cy}" rx="75" ry="24" fill="none" '
         f'stroke="{theme["dendrite_violet"]}" stroke-width="0.5" opacity="0.1" '
         f'stroke-dasharray="3 8">\n'
         f'      <animateTransform attributeName="transform" type="rotate" '
         f'from="360 {cx} {cy}" to="0 {cx} {cy}" dur="30s" repeatCount="indefinite"/>\n'
-        f'    </ellipse>'
+        f"    </ellipse>"
     )
 
 
 def _build_galaxy_core(cx, cy, theme, initial):
     """Build the core layers (haze, glow, rings, solid core, initial)."""
     return (
-        f'    <!-- Outer haze -->\n'
+        f"    <!-- Outer haze -->\n"
         f'    <circle cx="{cx}" cy="{cy}" r="40" fill="url(#core-haze-gradient)" opacity="0.4"/>\n'
-        f'    <!-- Inner glow -->\n'
+        f"    <!-- Inner glow -->\n"
         f'    <circle cx="{cx}" cy="{cy}" r="24" fill="url(#core-inner-gradient)" opacity="0.6"/>\n'
-        f'    <!-- Outer ring -->\n'
+        f"    <!-- Outer ring -->\n"
         f'    <ellipse cx="{cx}" cy="{cy}" rx="20" ry="18" fill="none" '
         f'stroke="{theme["synapse_cyan"]}" stroke-width="1.2" opacity="0.55" '
         f'stroke-dasharray="5 3" class="core-ring"/>\n'
-        f'    <!-- Inner ring -->\n'
+        f"    <!-- Inner ring -->\n"
         f'    <circle cx="{cx}" cy="{cy}" r="14" fill="none" '
         f'stroke="{theme["dendrite_violet"]}" stroke-width="0.8" opacity="0.4" class="core-ring-inner"/>\n'
-        f'    <!-- Solid core -->\n'
+        f"    <!-- Solid core -->\n"
         f'    <circle cx="{cx}" cy="{cy}" r="11" fill="{theme["nebula"]}" '
         f'stroke="{theme["star_dust"]}" stroke-width="0.5"/>\n'
-        f'    <!-- Bright center dot -->\n'
+        f"    <!-- Bright center dot -->\n"
         f'    <circle cx="{cx}" cy="{cy}" r="3" fill="{theme["synapse_cyan"]}" '
         f'filter="url(#core-bright-glow)" opacity="0.9"/>\n'
-        f'    <!-- Initial -->\n'
+        f"    <!-- Initial -->\n"
         f'    <text x="{cx}" y="{cy + 5}" text-anchor="middle" fill="{theme["synapse_cyan"]}" '
         f'font-size="14" font-weight="bold" font-family="monospace">{initial}</text>'
     )
@@ -347,8 +359,14 @@ def render(
     # Generate arm points for all arms
     all_arm_points = [
         spiral_points(
-            CENTER_X, CENTER_Y, START_ANGLES[arm_idx % len(START_ANGLES)],
-            NUM_POINTS, MAX_RADIUS, SPIRAL_TURNS, X_SCALE, Y_SCALE
+            CENTER_X,
+            CENTER_Y,
+            START_ANGLES[arm_idx % len(START_ANGLES)],
+            NUM_POINTS,
+            MAX_RADIUS,
+            SPIRAL_TURNS,
+            X_SCALE,
+            Y_SCALE,
         )
         for arm_idx in range(len(galaxy_arms))
     ]
@@ -362,14 +380,14 @@ def render(
     label_glow_filter = (
         '    <filter id="label-glow" x="-20%" y="-20%" width="140%" height="140%">\n'
         '      <feGaussianBlur stdDeviation="2" result="blur"/>\n'
-        '    </filter>'
+        "    </filter>"
     )
 
     # Core glow filter
     core_glow_filter = (
         '    <filter id="core-bright-glow" x="-100%" y="-100%" width="300%" height="300%">\n'
         '      <feGaussianBlur stdDeviation="4"/>\n'
-        '    </filter>'
+        "    </filter>"
     )
 
     # ── Build all layers via helper functions ──
@@ -383,7 +401,7 @@ def render(
     core = _build_galaxy_core(CENTER_X, CENTER_Y, theme, initial)
 
     # ── Assemble SVG ──
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
     <style>
       .star-bg {{
@@ -497,4 +515,4 @@ def render(
   <text x="{CENTER_X}" y="26" text-anchor="middle" fill="{theme['text_bright']}" font-size="20" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
   <text x="{CENTER_X}" y="44" text-anchor="middle" fill="{theme['text_dim']}" font-size="12" font-family="sans-serif">{esc(tagline)}</text>
   <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
-</svg>'''
+</svg>"""

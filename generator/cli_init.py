@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import sys
-from typing import Optional
 
 import yaml
 from InquirerPy import inquirer
@@ -14,6 +12,7 @@ from InquirerPy.validator import EmptyInputValidator
 from generator.config import ConfigError, validate_config
 from generator.tech_catalog import get_all_techs
 from generator.utils import DEFAULT_THEME, HEX_COLOR_RE
+
 _CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config.yml")
 
 ARM_COLORS = [
@@ -53,7 +52,7 @@ def run_init():
 
     # Validate
     try:
-        with open(path, "r") as f:
+        with open(path) as f:
             raw = yaml.safe_load(f)
         validate_config(raw)
         print(f"\n✅ Config saved and validated: {path}")
@@ -69,7 +68,7 @@ def _detect_existing_config() -> dict | None:
     if not os.path.isfile(path):
         return None
     try:
-        with open(path, "r") as f:
+        with open(path) as f:
             return yaml.safe_load(f)
     except Exception:
         return None
@@ -150,11 +149,13 @@ def _prompt_galaxy_arms(defaults: dict) -> list:
             invalid_message="Select at least one technology.",
         ).execute()
 
-        arms.append({
-            "name": arm_name,
-            "color": arm_color,
-            "items": arm_techs,
-        })
+        arms.append(
+            {
+                "name": arm_name,
+                "color": arm_color,
+                "items": arm_techs,
+            }
+        )
 
     return arms
 
@@ -182,7 +183,11 @@ def _prompt_advanced(defaults: dict) -> dict:
 
     # Social links
     print("\n--- Social Links (leave blank to skip) ---")
-    social_fields = [("email", "Email:"), ("linkedin", "LinkedIn username:"), ("website", "Website URL:")]
+    social_fields = [
+        ("email", "Email:"),
+        ("linkedin", "LinkedIn username:"),
+        ("website", "Website URL:"),
+    ]
     social = {}
     for key, prompt in social_fields:
         value = inquirer.text(

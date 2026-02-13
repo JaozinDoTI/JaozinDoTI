@@ -1,7 +1,5 @@
 """Tests for SVG generation (SVGBuilder + templates)."""
 
-import pytest
-
 from generator.config import validate_config
 from generator.svg_builder import SVGBuilder
 
@@ -31,8 +29,8 @@ class TestSVGBuilder:
     def test_stats_card_contains_formatted_values(self, svg_builder):
         svg = svg_builder.render_stats_card()
         assert "1.8k" in svg  # commits=1847
-        assert "342" in svg   # stars
-        assert "156" in svg   # prs
+        assert "342" in svg  # stars
+        assert "156" in svg  # prs
 
     def test_render_tech_stack_valid_svg(self, svg_builder):
         svg = svg_builder.render_tech_stack()

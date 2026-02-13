@@ -27,13 +27,25 @@ def sample_config():
             "website": "https://nyxorion.dev",
         },
         "galaxy_arms": [
-            {"name": "Frontend", "color": "dendrite_violet", "items": ["TypeScript", "React", "CSS"]},
-            {"name": "Backend", "color": "synapse_cyan", "items": ["Python", "Node.js", "PostgreSQL"]},
+            {
+                "name": "Frontend",
+                "color": "dendrite_violet",
+                "items": ["TypeScript", "React", "CSS"],
+            },
+            {
+                "name": "Backend",
+                "color": "synapse_cyan",
+                "items": ["Python", "Node.js", "PostgreSQL"],
+            },
             {"name": "DevOps", "color": "axon_amber", "items": ["Docker", "GitHub Actions", "AWS"]},
         ],
         "projects": [
             {"repo": "galaxy-dev/nebula-ui", "arm": 0, "description": "A component library."},
-            {"repo": "galaxy-dev/stargate-api", "arm": 1, "description": "High-performance API gateway."},
+            {
+                "repo": "galaxy-dev/stargate-api",
+                "arm": 1,
+                "description": "High-performance API gateway.",
+            },
         ],
         "theme": {
             "void": "#080c14",

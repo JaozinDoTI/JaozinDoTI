@@ -1,6 +1,6 @@
 """SVG Builder — orchestrator connecting config, stats, and templates."""
 
-from generator.templates import galaxy_header, stats_card, tech_stack, projects_constellation
+from generator.templates import galaxy_header, projects_constellation, stats_card, tech_stack
 
 
 class SVGBuilder:
