@@ -1,21 +1,12 @@
-username: joao-henrique-goncalves
+username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Full-Stack Developer focused on Backend Engineering and Laravel"
+  tagline: "Full-Stack Developer | Backend Engineering | Laravel"
   company: ""
   location: ""
-  bio: |
-    Full-Stack Developer with strong focus on Backend Engineering and Laravel.
-    Passionate about building scalable, secure, and maintainable web applications.
-    I work with clean architecture principles, automation of processes, and performance-driven systems.
-    Focused on real-world problem solving, structured codebases, and continuous technical evolution.
-  philosophy: '"I build software not just to work - but to scale, endure, and evolve."'
-
-social:
-  email: ""
-  linkedin: ""
-  website: ""
+  bio: ""
+  philosophy: ""
 
 galaxy_arms:
   - name: "Backend Engineering"
@@ -38,7 +29,7 @@ galaxy_arms:
       - "Docker"
 
 projects:
-  - repo: "joao-henrique-goncalves/camup-system"
+  - repo: "JaozinDoTI/camup-system"
     arm: 0
     description: "Collaborative real-world system with feature delivery, refactoring, performance improvements, and workflow organization."
 
