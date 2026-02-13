@@ -1,0 +1,57 @@
+username: joao-henrique-goncalves
+
+profile:
+  name: "João Henrique Gonçalves"
+  tagline: "Full-Stack Developer focused on Backend Engineering and Laravel"
+  company: ""
+  location: ""
+  bio: |
+    Full-Stack Developer with strong focus on Backend Engineering and Laravel.
+    Passionate about building scalable, secure, and maintainable web applications.
+    I work with clean architecture principles, automation of processes, and performance-driven systems.
+    Focused on real-world problem solving, structured codebases, and continuous technical evolution.
+  philosophy: '"I build software not just to work - but to scale, endure, and evolve."'
+
+social:
+  email: ""
+  linkedin: ""
+  website: ""
+
+galaxy_arms:
+  - name: "Backend Engineering"
+    color: "synapse_cyan"
+    items:
+      - "PHP"
+      - "Laravel"
+      - "Java"
+  - name: "Frontend Structuring"
+    color: "dendrite_violet"
+    items:
+      - "JavaScript"
+      - "HTML5"
+      - "CSS3"
+  - name: "Systems and Workflow"
+    color: "axon_amber"
+    items:
+      - "Git"
+      - "Linux"
+      - "Docker"
+
+projects:
+  - repo: "joao-henrique-goncalves/camup-system"
+    arm: 0
+    description: "Collaborative real-world system with feature delivery, refactoring, performance improvements, and workflow organization."
+
+stats:
+  metrics:
+    - "commits"
+    - "stars"
+    - "prs"
+    - "issues"
+    - "repos"
+
+languages:
+  exclude:
+    - "Shell"
+    - "Makefile"
+  max_display: 8
