@@ -137,19 +137,23 @@ class GitHubAPI:
         for repos in self._paginate_repos():
             total_stars += sum(r.get("stargazers_count", 0) for r in repos)
 
-        # Estimate commits from events (rough approximation without token)
-        events_resp = self._request(
-            "GET",
-            f"{self.REST_URL}/users/{self.username}/events/public",
-            params={"per_page": 100},
-        )
-        events_resp.raise_for_status()
-        events = events_resp.json()
-        commit_count = sum(
-            len(e.get("payload", {}).get("commits", []))
-            for e in events
-            if e.get("type") == "PushEvent"
-        )
+        # Prefer commit search for a better lifetime estimate.
+        # Some public PushEvent payloads omit commit lists and always return 0.
+        commit_count = self._search_commit_count()
+        if commit_count == 0:
+            # Fallback to events-based approximation when commit search is unavailable.
+            events_resp = self._request(
+                "GET",
+                f"{self.REST_URL}/users/{self.username}/events/public",
+                params={"per_page": 100},
+            )
+            events_resp.raise_for_status()
+            events = events_resp.json()
+            commit_count = sum(
+                len(e.get("payload", {}).get("commits", []))
+                for e in events
+                if e.get("type") == "PushEvent"
+            )
 
         # Fetch actual PR count via Search API
         pr_count = self._search_count(f"author:{self.username} type:pr")
@@ -196,6 +200,26 @@ class GitHubAPI:
             logger.warning("Search API returned %d for query '%s'", resp.status_code, query)
         except requests.exceptions.RequestException as e:
             logger.warning("Search API failed for '%s': %s", query, e)
+        return 0
+
+    def _search_commit_count(self) -> int:
+        """Use GitHub commit search API to estimate authored commits."""
+        query = f"author:{self.username}"
+        try:
+            resp = self._request(
+                "GET",
+                f"{self.REST_URL}/search/commits",
+                params={"q": query, "per_page": 1},
+            )
+            if resp.status_code == 200:
+                return resp.json().get("total_count", 0)
+            logger.warning(
+                "Commit Search API returned %d for query '%s'",
+                resp.status_code,
+                query,
+            )
+        except requests.exceptions.RequestException as e:
+            logger.warning("Commit Search API failed for '%s': %s", query, e)
         return 0
 
     def fetch_languages(self) -> dict:
