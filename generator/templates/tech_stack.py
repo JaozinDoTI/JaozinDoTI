@@ -297,13 +297,13 @@ def render(
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
 
   <!-- Left: Language Telemetry -->
-  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">LANGUAGE TELEMETRY</text>
+  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">LINGUAGENS NOS REPOSITÓRIOS</text>
 
   <!-- Vertical divider -->
   <line x1="425" y1="25" x2="425" y2="{height - 25}" stroke="{theme['star_dust']}" stroke-width="1" opacity="0.4"/>
 
   <!-- Right: Focus Sectors -->
-  <text x="460" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">FOCUS SECTORS</text>
+  <text x="460" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">ÁREAS DE ATUAÇÃO</text>
 
 {bars_str}
 

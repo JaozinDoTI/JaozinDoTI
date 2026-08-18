@@ -512,7 +512,7 @@ def render(
 {core}
 
   <!-- 12. Profile text -->
-  <text x="{CENTER_X}" y="26" text-anchor="middle" fill="{theme['text_bright']}" font-size="20" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
-  <text x="{CENTER_X}" y="44" text-anchor="middle" fill="{theme['text_dim']}" font-size="12" font-family="sans-serif">{esc(tagline)}</text>
+  <text x="{CENTER_X}" y="30" text-anchor="middle" fill="{theme['text_bright']}" font-size="24" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
+  <text x="{CENTER_X}" y="50" text-anchor="middle" fill="{theme['text_dim']}" font-size="13" font-family="sans-serif">{esc(tagline)}</text>
   <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
 </svg>"""

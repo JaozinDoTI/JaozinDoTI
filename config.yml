@@ -2,47 +2,62 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Full-Stack Developer | Backend Engineering | Laravel"
+  tagline: "Desenvolvimento de Sistemas | Automação | Integrações"
   company: ""
-  location: ""
-  bio: ""
-  philosophy: ""
+  location: "Florianópolis, SC"
+  bio: "Soluções digitais para processos complexos, integrações e eficiência operacional."
+  philosophy: "Código que transforma processos e gera impacto mensurável."
+
+social:
+  linkedin: "joaohenrique-goncalves"
+
+impact:
+  - value: "99,99%"
+    label: "REDUÇÃO ESTIMADA"
+    detail: "no processo administrativo de auditoria"
+  - value: "R$ 500 mil+"
+    label: "ECONOMIA ANUAL"
+    detail: "estimada para o Estado"
+  - value: "SISTEMA ESTADUAL"
+    label: "INTEGRAÇÃO EVOLUÍDA"
+    detail: "com a principal plataforma utilizada"
 
 galaxy_arms:
-  - name: "Backend Engineering"
+  - name: "Backend"
     color: "synapse_cyan"
     items:
       - "PHP"
       - "Laravel"
       - "Java"
-  - name: "Frontend Structuring"
+  - name: "Integrações"
     color: "dendrite_violet"
     items:
-      - "JavaScript"
-      - "HTML5"
-      - "CSS3"
-  - name: "Systems and Workflow"
+      - "APIs"
+      - "Dados"
+      - "Sistemas"
+  - name: "Automação"
     color: "axon_amber"
     items:
-      - "Git"
-      - "Linux"
-      - "Docker"
+      - "Auditoria"
+      - "Workflows"
+      - "Processos"
 
 projects:
+  - repo: "PRISMA"
+    arm: 2
+    description: "Automação e integração do processo administrativo de auditoria do Estado."
   - repo: "JaozinDoTI/camup-system"
     arm: 0
-    description: "Collaborative real-world system with feature delivery, refactoring, performance improvements, and workflow organization."
+    description: "Sistema colaborativo com entregas, refatoração, desempenho e organização de fluxo."
 
 stats:
   metrics:
     - "commits"
-    - "stars"
     - "prs"
-    - "issues"
     - "repos"
 
 languages:
   exclude:
     - "Shell"
     - "Makefile"
-  max_display: 8
+  max_display: 6

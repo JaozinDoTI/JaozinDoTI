@@ -69,7 +69,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
 
   <!-- Section title -->
-  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">MISSION TELEMETRY</text>
+  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">ATIVIDADE NO GITHUB</text>
 
   <!-- Dividers -->
 {dividers_str}
