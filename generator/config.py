@@ -36,8 +36,8 @@ def validate_config(config: dict) -> dict:
 
     # galaxy_arms — required, must be a list
     galaxy_arms = config.get("galaxy_arms", [])
-    if not isinstance(galaxy_arms, list) or not galaxy_arms:
-        raise ConfigError("'galaxy_arms' must be a non-empty list.")
+    if not isinstance(galaxy_arms, list) or len(galaxy_arms) != 3:
+        raise ConfigError("'galaxy_arms' must contain exactly 3 items.")
     for i, arm in enumerate(galaxy_arms):
         if not isinstance(arm, dict):
             raise ConfigError(f"galaxy_arms[{i}] must be a mapping.")
@@ -84,8 +84,16 @@ def validate_config(config: dict) -> dict:
     config.setdefault("stats", {}).setdefault(
         "metrics", ["commits", "stars", "prs", "issues", "repos"]
     )
+    metrics = config["stats"]["metrics"]
+    allowed_metrics = {"commits", "stars", "prs", "issues", "repos"}
+    if not isinstance(metrics, list) or not metrics:
+        raise ConfigError("'stats.metrics' must be a non-empty list.")
+    if any(metric not in allowed_metrics for metric in metrics):
+        raise ConfigError("'stats.metrics' contains an unsupported metric.")
     lang_cfg = config.setdefault("languages", {})
     lang_cfg.setdefault("exclude", [])
     lang_cfg.setdefault("max_display", 8)
+    if not isinstance(lang_cfg["max_display"], int) or not 1 <= lang_cfg["max_display"] <= 10:
+        raise ConfigError("'languages.max_display' must be an integer from 1 to 10.")
 
     return config

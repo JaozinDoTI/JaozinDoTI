@@ -3,6 +3,7 @@
 import logging
 import os
 import time
+from typing import Any, Iterator, cast
 
 import requests
 
@@ -22,7 +23,7 @@ class GitHubAPI:
         if self.token:
             self.headers["Authorization"] = f"Bearer {self.token}"
 
-    def _request(self, method: str, url: str, **kwargs) -> requests.Response:
+    def _request(self, method: str, url: str, **kwargs: Any) -> requests.Response:
         """Make an HTTP request with rate-limit awareness and retry.
 
         Checks X-RateLimit-Remaining after each response.
@@ -53,13 +54,13 @@ class GitHubAPI:
 
         return resp
 
-    def fetch_stats(self) -> dict:
+    def fetch_stats(self) -> dict[str, int]:
         """Fetch user statistics. Uses GraphQL if token available, REST otherwise."""
         if self.token:
             return self._fetch_stats_graphql()
         return self._fetch_stats_rest()
 
-    def _fetch_stats_graphql(self) -> dict:
+    def _fetch_stats_graphql(self) -> dict[str, int]:
         """Fetch stats via GraphQL for accurate counts including private contributions."""
         query = """
         query($username: String!) {
@@ -100,7 +101,7 @@ class GitHubAPI:
             logger.warning("GraphQL HTTP error (%s), falling back to REST.", e)
             return self._fetch_stats_rest()
 
-        data = resp.json()
+        data = cast(dict[str, Any], resp.json())
 
         if "errors" in data:
             logger.warning("GraphQL errors: %s", data["errors"])
@@ -123,11 +124,11 @@ class GitHubAPI:
             "repos": repos["totalCount"],
         }
 
-    def _fetch_stats_rest(self) -> dict:
+    def _fetch_stats_rest(self) -> dict[str, int]:
         """Fallback: fetch stats via REST API (public data only)."""
         user_resp = self._request("GET", f"{self.REST_URL}/users/{self.username}")
         user_resp.raise_for_status()
-        user_data = user_resp.json()
+        user_data = cast(dict[str, Any], user_resp.json())
 
         # Fetch repos to count stars
         total_stars = 0
@@ -166,7 +167,7 @@ class GitHubAPI:
             "repos": user_data.get("public_repos", 0),
         }
 
-    def _paginate_repos(self, repo_type: str = "owner"):
+    def _paginate_repos(self, repo_type: str = "owner") -> Iterator[list[dict[str, Any]]]:
         """Yield pages of repos from the REST API.
 
         Args:
@@ -180,7 +181,7 @@ class GitHubAPI:
                 params={"per_page": 100, "page": page, "type": repo_type},
             )
             repos_resp.raise_for_status()
-            repos = repos_resp.json()
+            repos = cast(list[dict[str, Any]], repos_resp.json())
             if not repos:
                 break
             yield repos
@@ -197,7 +198,7 @@ class GitHubAPI:
                 params={"q": query, "per_page": 1},
             )
             if resp.status_code == 200:
-                return resp.json().get("total_count", 0)
+                return int(resp.json().get("total_count", 0))
             logger.warning("Search API returned %d for query '%s'", resp.status_code, query)
         except requests.exceptions.RequestException as e:
             logger.warning("Search API failed for '%s': %s", query, e)
@@ -213,7 +214,7 @@ class GitHubAPI:
                 params={"q": query, "per_page": 1},
             )
             if resp.status_code == 200:
-                return resp.json().get("total_count", 0)
+                return int(resp.json().get("total_count", 0))
             logger.warning(
                 "Commit Search API returned %d for query '%s'",
                 resp.status_code,
@@ -223,10 +224,10 @@ class GitHubAPI:
             logger.warning("Commit Search API failed for '%s': %s", query, e)
         return 0
 
-    def fetch_languages(self) -> dict:
+    def fetch_languages(self) -> dict[str, int]:
         """Fetch language byte counts across visible non-fork repos (owner + member)."""
-        languages = {}
-        seen_repos = set()
+        languages: dict[str, int] = {}
+        seen_repos: set[str] = set()
         for repos in self._paginate_repos(repo_type="all"):
             for repo in repos:
                 full_name = repo.get("full_name")

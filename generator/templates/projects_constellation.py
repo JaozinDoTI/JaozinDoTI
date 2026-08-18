@@ -201,6 +201,9 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     # Wrap description to fit card width (approx chars)
     max_chars = int(card_width / 7.5)
     desc_lines = wrap_text(desc, max_chars)
+    if len(desc_lines) > 2:
+        desc_lines = desc_lines[:2]
+        desc_lines[-1] = desc_lines[-1].rstrip(".,;: ") + "…"
 
     delay = f"{i * 0.3}s"
 
@@ -269,11 +272,11 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     )
 
     # Description lines (centered)
-    for j, line in enumerate(desc_lines[:2]):
+    for j, line in enumerate(desc_lines):
         y_pos = 129 + j * 15
         card_parts.append(
             f'    <text x="{card_cx}" y="{y_pos}" fill="{theme["text_dim"]}" '
-            f'font-size="11" font-family="sans-serif" '
+            f'font-size="12" font-family="sans-serif" '
             f'text-anchor="middle">{esc(line)}</text>'
         )
 
@@ -287,7 +290,7 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     )
     card_parts.append(
         f'    <text x="{card_cx}" y="175" fill="{color}" '
-        f'font-size="9" font-family="monospace" text-anchor="middle" '
+        f'font-size="11" font-family="monospace" text-anchor="middle" '
         f'opacity="0.85">{esc(tag_text)}</text>'
     )
 
@@ -321,7 +324,7 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
     if n == 0:
         # No projects — render an empty card
-        return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+        return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-label="Nenhum projeto em destaque configurado">
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
   <text x="{WIDTH / 2}" y="{HEIGHT / 2}" fill="{theme['text_faint']}" font-size="12"
@@ -380,8 +383,17 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
     # ── Layer 7: Global scan line ──
     scan_line = _build_scan_line(WIDTH, theme)
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+    project_names = ", ".join(project["repo"].split("/")[-1] for project in projects[:3])
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="projects-title projects-desc">
+  <title id="projects-title">Projetos em destaque</title>
+  <desc id="projects-desc">Projetos destacados: {esc(project_names)}.</desc>
   <defs>
+    <style>
+      @keyframes card-appear {{ from {{ opacity: 0; }} to {{ opacity: 1; }} }}
+      @media (prefers-reduced-motion: reduce) {{
+        * {{ animation: none !important; }}
+      }}
+    </style>
 {defs_str}
   </defs>
 

@@ -1,0 +1,19 @@
+{
+  "stats": {
+    "commits": 48,
+    "stars": 0,
+    "prs": 6,
+    "issues": 0,
+    "repos": 6
+  },
+  "languages": {
+    "Java": 2780,
+    "Blade": 2350,
+    "Python": 2260,
+    "PHP": 1090,
+    "HTML": 840,
+    "JavaScript": 560,
+    "CSS": 90,
+    "Dockerfile": 40
+  }
+}
