@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./assets/generated/galaxy-header.svg" width="850" alt="João Henrique Gonçalves — Backend Developer and Software Engineer focused on TypeScript, Node.js, data and automation"/>
-  <img src="./assets/generated/impact-card.svg" width="850" alt="Measured production impact: approximately 99.99% less manual work, 9.5 times faster processing, 89.46% lower export time and 3.03% more issues detected"/>
+  <img src="./assets/generated/impact-card.svg" width="850" alt="Measured production impact: R$ 500K+ projected annual operational value, approximately 99.997% processing time reduction from 192 hours to 24 seconds, analysis of 4,000 records across 108 fields with around 53 business rules, and 3.03% more inconsistencies detected"/>
   <img src="./assets/generated/expertise-card.svg" width="850" alt="Technology constellation connecting TypeScript, Node.js, Fastify, REST APIs, SQL, PostgreSQL, React, Python and Docker"/>
   <img src="./assets/generated/case-study.svg" width="850" alt="Production engineering case transforming high-volume manual analysis into traceable automated software"/>
   <img src="./assets/generated/projects-constellation.svg" width="850" alt="Featured production systems presented through problem, solution, technology and impact"/>

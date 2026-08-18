@@ -12,18 +12,18 @@ social:
   linkedin: "joaohenrique-goncalves"
 
 impact:
-  - value: "~99.99%"
-    label: "LESS MANUAL WORK"
-    detail: "in automated workflow steps"
-  - value: "9.5×"
-    label: "FASTER PROCESSING"
-    detail: "after performance optimization"
-  - value: "-89.46%"
-    label: "EXPORT TIME"
-    detail: "measured execution reduction"
+  - value: "R$ 500K+"
+    label: "PROJECTED ANNUAL OPERATIONAL VALUE"
+    detail: "potential value from released human capacity"
+  - value: "~99.997%"
+    label: "PROCESSING TIME REDUCTION"
+    detail: "~192h → ~24s · ~28,800× faster"
+  - value: "~24s"
+    label: "AUTOMATED ANALYSIS"
+    detail: "~4K records • 108 fields • ~53 business rules"
   - value: "+3.03%"
     label: "MORE ISSUES DETECTED"
-    detail: "compared with manual analysis"
+    detail: "higher analysis effectiveness"
 
 technology_constellation:
   core:
@@ -91,7 +91,7 @@ projects:
     description: "Production platform for high-volume data validation and complex business rules."
     problem: "Manual, high-volume data analysis"
     solution: "Automated validation and processing engine"
-    impact: "~99.99% less human work in automated steps"
+    impact: "~99.997% less processing time (~192h → ~24s)"
     stack: "PYTHON • SQL • DATA PROCESSING • AUTOMATION"
   - repo: "JaozinDoTI/camup-system"
     arm: 0

@@ -105,8 +105,8 @@
       <circle cx="464" cy="130" r="55" fill="#ffb020" opacity="0.06"/>
       <circle cx="464" cy="130" r="40" fill="none" stroke="#ffb020" stroke-width="0.8" stroke-dasharray="3 8" opacity="0.40" class="product-orbit"/>
       <circle cx="464" cy="130" r="25" fill="#080c14" stroke="#ffb020" stroke-opacity="0.5"/>
-      <text x="464" y="126" text-anchor="middle" fill="#f1f5f9" font-size="17" font-weight="bold" font-family="sans-serif">~99.99%</text>
-      <text x="464" y="143" text-anchor="middle" fill="#ffb020" font-size="7" font-weight="bold" font-family="monospace">LESS MANUAL WORK</text>
+      <text x="464" y="126" text-anchor="middle" fill="#f1f5f9" font-size="16" font-weight="bold" font-family="sans-serif">~99.997%</text>
+      <text x="464" y="143" text-anchor="middle" fill="#ffb020" font-size="7" font-weight="bold" font-family="monospace">LESS PROCESSING TIME</text>
       <path d="M365 204 C420 204 431 184 464 173" fill="none" stroke="#ffb020" stroke-width=".8" stroke-dasharray="3 6" opacity=".35"/>
     </g>
     <g class="product-enter" style="--product-delay:.35s">

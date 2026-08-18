@@ -78,8 +78,8 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
       <circle cx="464" cy="130" r="55" fill="{featured_color}" opacity="0.06"/>
       <circle cx="464" cy="130" r="40" fill="none" stroke="{featured_color}" stroke-width="0.8" stroke-dasharray="3 8" opacity="0.40" class="product-orbit"/>
       <circle cx="464" cy="130" r="25" fill="{theme['void']}" stroke="{featured_color}" stroke-opacity="0.5"/>
-      <text x="464" y="126" text-anchor="middle" fill="{theme['text_bright']}" font-size="17" font-weight="bold" font-family="sans-serif">~99.99%</text>
-      <text x="464" y="143" text-anchor="middle" fill="{featured_color}" font-size="7" font-weight="bold" font-family="monospace">LESS MANUAL WORK</text>
+      <text x="464" y="126" text-anchor="middle" fill="{theme['text_bright']}" font-size="16" font-weight="bold" font-family="sans-serif">~99.997%</text>
+      <text x="464" y="143" text-anchor="middle" fill="{featured_color}" font-size="7" font-weight="bold" font-family="monospace">LESS PROCESSING TIME</text>
       <path d="M365 204 C420 204 431 184 464 173" fill="none" stroke="{featured_color}" stroke-width=".8" stroke-dasharray="3 6" opacity=".35"/>
     </g>
 {secondary_markup}
