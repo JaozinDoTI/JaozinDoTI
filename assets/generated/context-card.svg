@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="165" viewBox="0 0 850 165">
+  <rect x="0.5" y="0.5" width="849" height="164" rx="12" ry="12"
+        fill="#080c14" stroke="#1a2332" stroke-width="1"/>
+  <text x="30" y="31" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="3">CONTEXTO OPERACIONAL</text>
+  <text x="820" y="31" text-anchor="end" fill="#64748b" font-size="9" font-family="monospace">PROCESSO ANALISADO • NÃO REPRESENTA GANHO DIRETO</text>
+  <line x1="30" y1="47" x2="820" y2="47" stroke="#1a2332" opacity="0.3"/>
+  <g transform="translate(141.66666666666666, 0)">
+    <circle cx="0" cy="76" r="3" fill="#00d4ff" opacity="0.75"/>
+    <line x1="-48" y1="76" x2="-9" y2="76" stroke="#00d4ff" opacity="0.22"/>
+    <line x1="9" y1="76" x2="48" y2="76" stroke="#00d4ff" opacity="0.22"/>
+    <text x="0" y="105" text-anchor="middle" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">169 dias</text>
+    <text x="0" y="124" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="1">MAIOR LEAD TIME</text>
+    <text x="0" y="142" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">observado no processo</text>
+  </g>
+  <g transform="translate(425.0, 0)">
+    <circle cx="0" cy="76" r="3" fill="#a78bfa" opacity="0.75"/>
+    <line x1="-48" y1="76" x2="-9" y2="76" stroke="#a78bfa" opacity="0.22"/>
+    <line x1="9" y1="76" x2="48" y2="76" stroke="#a78bfa" opacity="0.22"/>
+    <text x="0" y="105" text-anchor="middle" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">88,6%</text>
+    <text x="0" y="124" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="1">TEMPO EM FILA</text>
+    <text x="0" y="142" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">no caso mais crítico</text>
+  </g>
+  <g transform="translate(708.3333333333333, 0)">
+    <circle cx="0" cy="76" r="3" fill="#ffb020" opacity="0.75"/>
+    <line x1="-48" y1="76" x2="-9" y2="76" stroke="#ffb020" opacity="0.22"/>
+    <line x1="9" y1="76" x2="48" y2="76" stroke="#ffb020" opacity="0.22"/>
+    <text x="0" y="105" text-anchor="middle" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">3,31×</text>
+    <text x="0" y="124" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="1">VARIAÇÃO</text>
+    <text x="0" y="142" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">entre lotes equivalentes</text>
+  </g>
+</svg>

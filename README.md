@@ -5,7 +5,19 @@
 <br/>
 
 <div align="center">
-  <img src="./assets/generated/impact-card.svg" width="850" alt="Impacto gerado: redução estimada de 99,99% no processo administrativo de auditoria, mais de 500 mil reais de economia anual estimada e evolução da integração com o principal sistema utilizado pelo Estado"/>
+  <img src="./assets/generated/impact-card.svg" width="850" alt="Resultados medidos do PRISMA: benchmark médio de 18,25 segundos, redução de 89,46% no tempo de exportação e 3,03% mais detecções no conjunto LRG"/>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="./assets/generated/context-card.svg" width="850" alt="Contexto operacional analisado: lead time máximo de 169 dias, até 88,6% do tempo em fila e variação de 3,31 vezes entre lotes equivalentes"/>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="./assets/generated/architecture-card.svg" width="850" alt="Arquitetura planejada do PRISMA Web: monólito modular, porta de integração e adaptador SIGRH ainda em discovery"/>
 </div>
 
 <br/>
@@ -28,18 +40,8 @@
 
 <br/>
 
-## Impacto e atuação
-
-No **PRISMA**, atuo na evolução de automações e integrações aplicadas ao processo administrativo de auditoria, transformando atividades manuais em fluxos digitais mais rápidos, rastreáveis e eficientes.
-
-- Redução estimada de **99,99%** no processo administrativo de auditoria.
-- Economia anual estimada superior a **R$ 500 mil** para o Estado.
-- Evolução da integração com o principal sistema utilizado pelo Estado.
-- Automação de tarefas repetitivas, redução de erros e melhoria do fluxo operacional.
-- Desenvolvimento e manutenção de regras de negócio e integrações entre sistemas.
-
-## João Henrique Gonçalves
-
-Desenvolvedor de sistemas com foco em **backend, automação de processos e integrações**, utilizando tecnologia para gerar eficiência operacional e impacto financeiro mensurável.
-
-[Conecte-se comigo no LinkedIn →](https://www.linkedin.com/in/joaohenrique-goncalves/)
+<div align="center">
+  <a href="https://www.linkedin.com/in/joaohenrique-goncalves/">LinkedIn</a>
+  &nbsp;•&nbsp;
+  Florianópolis, SC
+</div>

@@ -1,6 +1,14 @@
 """SVG Builder — orchestrator connecting config, stats, and templates."""
 
-from generator.templates import galaxy_header, impact_card, projects_constellation, stats_card, tech_stack
+from generator.templates import (
+    architecture_card,
+    context_card,
+    galaxy_header,
+    impact_card,
+    projects_constellation,
+    stats_card,
+    tech_stack,
+)
 
 
 class SVGBuilder:
@@ -37,6 +45,18 @@ class SVGBuilder:
     def render_impact_card(self) -> str:
         return impact_card.render(
             items=self.config.get("impact", []),
+            theme=self.theme,
+        )
+
+    def render_context_card(self) -> str:
+        return context_card.render(
+            items=self.config.get("operational_context", []),
+            theme=self.theme,
+        )
+
+    def render_architecture_card(self) -> str:
+        return architecture_card.render(
+            config=self.config.get("architecture", {}),
             theme=self.theme,
         )
 

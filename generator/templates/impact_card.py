@@ -1,8 +1,8 @@
-"""SVG template: measurable professional impact (850x190)."""
+"""SVG template: measured PRISMA results (850x205)."""
 
 from generator.utils import esc
 
-WIDTH, HEIGHT = 850, 190
+WIDTH, HEIGHT = 850, 205
 
 
 def render(items: list, theme: dict) -> str:
@@ -30,20 +30,21 @@ def render(items: list, theme: dict) -> str:
     <line x1="9" y1="73" x2="34" y2="73" stroke="{color}" stroke-width="1" opacity="0.35"/>
     <text x="0" y="116" text-anchor="middle" fill="{theme['text_bright']}" font-size="25" font-weight="bold" font-family="sans-serif">{esc(item['value'])}</text>
     <text x="0" y="137" text-anchor="middle" fill="{color}" font-size="10" font-weight="bold" font-family="monospace" letter-spacing="1">{esc(item['label'])}</text>
-    <text x="0" y="157" text-anchor="middle" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">{esc(item['detail'])}</text>
+    <text x="0" y="153" text-anchor="middle" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">{esc(item['detail'])}</text>
   </g>"""
         )
         if index < len(visible) - 1:
             x = cell_width * (index + 1)
             dividers.append(
-                f'  <line x1="{x}" y1="55" x2="{x}" y2="165" stroke="{theme["star_dust"]}" stroke-width="1" opacity="0.55"/>'
+                f'  <line x1="{x}" y1="55" x2="{x}" y2="163" stroke="{theme["star_dust"]}" stroke-width="1" opacity="0.55"/>'
             )
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
   <line x1="30" y1="47" x2="820" y2="47" stroke="{theme['star_dust']}" stroke-width="1" opacity="0.35"/>
-  <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">IMPACTO GERADO</text>
+  <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">RESULTADOS MEDIDOS</text>
 {chr(10).join(dividers)}
 {chr(10).join(cells)}
+  <text x="425" y="185" text-anchor="middle" fill="{theme['text_faint']}" font-size="10" font-family="sans-serif">Métricas de escopos distintos • qualidade específica do conjunto LRG</text>
 </svg>"""
