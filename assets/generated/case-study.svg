@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="245" viewBox="0 0 850 245">
+  <rect x="0.5" y="0.5" width="849" height="244" rx="12" fill="#0f1623" stroke="#1a2332"/>
+  <text x="30" y="31" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="3">CASE • AUTOMAÇÃO E PROCESSAMENTO DE DADOS</text>
+  <rect x="681" y="18" width="139" height="20" rx="10" fill="#00d4ff" opacity="0.10"/>
+  <text x="750" y="31" text-anchor="middle" fill="#00d4ff" font-size="8" font-weight="bold" font-family="monospace">SISTEMA EM PRODUÇÃO</text>
+  <line x1="30" y1="49" x2="820" y2="49" stroke="#1a2332" opacity="0.35"/>
+  <rect x="45" y="76" width="220" height="90" rx="9" fill="#00d4ff" opacity="0.07" stroke="#00d4ff" stroke-opacity="0.38"/>
+  <circle cx="67" cy="99" r="4" fill="#00d4ff"/>
+  <text x="81" y="103" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.8">PROCESSO MANUAL</text>
+  <text x="65" y="130" fill="#f1f5f9" font-size="12" font-weight="bold" font-family="sans-serif">Análise manual em grande escala</text>
+  <text x="65" y="150" fill="#94a3b8" font-size="10" font-family="sans-serif">Regras complexas e validação manual</text>
+  <rect x="315" y="76" width="220" height="90" rx="9" fill="#a78bfa" opacity="0.07" stroke="#a78bfa" stroke-opacity="0.38"/>
+  <circle cx="337" cy="99" r="4" fill="#a78bfa"/>
+  <text x="351" y="103" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.8">RESPONSABILIDADE TÉCNICA</text>
+  <text x="335" y="130" fill="#f1f5f9" font-size="12" font-weight="bold" font-family="sans-serif">Backend, dados e automação</text>
+  <text x="335" y="150" fill="#94a3b8" font-size="10" font-family="sans-serif">Arquitetura, processamento e integrações</text>
+  <rect x="585" y="76" width="220" height="90" rx="9" fill="#ffb020" opacity="0.07" stroke="#ffb020" stroke-opacity="0.38"/>
+  <circle cx="607" cy="99" r="4" fill="#ffb020"/>
+  <text x="621" y="103" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.8">SOFTWARE AUTOMATIZADO</text>
+  <text x="605" y="130" fill="#f1f5f9" font-size="12" font-weight="bold" font-family="sans-serif">Fluxo automatizado e rastreável</text>
+  <text x="605" y="150" fill="#94a3b8" font-size="10" font-family="sans-serif">Menos esforço humano e mais confiabilidade</text>
+  <line x1="265" y1="121" x2="307" y2="121" stroke="#a78bfa" stroke-dasharray="4 4" opacity="0.5"/>
+  <path d="M307 121 L300 117 L300 125 Z" fill="#a78bfa" opacity="0.7"/>
+  <line x1="535" y1="121" x2="577" y2="121" stroke="#ffb020" stroke-dasharray="4 4" opacity="0.5"/>
+  <path d="M577 121 L570 117 L570 125 Z" fill="#ffb020" opacity="0.7"/>
+  <rect x="45" y="187" width="760" height="33" rx="7" fill="#080c14" stroke="#1a2332"/>
+  <text x="425" y="208" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="monospace" letter-spacing="0.5">PYTHON • SQL • PROCESSAMENTO EM LOTE • REGRAS DE NEGÓCIO • AUTOMAÇÃO</text>
+</svg>

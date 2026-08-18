@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="180" viewBox="0 0 850 180">
+  <rect x="0.5" y="0.5" width="849" height="179" rx="12" fill="#080c14" stroke="#1a2332"/>
+  <text x="30" y="31" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="3">ATUAÇÃO TÉCNICA</text>
+  <text x="820" y="31" text-anchor="end" fill="#64748b" font-size="9" font-family="monospace">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
+  <line x1="30" y1="47" x2="820" y2="47" stroke="#1a2332" opacity="0.35"/>
+  <line x1="283.3333333333333" y1="58" x2="283.3333333333333" y2="154" stroke="#1a2332" opacity="0.5"/>
+  <line x1="566.6666666666666" y1="58" x2="566.6666666666666" y2="154" stroke="#1a2332" opacity="0.5"/>
+  <g transform="translate(141.66666666666666, 0)">
+    <circle cx="0" cy="72" r="18" fill="#00d4ff" opacity="0.07"/>
+    <circle cx="0" cy="72" r="4" fill="#00d4ff" opacity="0.9"/>
+    <line x1="-38" y1="72" x2="-8" y2="72" stroke="#00d4ff" opacity="0.3"/>
+    <line x1="8" y1="72" x2="38" y2="72" stroke="#00d4ff" opacity="0.3"/>
+    <text x="0" y="108" text-anchor="middle" fill="#f1f5f9" font-size="19" font-weight="bold" font-family="sans-serif">BACKEND</text>
+    <text x="0" y="130" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.7">NODE.JS • TYPESCRIPT • PHP</text>
+    <text x="0" y="150" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">APIs REST, Fastify e Laravel</text>
+  </g>
+  <g transform="translate(425.0, 0)">
+    <circle cx="0" cy="72" r="18" fill="#a78bfa" opacity="0.07"/>
+    <circle cx="0" cy="72" r="4" fill="#a78bfa" opacity="0.9"/>
+    <line x1="-38" y1="72" x2="-8" y2="72" stroke="#a78bfa" opacity="0.3"/>
+    <line x1="8" y1="72" x2="38" y2="72" stroke="#a78bfa" opacity="0.3"/>
+    <text x="0" y="108" text-anchor="middle" fill="#f1f5f9" font-size="19" font-weight="bold" font-family="sans-serif">DADOS</text>
+    <text x="0" y="130" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.7">SQL • POSTGRESQL • MYSQL</text>
+    <text x="0" y="150" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">modelagem, análise e processamento</text>
+  </g>
+  <g transform="translate(708.3333333333333, 0)">
+    <circle cx="0" cy="72" r="18" fill="#ffb020" opacity="0.07"/>
+    <circle cx="0" cy="72" r="4" fill="#ffb020" opacity="0.9"/>
+    <line x1="-38" y1="72" x2="-8" y2="72" stroke="#ffb020" opacity="0.3"/>
+    <line x1="8" y1="72" x2="38" y2="72" stroke="#ffb020" opacity="0.3"/>
+    <text x="0" y="108" text-anchor="middle" fill="#f1f5f9" font-size="19" font-weight="bold" font-family="sans-serif">AUTOMAÇÃO</text>
+    <text x="0" y="130" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.7">PYTHON • REGRAS DE NEGÓCIO</text>
+    <text x="0" y="150" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">fluxos internos e integrações</text>
+  </g>
+</svg>

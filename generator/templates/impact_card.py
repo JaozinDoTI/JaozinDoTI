@@ -43,8 +43,8 @@ def render(items: list, theme: dict) -> str:
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
   <line x1="30" y1="47" x2="820" y2="47" stroke="{theme['star_dust']}" stroke-width="1" opacity="0.35"/>
-  <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">RESULTADOS MEDIDOS</text>
+  <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">IMPACTO EM PRODUÇÃO</text>
 {chr(10).join(dividers)}
 {chr(10).join(cells)}
-  <text x="425" y="185" text-anchor="middle" fill="{theme['text_faint']}" font-size="10" font-family="sans-serif">Métricas de escopos distintos • qualidade específica do conjunto LRG</text>
+  <text x="425" y="185" text-anchor="middle" fill="{theme['text_faint']}" font-size="10" font-family="sans-serif">Métricas de escopos distintos • resultados de tarefas e benchmarks específicos</text>
 </svg>"""

@@ -96,8 +96,8 @@ def generate(args):
     svgs = {
         "galaxy-header.svg": builder.render_galaxy_header(),
         "impact-card.svg": builder.render_impact_card(),
-        "context-card.svg": builder.render_context_card(),
-        "architecture-card.svg": builder.render_architecture_card(),
+        "expertise-card.svg": builder.render_expertise_card(),
+        "case-study.svg": builder.render_case_study(),
         "stats-card.svg": builder.render_stats_card(),
         "tech-stack.svg": builder.render_tech_stack(),
         "projects-constellation.svg": builder.render_projects_constellation(),

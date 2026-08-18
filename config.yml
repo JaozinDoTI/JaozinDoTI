@@ -2,73 +2,75 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Sistemas | Automação | Integrações"
+  tagline: "Backend Developer | Software Engineer | Data & Automation"
   company: ""
   location: "Florianópolis, SC"
-  bio: "Engenharia de software aplicada a processos complexos e eficiência operacional."
-  philosophy: "Código que transforma processos em fluxos rastreáveis, rápidos e confiáveis."
+  bio: "Backend, processamento de dados e automação para sistemas reais de produção."
+  philosophy: "Transformo processos manuais complexos em software confiável, rastreável e escalável."
 
 social:
   linkedin: "joaohenrique-goncalves"
 
 impact:
-  - value: "18,25 s"
-    label: "BENCHMARK MÉDIO"
-    detail: "4.000 registros × 108 colunas"
+  - value: "≈ 99,99%"
+    label: "MENOS TEMPO HUMANO"
+    detail: "em tarefas específicas automatizadas"
   - value: "89,46%"
-    label: "REDUÇÃO NA EXPORTAÇÃO"
-    detail: "9,49× mais rápida"
-  - value: "+3,03%"
-    label: "DETECÇÃO NO LRG"
-    detail: "versus conferência humana"
+    label: "EXPORTAÇÃO MAIS RÁPIDA"
+    detail: "ganho de performance de 9,49×"
+  - value: "18,25 s"
+    label: "PROCESSAMENTO EM LOTE"
+    detail: "4.000 registros × 108 colunas"
 
-operational_context:
-  - value: "169 dias"
-    label: "MAIOR LEAD TIME"
-    detail: "observado no processo"
-  - value: "88,6%"
-    label: "TEMPO EM FILA"
-    detail: "no caso mais crítico"
-  - value: "3,31×"
-    label: "VARIAÇÃO"
-    detail: "entre lotes equivalentes"
+recruiter_focus:
+  - value: "BACKEND"
+    label: "NODE.JS • TYPESCRIPT • PHP"
+    detail: "APIs REST, Fastify e Laravel"
+  - value: "DADOS"
+    label: "SQL • POSTGRESQL • MYSQL"
+    detail: "modelagem, análise e processamento"
+  - value: "AUTOMAÇÃO"
+    label: "PYTHON • REGRAS DE NEGÓCIO"
+    detail: "fluxos internos e integrações"
 
-architecture:
-  status: "DISCOVERY SIGRH"
-  frontend: "React + TypeScript"
-  backend: "Node.js + Fastify"
-  database: "PostgreSQL"
-  testing: "Vitest + Playwright"
-  deployment: "Docker Compose"
-  strategy: "Monólito modular"
+case_study:
+  title: "CASE • AUTOMAÇÃO E PROCESSAMENTO DE DADOS"
+  status: "SISTEMA EM PRODUÇÃO"
+  problem_title: "PROCESSO MANUAL"
+  problem: "Análise manual em grande escala"
+  role_title: "RESPONSABILIDADE TÉCNICA"
+  role: "Backend, dados e automação"
+  outcome_title: "SOFTWARE AUTOMATIZADO"
+  outcome: "Fluxo automatizado e rastreável"
+  stack: "PYTHON • SQL • PROCESSAMENTO EM LOTE • REGRAS DE NEGÓCIO • AUTOMAÇÃO"
 
 galaxy_arms:
   - name: "Backend"
     color: "synapse_cyan"
     items:
-      - "PHP"
-      - "Laravel"
-      - "Java"
-  - name: "Integrações"
+      - "Node.js"
+      - "TypeScript"
+      - "Fastify"
+  - name: "Dados"
     color: "dendrite_violet"
     items:
-      - "APIs"
-      - "Adapters"
-      - "SIGRH"
-  - name: "Automação"
+      - "PostgreSQL"
+      - "SQL"
+      - "Python"
+  - name: "Sistemas"
     color: "axon_amber"
     items:
-      - "Auditoria"
-      - "Regras"
-      - "Workflows"
+      - "PHP/Laravel"
+      - "REST APIs"
+      - "React"
 
 projects:
   - repo: "PRISMA"
     arm: 2
-    description: "Automação de auditoria com métricas de desempenho, qualidade e evolução web planejada."
+    description: "Plataforma interna em produção que automatiza validações complexas e processa grandes volumes de dados."
   - repo: "JaozinDoTI/camup-system"
     arm: 0
-    description: "Sistema colaborativo com entregas, refatoração, desempenho e organização de fluxo."
+    description: "Sistema web colaborativo com atuação em backend, refatoração, performance e evolução de funcionalidades."
 
 stats:
   metrics:
