@@ -1,6 +1,8 @@
 """SVG template: measured PRISMA results (850x205)."""
 
 from generator.utils import esc
+from generator.templates.cosmic_background import render as render_cosmic_background
+from generator.templates.foreground_animation import render as render_foreground_animation
 
 WIDTH, HEIGHT = 850, 205
 
@@ -16,6 +18,8 @@ def render(items: list, theme: dict) -> str:
     cell_width = WIDTH / max(len(visible), 1)
     cells = []
     dividers = []
+    cosmic = render_cosmic_background("impact-card", WIDTH, HEIGHT, theme, preset="card")
+    foreground_animation = render_foreground_animation()
 
     for index, item in enumerate(visible):
         center_x = cell_width * index + cell_width / 2
@@ -23,9 +27,8 @@ def render(items: list, theme: dict) -> str:
         cells.append(
             f"""  <g transform="translate({center_x}, 0)">
     <circle cx="0" cy="73" r="22" fill="{color}" opacity="0.08"/>
-    <circle cx="0" cy="73" r="5" fill="{color}" opacity="0.9">
-      <animate attributeName="r" values="4;6;4" dur="3s" begin="{index * 0.4}s" repeatCount="indefinite"/>
-    </circle>
+    <circle cx="0" cy="73" r="5" fill="{color}" opacity="0.9" class="svg-pulse-scale"
+            style="--motion-duration:3s; --motion-delay:{index * 0.4}s; --motion-scale-low:.8; --motion-scale-high:1.2"/>
     <line x1="-34" y1="73" x2="-9" y2="73" stroke="{color}" stroke-width="1" opacity="0.35"/>
     <line x1="9" y1="73" x2="34" y2="73" stroke="{color}" stroke-width="1" opacity="0.35"/>
     <text x="0" y="116" text-anchor="middle" fill="{theme['text_bright']}" font-size="25" font-weight="bold" font-family="sans-serif">{esc(item['value'])}</text>
@@ -40,11 +43,18 @@ def render(items: list, theme: dict) -> str:
             )
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
+  <defs>
+{cosmic.defs}
+{foreground_animation}
+  </defs>
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
   <line x1="30" y1="47" x2="820" y2="47" stroke="{theme['star_dust']}" stroke-width="1" opacity="0.35"/>
   <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">IMPACTO EM PRODUÇÃO</text>
 {chr(10).join(dividers)}
 {chr(10).join(cells)}
   <text x="425" y="185" text-anchor="middle" fill="{theme['text_faint']}" font-size="10" font-family="sans-serif">Métricas de escopos distintos • resultados de tarefas e benchmarks específicos</text>
+  </g>
 </svg>"""

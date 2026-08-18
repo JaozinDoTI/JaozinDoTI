@@ -1,12 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="850" height="180" viewBox="0 0 850 180">
   <defs>
     <style>
+      .cosmic-star {
+        animation: cosmic-twinkle ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .cosmic-drift-far { animation: cosmic-drift-far 34s ease-in-out infinite alternate; }
+      .cosmic-drift-mid { animation: cosmic-drift-mid 27s ease-in-out infinite alternate; }
+      .cosmic-drift-near { animation: cosmic-drift-near 21s ease-in-out infinite alternate; }
+      .cosmic-flash { animation: cosmic-flash 13s ease-in-out infinite; }
+      @keyframes cosmic-twinkle {
+        0%, 100% { opacity: var(--star-low); transform: scale(0.92); }
+        48% { opacity: var(--star-high); transform: scale(1.05); }
+      }
+      @keyframes cosmic-drift-far { from { transform: translate(-2px, 1px); } to { transform: translate(3px, -1px); } }
+      @keyframes cosmic-drift-mid { from { transform: translate(2px, -1px); } to { transform: translate(-3px, 2px); } }
+      @keyframes cosmic-drift-near { from { transform: translate(-1px, -2px); } to { transform: translate(2px, 2px); } }
+      @keyframes cosmic-flash { 0%, 88%, 100% { opacity: 0.08; } 91% { opacity: 0.75; } 94% { opacity: 0.14; } }
+      @media (prefers-reduced-motion: reduce) {
+        svg * { animation: none !important; }
+      }
+    </style>
+    <filter id="cosmic-card-stats-card-nebula-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="cosmic-card-stats-card-bright-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.2" result="halo"/>
+      <feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="cosmic-card-stats-card-clip">
+      <rect x="0" y="0" width="850" height="180" rx="12" ry="12"/>
+    </clipPath>
+    <style>
       .metric-icon {
         animation: count-glow 4s ease-in-out infinite;
       }
       @keyframes count-glow {
-        0%, 100% { fill-opacity: 0.7; }
-        50% { fill-opacity: 1; }
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
       }
     </style>
     <filter id="num-glow" x="-30%" y="-30%" width="160%" height="160%">
@@ -15,8 +47,48 @@
   </defs>
 
   <!-- Card background -->
-  <rect x="0.5" y="0.5" width="849" height="179" rx="12" ry="12"
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="849" height="179" rx="12" ry="12"
         fill="#0f1623" stroke="#1a2332" stroke-width="1"/>
+  <g data-cosmic-background="card" aria-hidden="true" clip-path="url(#cosmic-card-stats-card-clip)">
+    <g class="cosmic-nebulae">
+      <circle cx="107.9" cy="119.7" r="57.1" fill="#00d4ff" opacity="0.025" filter="url(#cosmic-card-stats-card-nebula-blur)"/>
+      <circle cx="539.9" cy="33.4" r="44.2" fill="#a78bfa" opacity="0.031" filter="url(#cosmic-card-stats-card-nebula-blur)"/>
+    </g>
+    <g class="cosmic-dust" fill="#ffffff" opacity="0.12">
+      <circle cx="759.7" cy="7.6" r="0.27"/>
+      <circle cx="160.0" cy="171.7" r="0.21"/>
+      <circle cx="630.4" cy="16.9" r="0.32"/>
+      <circle cx="826.9" cy="5.6" r="0.25"/>
+      <circle cx="239.0" cy="27.8" r="0.23"/>
+    </g>
+    <g data-cosmic-layer="far" class="cosmic-drift-far">
+      <circle class="cosmic-star cosmic-star-far" cx="525.9" cy="30.2" r="0.65" fill="#00d4ff" opacity="0.23" style="--star-low:0.15; --star-high:0.32; animation-duration:14.9s; animation-delay:-15.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="729.6" cy="100.2" r="0.57" fill="#ffffff" opacity="0.09" style="--star-low:0.06; --star-high:0.12; animation-duration:14.1s; animation-delay:-9.3s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="493.1" cy="68.4" r="0.42" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:14.0s; animation-delay:-6.1s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="483.6" cy="165.1" r="0.56" fill="#ffffff" opacity="0.24" style="--star-low:0.16; --star-high:0.33; animation-duration:14.8s; animation-delay:-0.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="777.3" cy="28.0" r="0.63" fill="#ffffff" opacity="0.15" style="--star-low:0.10; --star-high:0.20; animation-duration:12.1s; animation-delay:-15.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="342.2" cy="145.8" r="0.29" fill="#ffffff" opacity="0.12" style="--star-low:0.08; --star-high:0.16; animation-duration:10.7s; animation-delay:-0.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="238.5" cy="66.6" r="0.32" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:14.0s; animation-delay:-3.3s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="789.4" cy="85.3" r="0.31" fill="#ffffff" opacity="0.16" style="--star-low:0.10; --star-high:0.21; animation-duration:14.8s; animation-delay:-12.3s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="650.3" cy="40.1" r="0.52" fill="#ffffff" opacity="0.21" style="--star-low:0.13; --star-high:0.28; animation-duration:11.5s; animation-delay:-11.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="489.2" cy="172.2" r="0.60" fill="#ffffff" opacity="0.18" style="--star-low:0.11; --star-high:0.24; animation-duration:11.7s; animation-delay:-7.3s"/>
+    </g>
+    <g data-cosmic-layer="mid" class="cosmic-drift-mid">
+      <circle class="cosmic-star cosmic-star-mid" cx="582.2" cy="140.9" r="1.02" fill="#a78bfa" opacity="0.27" style="--star-low:0.18; --star-high:0.37; animation-duration:8.7s; animation-delay:-5.7s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="321.1" cy="96.3" r="0.89" fill="#ffffff" opacity="0.28" style="--star-low:0.18; --star-high:0.38; animation-duration:11.1s; animation-delay:-4.0s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="615.9" cy="113.3" r="0.70" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:9.0s; animation-delay:-3.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="737.0" cy="156.6" r="0.62" fill="#ffffff" opacity="0.28" style="--star-low:0.18; --star-high:0.38; animation-duration:10.9s; animation-delay:-8.6s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="734.3" cy="10.1" r="0.55" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:11.4s; animation-delay:-10.1s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="264.3" cy="149.8" r="0.57" fill="#ffffff" opacity="0.35" style="--star-low:0.23; --star-high:0.47; animation-duration:9.4s; animation-delay:-6.9s"/>
+    </g>
+    <g data-cosmic-layer="near" class="cosmic-drift-near">
+      <circle class="cosmic-star cosmic-star-near" cx="834.4" cy="155.9" r="1.55" fill="#ffb020" opacity="0.35" filter="url(#cosmic-card-stats-card-bright-glow)" style="--star-low:0.23; --star-high:0.48; animation-duration:5.2s; animation-delay:-4.1s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="122.8" cy="59.8" r="0.93" fill="#ffffff" opacity="0.34" style="--star-low:0.22; --star-high:0.46; animation-duration:5.3s; animation-delay:-3.2s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="839.9" cy="40.8" r="1.09" fill="#ffffff" opacity="0.61" style="--star-low:0.40; --star-high:0.83; animation-duration:7.9s; animation-delay:-1.8s"/>
+    </g>
+    <circle class="cosmic-flash" cx="173.5" cy="45.7" r="1.8" fill="#00d4ff" opacity="0.08" filter="url(#cosmic-card-stats-card-bright-glow)" style="animation-delay:-0.0s"/>
+  </g>
+  <g data-svg-layer="content">
 
   <!-- Section title -->
   <text x="30" y="38" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="3">ATIVIDADE NO GITHUB</text>
@@ -56,4 +128,5 @@
       <text x="0" y="2" text-anchor="middle" fill="#f1f5f9" font-size="28" font-weight="bold" font-family="sans-serif">6</text>
       <text x="0" y="20" text-anchor="middle" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="1">Repos</text>
     </g>
+  </g>
 </svg>

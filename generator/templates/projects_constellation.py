@@ -1,6 +1,8 @@
 """SVG template: Featured Systems / Projects Constellation (850x220)."""
 
-from generator.utils import deterministic_random, esc, resolve_arm_colors, wrap_text
+from generator.templates.cosmic_background import render as render_cosmic_background
+from generator.templates.foreground_animation import render as render_foreground_animation
+from generator.utils import esc, resolve_arm_colors, wrap_text
 
 WIDTH, HEIGHT = 850, 220
 
@@ -23,11 +25,6 @@ def _build_defs(n, card_width, gap, card_colors, theme):
       </feMerge>
     </filter>"""
         )
-
-    # Card nebula filter
-    defs_parts.append("""    <filter id="card-nebula" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="15"/>
-    </filter>""")
 
     # Card background gradients
     for i in range(n):
@@ -72,52 +69,6 @@ def _build_defs(n, card_width, gap, card_colors, theme):
     </style>""")
 
     return "\n".join(defs_parts)
-
-
-def _build_starfield(n, width, height, card_colors, theme):
-    """Build the 25-star star field (bg + mid-ground stars)."""
-    stars = []
-    layers = [
-        {
-            "prefix": "proj-star",
-            "count": 15,
-            "margin": 10,
-            "r": (0.3, 0.9),
-            "o": (0.05, 0.25),
-            "d": (5.0, 8.0),
-            "o_mult": 3,
-            "o_cap": 0.6,
-        },
-        {
-            "prefix": "proj-mstar",
-            "count": 10,
-            "margin": 15,
-            "r": (0.5, 1.2),
-            "o": (0.10, 0.40),
-            "d": (3.0, 6.0),
-            "o_mult": 2.5,
-            "o_cap": 0.8,
-        },
-    ]
-    for layer in layers:
-        count = layer["count"]
-        m = layer["margin"]
-        pfx = layer["prefix"]
-        sx = deterministic_random(f"{pfx}-x", count, m, width - m)
-        sy = deterministic_random(f"{pfx}-y", count, m, height - m)
-        sr = deterministic_random(f"{pfx}-r", count, *layer["r"])
-        so = deterministic_random(f"{pfx}-o", count, *layer["o"])
-        sd = deterministic_random(f"{pfx}-d", count, *layer["d"])
-        for i in range(count):
-            fill = card_colors[i % n] if i % 4 == 0 else theme["text_dim"]
-            stars.append(
-                f'  <circle cx="{sx[i]:.1f}" cy="{sy[i]:.1f}" r="{sr[i]:.1f}" '
-                f'fill="{fill}" opacity="{so[i]:.2f}">'
-                f'<animate attributeName="opacity" values="{so[i]:.2f};{min(so[i] * layer["o_mult"], layer["o_cap"]):.2f};{so[i]:.2f}" '
-                f'dur="{sd[i]:.1f}s" repeatCount="indefinite"/>'
-                f"</circle>"
-            )
-    return "\n".join(stars)
 
 
 def _build_grid_overlay(width, height, theme):
@@ -181,9 +132,8 @@ def _build_title_area(n, width, height, theme):
     # Pulsing status dot
     cyan = theme.get("synapse_cyan", "#00d4ff")
     title_parts.append(
-        f'  <circle cx="218" cy="34" r="3" fill="{cyan}" opacity="0.8">'
-        f'<animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>'
-        f"</circle>"
+        f'  <circle cx="218" cy="34" r="3" fill="{cyan}" opacity="0.8" '
+        f'class="svg-pulse-opacity" style="--motion-low:.4; --motion-high:1; --motion-duration:2s"/>'
     )
     # Right-aligned status text
     title_parts.append(
@@ -206,7 +156,7 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
 
     card_parts = []
     card_parts.append(
-        f'  <g opacity="0" style="animation: card-appear 0.6s ease {delay} forwards">'
+        f'  <g class="project-card" opacity="0" style="animation: card-appear 0.6s ease {delay} forwards">'
     )
 
     # Card container
@@ -215,23 +165,12 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
         f'fill="url(#card-bg-{i})" stroke="{theme["star_dust"]}" stroke-width="1"/>'
     )
 
-    # Nebula wisps (clipped inside card)
+    # Scan line clipped inside the card.
     card_parts.append(f'    <g clip-path="url(#card-clip-{i})">')
     card_parts.append(
-        f'      <circle cx="{card_x + card_width * 0.3}" cy="90" r="50" '
-        f'fill="{color}" opacity="0.025" filter="url(#card-nebula)"/>'
-    )
-    card_parts.append(
-        f'      <circle cx="{card_x + card_width * 0.7}" cy="150" r="40" '
-        f'fill="{color}" opacity="0.03" filter="url(#card-nebula)"/>'
-    )
-    # Scan line inside card
-    card_parts.append(
         f'      <rect x="{card_x}" y="55" width="{card_width}" height="2" '
-        f'fill="{color}" opacity="0.1">'
-        f'<animateTransform attributeName="transform" type="translate" '
-        f'from="0 0" to="0 140" dur="6s" repeatCount="indefinite"/>'
-        f"</rect>"
+        f'fill="{color}" opacity="0.1" class="svg-scan-y" '
+        f'style="--motion-distance:140px; --motion-duration:6s"/>'
     )
     card_parts.append("    </g>")
 
@@ -239,10 +178,8 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     # Orbital ring (rotating dashed circle)
     card_parts.append(
         f'    <circle cx="{card_cx}" cy="85" r="14" fill="none" '
-        f'stroke="{color}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5">'
-        f'<animateTransform attributeName="transform" type="rotate" '
-        f'from="0 {card_cx} 85" to="360 {card_cx} 85" dur="12s" repeatCount="indefinite"/>'
-        f"</circle>"
+        f'stroke="{color}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5" '
+        f'class="svg-rotate" style="--motion-duration:12s"/>'
     )
     # Glow halo
     card_parts.append(
@@ -251,12 +188,9 @@ def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
     )
     # Pulsing core
     card_parts.append(
-        f'    <circle cx="{card_cx}" cy="85" r="5" fill="{color}" opacity="0.7">'
-        f'<animate attributeName="opacity" values="0.5;0.9;0.5" dur="3s" '
-        f'begin="{delay}" repeatCount="indefinite"/>'
-        f'<animate attributeName="r" values="4.5;5.5;4.5" dur="3s" '
-        f'begin="{delay}" repeatCount="indefinite"/>'
-        f"</circle>"
+        f'    <circle cx="{card_cx}" cy="85" r="5" fill="{color}" opacity="0.7" '
+        f'class="svg-pulse-core" style="--motion-low:.5; --motion-high:.9; '
+        f'--motion-duration:3s; --motion-delay:{delay}"/>'
     )
     # White center dot
     card_parts.append(f'    <circle cx="{card_cx}" cy="85" r="2" fill="#ffffff" opacity="0.9"/>')
@@ -300,10 +234,8 @@ def _build_scan_line(width, theme):
     cyan = theme.get("synapse_cyan", "#00d4ff")
     return (
         f'  <rect x="12" y="50" width="{width - 24}" height="1.5" '
-        f'fill="{cyan}" opacity="0.08">'
-        f'<animateTransform attributeName="transform" type="translate" '
-        f'from="0 0" to="0 160" dur="6s" repeatCount="indefinite"/>'
-        f"</rect>"
+        f'fill="{cyan}" opacity="0.08" class="svg-scan-y" '
+        f'style="--motion-distance:160px; --motion-duration:6s"/>'
     )
 
 
@@ -318,14 +250,27 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
     all_arm_colors = resolve_arm_colors(galaxy_arms, theme)
 
     n = min(len(projects), 3)
+    cosmic = render_cosmic_background(
+        "projects-constellation", WIDTH, HEIGHT, theme, preset="card"
+    )
+    foreground_animation = render_foreground_animation(
+        ".project-card { opacity: 1 !important; transform: none !important; }"
+    )
 
     if n == 0:
         # No projects — render an empty card
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
+  <defs>
+{cosmic.defs}
+{foreground_animation}
+  </defs>
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
   <text x="{WIDTH / 2}" y="{HEIGHT / 2}" fill="{theme['text_faint']}" font-size="12"
         font-family="monospace" text-anchor="middle" dominant-baseline="middle">No featured projects configured</text>
+  </g>
 </svg>"""
 
     # Adaptive card sizing
@@ -348,14 +293,12 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
     # ── Layer 1: Background rect ──
     bg = (
-        f'  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" '
+        f'  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" '
         f'rx="12" ry="12" fill="{theme["nebula"]}" '
         f'stroke="{theme["star_dust"]}" stroke-width="1"/>'
     )
 
     # ── Layer 2: Star field (25 particles) ──
-    stars_str = _build_starfield(n, WIDTH, HEIGHT, card_colors, theme)
-
     # ── Layer 3: Faint grid overlay ──
     grid_str = _build_grid_overlay(WIDTH, HEIGHT, theme)
 
@@ -382,14 +325,17 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
+{cosmic.defs}
+{foreground_animation}
 {defs_str}
   </defs>
 
   <!-- Background -->
 {bg}
 
-  <!-- Star field -->
-{stars_str}
+  <!-- Shared cosmic background -->
+{cosmic.elements}
+  <g data-svg-layer="content">
 
   <!-- Grid overlay -->
 {grid_str}
@@ -405,4 +351,5 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
 
   <!-- Global scan line -->
 {scan_line}
+  </g>
 </svg>"""

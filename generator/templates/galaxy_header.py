@@ -2,7 +2,9 @@
 
 import math
 
-from generator.utils import deterministic_random, esc, resolve_arm_colors, spiral_points
+from generator.templates.cosmic_background import render as render_cosmic_background
+from generator.templates.foreground_animation import render as render_foreground_animation
+from generator.utils import esc, resolve_arm_colors, spiral_points
 
 # ── Module-level constants ──
 WIDTH, HEIGHT = 850, 280
@@ -33,103 +35,6 @@ def _build_glow_filters(galaxy_arms, arm_colors):
     return "\n".join(glow_filters)
 
 
-def _build_starfield(username, width, height, theme):
-    """Build all 3 star depth layers (bg, mid, fg)."""
-    star_layers = [
-        {
-            "count": 40,
-            "label": "bg",
-            "r_min": 0.3,
-            "r_max": 0.8,
-            "o_min": 0.08,
-            "o_max": 0.3,
-            "dur_min": 5.0,
-            "dur_max": 9.0,
-        },
-        {
-            "count": 20,
-            "label": "mid",
-            "r_min": 0.6,
-            "r_max": 1.2,
-            "o_min": 0.15,
-            "o_max": 0.5,
-            "dur_min": 3.5,
-            "dur_max": 7.0,
-        },
-        {
-            "count": 10,
-            "label": "fg",
-            "r_min": 1.0,
-            "r_max": 1.8,
-            "o_min": 0.4,
-            "o_max": 0.7,
-            "dur_min": 2.0,
-            "dur_max": 4.5,
-        },
-    ]
-
-    stars = []
-    for layer in star_layers:
-        n = layer["count"]
-        lbl = layer["label"]
-        sx = deterministic_random(f"{username}_sx_{lbl}", n, 10, width - 10)
-        sy = deterministic_random(f"{username}_sy_{lbl}", n, 10, height - 10)
-        sr = deterministic_random(f"{username}_sr_{lbl}", n, layer["r_min"], layer["r_max"])
-        so = deterministic_random(f"{username}_so_{lbl}", n, layer["o_min"], layer["o_max"])
-        sd = deterministic_random(f"{username}_sd_{lbl}", n, layer["dur_min"], layer["dur_max"])
-
-        accent_colors = {
-            0: theme.get("synapse_cyan", "#00d4ff"),
-            4: theme.get("dendrite_violet", "#a78bfa"),
-            8: theme.get("axon_amber", "#ffb020"),
-        }
-        for i in range(n):
-            fill = accent_colors.get(i % 12, "#ffffff")
-
-            delay = f"{sd[i] * 0.3:.1f}s"
-            stars.append(
-                f'    <circle cx="{sx[i]:.1f}" cy="{sy[i]:.1f}" r="{sr[i]:.2f}" '
-                f'fill="{fill}" opacity="{so[i]:.2f}" class="star-{lbl}" '
-                f'style="animation-delay: {delay}"/>'
-            )
-    return "\n".join(stars)
-
-
-def _build_nebulae(cx, cy, theme):
-    """Return the outer_nebula and inner_nebula SVG strings."""
-    outer_nebula = (
-        f'    <circle cx="{cx - 180}" cy="{cy - 30}" r="120" fill="{theme["dendrite_violet"]}" opacity="0.015" filter="url(#nebula-outer)"/>\n'
-        f'    <circle cx="{cx + 200}" cy="{cy + 20}" r="100" fill="{theme["axon_amber"]}" opacity="0.012" filter="url(#nebula-outer)"/>\n'
-        f'    <circle cx="{cx}" cy="{cy + 40}" r="140" fill="{theme["synapse_cyan"]}" opacity="0.01" filter="url(#nebula-outer)"/>'
-    )
-
-    inner_nebula = (
-        f'    <circle cx="{cx}" cy="{cy}" r="70" fill="{theme["synapse_cyan"]}" opacity="0.04" filter="url(#nebula-inner)"/>\n'
-        f'    <circle cx="{cx - 60}" cy="{cy - 20}" r="50" fill="{theme["dendrite_violet"]}" opacity="0.035" filter="url(#nebula-inner)"/>\n'
-        f'    <circle cx="{cx + 70}" cy="{cy + 15}" r="45" fill="{theme["axon_amber"]}" opacity="0.03" filter="url(#nebula-inner)"/>'
-    )
-
-    return outer_nebula, inner_nebula
-
-
-def _build_shooting_stars():
-    """Build the shooting star lines."""
-    shoot_stars = []
-    shoot_data = [
-        (120, 30, 200, 80, 6),
-        (650, 20, 180, 70, 8),
-        (400, 250, 160, 60, 7),
-    ]
-    for idx, (sx_pos, sy_pos, tx, ty, dur) in enumerate(shoot_data):
-        shoot_stars.append(
-            f'    <line x1="{sx_pos}" y1="{sy_pos}" x2="{sx_pos + 20}" y2="{sy_pos + 5}" '
-            f'stroke="url(#shoot-grad)" stroke-width="1.2" stroke-linecap="round" '
-            f'class="shooting-star" style="animation-delay: {idx * 2.5}s; '
-            f'--shoot-tx: {tx}px; --shoot-ty: {ty}px; animation-duration: {dur}s"/>'
-        )
-    return "\n".join(shoot_stars)
-
-
 def _points_to_path(points):
     """Build a quadratic Bezier SVG path string from a list of (x, y) points."""
     d = f"M {points[0][0]:.1f} {points[0][1]:.1f}"
@@ -158,9 +63,6 @@ def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
         if len(points) < 2:
             continue
 
-        # Build full path string for animateMotion
-        full_path_d = _points_to_path(points)
-
         # Split into segments (Step 4)
         pts_per_seg = len(points) // segment_count
         for seg in range(segment_count):
@@ -177,24 +79,12 @@ def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
             sw = width_steps[seg]
             arm_paths.append(
                 f'    <path d="{seg_d}" fill="none" stroke="{color}" '
-                f'stroke-width="{sw:.1f}" opacity="{op:.2f}" stroke-linecap="round">'
-                f'\n      <animate attributeName="opacity" values="{op - 0.1:.2f};{op + 0.1:.2f};{op - 0.1:.2f}" '
-                f'dur="8s" begin="{arm_idx}s" repeatCount="indefinite"/>'
-                f"\n    </path>"
+                f'stroke-width="{sw:.1f}" opacity="{op:.2f}" stroke-linecap="round" '
+                f'class="svg-pulse-opacity" style="--motion-low:{op - 0.1:.2f}; '
+                f'--motion-high:{op + 0.1:.2f}; --motion-duration:8s; --motion-delay:{arm_idx}s"/>'
             )
 
         # Arm particles — 2 per arm (Step 7)
-        for p_idx in range(2):
-            delay = arm_idx * 4 + p_idx * 6
-            arm_particles.append(
-                f'    <circle r="1.5" fill="{color}" opacity="0.6">\n'
-                f'      <animateMotion dur="12s" begin="{delay}s" repeatCount="indefinite" '
-                f'path="{full_path_d}"/>\n'
-                f'      <animate attributeName="opacity" values="0;0.7;0.3;0" dur="12s" '
-                f'begin="{delay}s" repeatCount="indefinite"/>\n'
-                f"    </circle>"
-            )
-
     return "\n".join(arm_paths), "\n".join(arm_particles)
 
 
@@ -240,9 +130,9 @@ def _build_tech_labels(galaxy_arms, arm_colors, all_arm_points, cx, cy):
 
             # Dot with opacity pulse animation (Step 7)
             arm_dots.append(
-                f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="2.5" fill="{color}" opacity="0.85">\n'
-                f'      <animate attributeName="opacity" values="0.85;1;0.85" dur="5s" begin="{i * 0.7}s" repeatCount="indefinite"/>\n'
-                f"    </circle>"
+                f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="2.5" fill="{color}" opacity="0.85" '
+                f'class="svg-pulse-opacity" style="--motion-low:.85; --motion-high:1; '
+                f'--motion-duration:5s; --motion-delay:{i * 0.7}s"/>'
             )
 
             # Leader line — dashed, subtle (Step 3)
@@ -280,9 +170,9 @@ def _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points):
         delay = f"{arm_idx * 0.8}s"
 
         project_stars.append(
-            f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{color}" filter="url(#star-glow-{arm_idx})">\n'
-            f'      <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="{delay}" repeatCount="indefinite"/>\n'
-            f"    </circle>"
+            f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{color}" opacity="0.6" '
+            f'filter="url(#star-glow-{arm_idx})" class="svg-pulse-opacity" '
+            f'style="--motion-low:.6; --motion-high:1; --motion-duration:4s; --motion-delay:{delay}"/>'
         )
 
     return "\n".join(project_stars)
@@ -293,16 +183,10 @@ def _build_orbital_rings(cx, cy, theme):
     return (
         f'    <ellipse cx="{cx}" cy="{cy}" rx="55" ry="18" fill="none" '
         f'stroke="{theme["synapse_cyan"]}" stroke-width="0.6" opacity="0.15" '
-        f'stroke-dasharray="4 6">\n'
-        f'      <animateTransform attributeName="transform" type="rotate" '
-        f'from="0 {cx} {cy}" to="360 {cx} {cy}" dur="20s" repeatCount="indefinite"/>\n'
-        f"    </ellipse>\n"
+        f'stroke-dasharray="4 6" class="svg-rotate" style="--motion-duration:20s"/>\n'
         f'    <ellipse cx="{cx}" cy="{cy}" rx="75" ry="24" fill="none" '
         f'stroke="{theme["dendrite_violet"]}" stroke-width="0.5" opacity="0.1" '
-        f'stroke-dasharray="3 8">\n'
-        f'      <animateTransform attributeName="transform" type="rotate" '
-        f'from="360 {cx} {cy}" to="0 {cx} {cy}" dur="30s" repeatCount="indefinite"/>\n'
-        f"    </ellipse>"
+        f'stroke-dasharray="3 8" class="svg-counter-rotate" style="--motion-duration:30s"/>'
     )
 
 
@@ -391,9 +275,8 @@ def render(
     )
 
     # ── Build all layers via helper functions ──
-    stars_str = _build_starfield(username, WIDTH, HEIGHT, theme)
-    outer_nebula, inner_nebula = _build_nebulae(CENTER_X, CENTER_Y, theme)
-    shoot_stars_str = _build_shooting_stars()
+    cosmic = render_cosmic_background(username, WIDTH, HEIGHT, theme, preset="hero")
+    foreground_animation = render_foreground_animation()
     arm_paths_str, arm_particles_str = _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points)
     arm_dots_str = _build_tech_labels(galaxy_arms, arm_colors, all_arm_points, CENTER_X, CENTER_Y)
     project_stars_str = _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points)
@@ -403,57 +286,22 @@ def render(
     # ── Assemble SVG ──
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
+{cosmic.defs}
+{foreground_animation}
     <style>
-      .star-bg {{
-        animation: twinkle-slow 7s ease-in-out infinite;
-      }}
-      .star-mid {{
-        animation: twinkle-mid 5s ease-in-out infinite;
-      }}
-      .star-fg {{
-        animation: twinkle-fast 3s ease-in-out infinite;
-      }}
-      @keyframes twinkle-slow {{
-        0%, 100% {{ opacity: 0.08; }}
-        50% {{ opacity: 0.3; }}
-      }}
-      @keyframes twinkle-mid {{
-        0%, 100% {{ opacity: 0.15; }}
-        50% {{ opacity: 0.5; }}
-      }}
-      @keyframes twinkle-fast {{
-        0%, 100% {{ opacity: 0.4; }}
-        50% {{ opacity: 0.8; }}
-      }}
       .core-ring {{
         animation: pulse-core 3s ease-in-out infinite;
+        transform-origin: {CENTER_X}px {CENTER_Y}px;
       }}
       .core-ring-inner {{
         animation: pulse-core 3s ease-in-out infinite 1.5s;
+        transform-origin: {CENTER_X}px {CENTER_Y}px;
       }}
       @keyframes pulse-core {{
-        0%, 100% {{ stroke-opacity: 0.3; transform: scale(1); transform-origin: {CENTER_X}px {CENTER_Y}px; }}
-        50% {{ stroke-opacity: 0.8; transform: scale(1.06); transform-origin: {CENTER_X}px {CENTER_Y}px; }}
-      }}
-      .shooting-star {{
-        opacity: 0;
-        animation: shoot linear infinite;
-      }}
-      @keyframes shoot {{
-        0% {{ opacity: 0; transform: translate(0, 0); }}
-        5% {{ opacity: 0.9; }}
-        15% {{ opacity: 0.6; transform: translate(var(--shoot-tx), var(--shoot-ty)); }}
-        20% {{ opacity: 0; transform: translate(var(--shoot-tx), var(--shoot-ty)); }}
-        100% {{ opacity: 0; }}
+        0%, 100% {{ opacity: 0.3; transform: scale(1); }}
+        50% {{ opacity: 0.8; transform: scale(1.06); }}
       }}
     </style>
-
-    <filter id="nebula-outer">
-      <feGaussianBlur stdDeviation="60"/>
-    </filter>
-    <filter id="nebula-inner">
-      <feGaussianBlur stdDeviation="30"/>
-    </filter>
 
 {label_glow_filter}
 {core_glow_filter}
@@ -470,28 +318,15 @@ def render(
       <stop offset="100%" stop-color="{theme['synapse_cyan']}" stop-opacity="0"/>
     </radialGradient>
 
-    <linearGradient id="shoot-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-
 {glow_filters_str}
   </defs>
 
   <!-- 1. Background -->
-  <rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="12" ry="12" fill="{theme['void']}"/>
+  <rect data-svg-layer="background" x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="12" ry="12" fill="{theme['void']}"/>
 
-  <!-- 2. Outer nebula -->
-{outer_nebula}
-
-  <!-- 3. Star field (3 layers) -->
-{stars_str}
-
-  <!-- 4. Inner nebula -->
-{inner_nebula}
-
-  <!-- 5. Shooting stars -->
-{shoot_stars_str}
+  <!-- 2. Shared cosmic background -->
+{cosmic.elements}
+  <g data-svg-layer="content">
 
   <!-- 6. Spiral arm paths (segmented fade) -->
 {arm_paths_str}
@@ -515,4 +350,5 @@ def render(
   <text x="{CENTER_X}" y="30" text-anchor="middle" fill="{theme['text_bright']}" font-size="24" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
   <text x="{CENTER_X}" y="50" text-anchor="middle" fill="{theme['text_dim']}" font-size="13" font-family="sans-serif">{esc(tagline)}</text>
   <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
+  </g>
 </svg>"""

@@ -1,5 +1,79 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="850" height="180" viewBox="0 0 850 180">
-  <rect x="0.5" y="0.5" width="849" height="179" rx="12" fill="#080c14" stroke="#1a2332"/>
+  <defs>
+    <style>
+      .cosmic-star {
+        animation: cosmic-twinkle ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .cosmic-drift-far { animation: cosmic-drift-far 34s ease-in-out infinite alternate; }
+      .cosmic-drift-mid { animation: cosmic-drift-mid 27s ease-in-out infinite alternate; }
+      .cosmic-drift-near { animation: cosmic-drift-near 21s ease-in-out infinite alternate; }
+      .cosmic-flash { animation: cosmic-flash 13s ease-in-out infinite; }
+      @keyframes cosmic-twinkle {
+        0%, 100% { opacity: var(--star-low); transform: scale(0.92); }
+        48% { opacity: var(--star-high); transform: scale(1.05); }
+      }
+      @keyframes cosmic-drift-far { from { transform: translate(-2px, 1px); } to { transform: translate(3px, -1px); } }
+      @keyframes cosmic-drift-mid { from { transform: translate(2px, -1px); } to { transform: translate(-3px, 2px); } }
+      @keyframes cosmic-drift-near { from { transform: translate(-1px, -2px); } to { transform: translate(2px, 2px); } }
+      @keyframes cosmic-flash { 0%, 88%, 100% { opacity: 0.08; } 91% { opacity: 0.75; } 94% { opacity: 0.14; } }
+      @media (prefers-reduced-motion: reduce) {
+        svg * { animation: none !important; }
+      }
+    </style>
+    <filter id="cosmic-card-expertise-card-nebula-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="cosmic-card-expertise-card-bright-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.2" result="halo"/>
+      <feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="cosmic-card-expertise-card-clip">
+      <rect x="0" y="0" width="850" height="180" rx="12" ry="12"/>
+    </clipPath>
+  </defs>
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="849" height="179" rx="12" fill="#080c14" stroke="#1a2332"/>
+  <g data-cosmic-background="card" aria-hidden="true" clip-path="url(#cosmic-card-expertise-card-clip)">
+    <g class="cosmic-nebulae">
+      <circle cx="318.8" cy="140.8" r="55.8" fill="#00d4ff" opacity="0.025" filter="url(#cosmic-card-expertise-card-nebula-blur)"/>
+      <circle cx="207.9" cy="65.1" r="36.6" fill="#a78bfa" opacity="0.031" filter="url(#cosmic-card-expertise-card-nebula-blur)"/>
+    </g>
+    <g class="cosmic-dust" fill="#ffffff" opacity="0.12">
+      <circle cx="445.5" cy="171.1" r="0.41"/>
+      <circle cx="126.9" cy="25.0" r="0.35"/>
+      <circle cx="841.4" cy="99.9" r="0.26"/>
+      <circle cx="608.9" cy="133.7" r="0.41"/>
+      <circle cx="823.1" cy="145.6" r="0.30"/>
+    </g>
+    <g data-cosmic-layer="far" class="cosmic-drift-far">
+      <circle class="cosmic-star cosmic-star-far" cx="475.1" cy="47.1" r="0.29" fill="#00d4ff" opacity="0.21" style="--star-low:0.14; --star-high:0.28; animation-duration:12.4s; animation-delay:-12.0s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="774.7" cy="37.4" r="0.42" fill="#ffffff" opacity="0.27" style="--star-low:0.18; --star-high:0.37; animation-duration:12.4s; animation-delay:-2.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="156.2" cy="156.5" r="0.32" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:9.6s; animation-delay:-15.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="144.5" cy="51.9" r="0.67" fill="#ffffff" opacity="0.09" style="--star-low:0.06; --star-high:0.13; animation-duration:15.2s; animation-delay:-2.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="216.3" cy="72.8" r="0.59" fill="#ffffff" opacity="0.19" style="--star-low:0.13; --star-high:0.26; animation-duration:9.7s; animation-delay:-12.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="752.7" cy="114.5" r="0.57" fill="#ffffff" opacity="0.18" style="--star-low:0.11; --star-high:0.24; animation-duration:12.4s; animation-delay:-7.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="70.5" cy="79.1" r="0.60" fill="#ffffff" opacity="0.11" style="--star-low:0.07; --star-high:0.15; animation-duration:15.7s; animation-delay:-1.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="702.6" cy="22.0" r="0.30" fill="#ffffff" opacity="0.08" style="--star-low:0.06; --star-high:0.11; animation-duration:10.2s; animation-delay:-0.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="752.8" cy="8.6" r="0.51" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:15.7s; animation-delay:-9.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="53.7" cy="55.3" r="0.29" fill="#ffffff" opacity="0.13" style="--star-low:0.09; --star-high:0.18; animation-duration:14.7s; animation-delay:-3.8s"/>
+    </g>
+    <g data-cosmic-layer="mid" class="cosmic-drift-mid">
+      <circle class="cosmic-star cosmic-star-mid" cx="703.4" cy="151.0" r="0.80" fill="#a78bfa" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:9.6s; animation-delay:-2.7s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="806.8" cy="103.7" r="1.01" fill="#ffffff" opacity="0.30" style="--star-low:0.20; --star-high:0.41; animation-duration:11.9s; animation-delay:-7.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="379.4" cy="106.1" r="0.80" fill="#ffffff" opacity="0.28" style="--star-low:0.18; --star-high:0.38; animation-duration:9.0s; animation-delay:-7.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="598.4" cy="92.4" r="0.82" fill="#ffffff" opacity="0.18" style="--star-low:0.11; --star-high:0.24; animation-duration:9.0s; animation-delay:-2.6s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="504.0" cy="154.1" r="0.50" fill="#ffffff" opacity="0.31" style="--star-low:0.20; --star-high:0.41; animation-duration:6.8s; animation-delay:-11.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="154.9" cy="157.3" r="0.78" fill="#ffffff" opacity="0.32" style="--star-low:0.21; --star-high:0.43; animation-duration:8.8s; animation-delay:-8.5s"/>
+    </g>
+    <g data-cosmic-layer="near" class="cosmic-drift-near">
+      <circle class="cosmic-star cosmic-star-near" cx="683.3" cy="10.9" r="1.50" fill="#ffb020" opacity="0.47" filter="url(#cosmic-card-expertise-card-bright-glow)" style="--star-low:0.31; --star-high:0.64; animation-duration:5.6s; animation-delay:-8.6s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="131.3" cy="95.0" r="1.35" fill="#ffffff" opacity="0.50" style="--star-low:0.32; --star-high:0.67; animation-duration:4.8s; animation-delay:-4.4s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="824.3" cy="59.1" r="0.81" fill="#ffffff" opacity="0.58" style="--star-low:0.38; --star-high:0.79; animation-duration:6.7s; animation-delay:-4.5s"/>
+    </g>
+    <circle class="cosmic-flash" cx="297.7" cy="47.3" r="1.8" fill="#00d4ff" opacity="0.08" filter="url(#cosmic-card-expertise-card-bright-glow)" style="animation-delay:-0.0s"/>
+  </g>
+  <g data-svg-layer="content">
   <text x="30" y="31" fill="#64748b" font-size="11" font-family="monospace" letter-spacing="3">ATUAÇÃO TÉCNICA</text>
   <text x="820" y="31" text-anchor="end" fill="#64748b" font-size="9" font-family="monospace">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
   <line x1="30" y1="47" x2="820" y2="47" stroke="#1a2332" opacity="0.35"/>
@@ -31,5 +105,6 @@
     <text x="0" y="108" text-anchor="middle" fill="#f1f5f9" font-size="19" font-weight="bold" font-family="sans-serif">AUTOMAÇÃO</text>
     <text x="0" y="130" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="0.7">PYTHON • REGRAS DE NEGÓCIO</text>
     <text x="0" y="150" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">fluxos internos e integrações</text>
+  </g>
   </g>
 </svg>

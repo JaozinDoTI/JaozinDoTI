@@ -3,6 +3,8 @@
 import math
 
 from generator.utils import calculate_language_percentages, esc, resolve_arm_colors, svg_arc_path
+from generator.templates.cosmic_background import render as render_cosmic_background
+from generator.templates.foreground_animation import render as render_foreground_animation
 
 WIDTH = 850
 
@@ -29,9 +31,8 @@ def _build_language_bars(lang_data, theme, left_x, start_y):
 
         bar_lines.append(f"""    <g transform="translate({left_x}, {y})">
       <text x="0" y="0" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif" dominant-baseline="middle">{esc(lang['name'])}</text>
-      <rect x="110" y="-6" width="{bar_w}" height="12" rx="3" fill="{lang['color']}" opacity="0.85">
-        <animate attributeName="width" from="0" to="{bar_w}" dur="0.8s" begin="{delay}" fill="freeze"/>
-      </rect>
+      <rect x="110" y="-6" width="{bar_w}" height="12" rx="3" fill="{lang['color']}" opacity="0.85"
+            class="svg-grow-x" style="--motion-duration:.8s; --motion-delay:{delay}"/>
       <text x="320" y="0" fill="{theme['text_faint']}" font-size="10" font-family="monospace" dominant-baseline="middle">{lang['percentage']}%</text>
     </g>""")
 
@@ -120,7 +121,7 @@ def _build_radar_needle(rcx, rcy, radius, theme):
     inner_hw = 0.8
 
     needle = (
-        f"    <g>"
+        f'    <g class="svg-rotate" style="--motion-duration:8s; transform-box:view-box; transform-origin:{rcx}px {rcy}px">'
         f"\n      <!-- Sweep trail -->"
         f'\n      <path d="{sweep_d}" fill="{scan_color}" fill-opacity="0.07"/>'
         f"\n      <!-- Outer wedge -->"
@@ -130,12 +131,8 @@ def _build_radar_needle(rcx, rcy, radius, theme):
         f'\n      <polygon points="{rcx - inner_hw},{rcy} {tip_x},{tip_y} {rcx + inner_hw},{rcy}" '
         f'fill="{scan_color}" opacity="0.5"/>'
         f"\n      <!-- Tip glow -->"
-        f'\n      <circle cx="{tip_x}" cy="{tip_y}" r="2" fill="{scan_color}" opacity="0.6">'
-        f'\n        <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>'
-        f"\n      </circle>"
-        f'\n      <animateTransform attributeName="transform" type="rotate" '
-        f'from="0 {rcx} {rcy}" to="360 {rcx} {rcy}" '
-        f'dur="8s" repeatCount="indefinite"/>'
+        f'\n      <circle cx="{tip_x}" cy="{tip_y}" r="2" fill="{scan_color}" opacity="0.6" '
+        f'class="svg-pulse-opacity" style="--motion-low:.4; --motion-high:.8; --motion-duration:2s"/>'
         f"\n    </g>"
     )
 
@@ -213,12 +210,8 @@ def _build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, the
                 pulse_begin += 8
             parts.append(
                 f'    <circle cx="{dx:.1f}" cy="{dy:.1f}" r="3" '
-                f'fill="{sec["color"]}" opacity="0.35">'
-                f'\n      <animate attributeName="opacity" '
-                f'values="0.35;0.35;1.0;0.35;0.35" '
-                f'keyTimes="0;0.04;0.06;0.10;1" '
-                f'dur="8s" begin="{pulse_begin:.2f}s" repeatCount="indefinite"/>'
-                f"\n    </circle>"
+                f'fill="{sec["color"]}" opacity="0.35" class="svg-scan-hit" '
+                f'style="--motion-duration:8s; --motion-delay:{pulse_begin:.2f}s"/>'
             )
 
     return "\n".join(parts)
@@ -277,6 +270,8 @@ def render(
     lang_height = start_y + len(lang_data) * 22 + 20
     radar_height = rcy + radius + 35
     height = max(200, lang_height, radar_height)
+    cosmic = render_cosmic_background("tech-stack", WIDTH, height, theme, preset="card")
+    foreground_animation = render_foreground_animation()
 
     # Build radar SVG elements
     radar_parts = []
@@ -290,11 +285,16 @@ def render(
     radar_str = "\n".join(radar_parts)
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
-  <defs/>
+  <defs>
+{cosmic.defs}
+{foreground_animation}
+  </defs>
 
   <!-- Card background -->
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="12" ry="12"
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
 
   <!-- Left: Language Telemetry -->
   <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">LINGUAGENS NOS REPOSITÓRIOS</text>
@@ -308,4 +308,5 @@ def render(
 {bars_str}
 
 {radar_str}
+  </g>
 </svg>"""

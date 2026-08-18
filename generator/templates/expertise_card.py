@@ -1,6 +1,7 @@
 """SVG template: recruiter-oriented technical positioning."""
 
 from generator.utils import esc
+from generator.templates.cosmic_background import render as render_cosmic_background
 
 WIDTH, HEIGHT = 850, 180
 
@@ -12,6 +13,7 @@ def render(items: list, theme: dict) -> str:
     cell_width = WIDTH / max(len(visible), 1)
     cells = []
     dividers = []
+    cosmic = render_cosmic_background("expertise-card", WIDTH, HEIGHT, theme, preset="card")
 
     for index, item in enumerate(visible):
         center_x = cell_width * index + cell_width / 2
@@ -34,10 +36,16 @@ def render(items: list, theme: dict) -> str:
             )
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" fill="{theme['void']}" stroke="{theme['star_dust']}"/>
+  <defs>
+{cosmic.defs}
+  </defs>
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" fill="{theme['void']}" stroke="{theme['star_dust']}"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
   <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">ATUAÇÃO TÉCNICA</text>
   <text x="820" y="31" text-anchor="end" fill="{theme['text_faint']}" font-size="9" font-family="monospace">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
   <line x1="30" y1="47" x2="820" y2="47" stroke="{theme['star_dust']}" opacity="0.35"/>
 {chr(10).join(dividers)}
 {chr(10).join(cells)}
+  </g>
 </svg>"""

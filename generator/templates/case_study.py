@@ -1,6 +1,7 @@
 """SVG template: externally understandable production case study."""
 
 from generator.utils import esc
+from generator.templates.cosmic_background import render as render_cosmic_background
 
 WIDTH, HEIGHT = 850, 245
 
@@ -16,6 +17,7 @@ def render(config: dict, theme: dict) -> str:
         (585, amber, config.get("outcome_title", "RESULTADO"), config.get("outcome", "")),
     ]
     blocks = []
+    cosmic = render_cosmic_background("case-study", WIDTH, HEIGHT, theme, preset="card")
 
     for x, color, title, description in columns:
         blocks.append(
@@ -27,7 +29,12 @@ def render(config: dict, theme: dict) -> str:
         )
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" fill="{theme['nebula']}" stroke="{theme['star_dust']}"/>
+  <defs>
+{cosmic.defs}
+  </defs>
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" fill="{theme['nebula']}" stroke="{theme['star_dust']}"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
   <text x="30" y="31" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">{esc(config.get('title', 'CASE DE ENGENHARIA'))}</text>
   <rect x="681" y="18" width="139" height="20" rx="10" fill="{cyan}" opacity="0.10"/>
   <text x="750" y="31" text-anchor="middle" fill="{cyan}" font-size="8" font-weight="bold" font-family="monospace">{esc(config.get('status', 'PRODUÇÃO'))}</text>
@@ -39,6 +46,7 @@ def render(config: dict, theme: dict) -> str:
   <path d="M577 121 L570 117 L570 125 Z" fill="{amber}" opacity="0.7"/>
   <rect x="45" y="187" width="760" height="33" rx="7" fill="{theme['void']}" stroke="{theme['star_dust']}"/>
   <text x="425" y="208" text-anchor="middle" fill="{theme['text_dim']}" font-size="10" font-family="monospace" letter-spacing="0.5">{esc(config.get('stack', ''))}</text>
+  </g>
 </svg>"""
 
 

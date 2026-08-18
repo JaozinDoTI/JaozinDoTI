@@ -1,6 +1,7 @@
 """SVG template: Mission Telemetry stats card (850x180)."""
 
 from generator.utils import METRIC_COLORS, METRIC_ICONS, METRIC_LABELS, format_number
+from generator.templates.cosmic_background import render as render_cosmic_background
 
 WIDTH, HEIGHT = 850, 180
 
@@ -14,6 +15,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
         theme: color palette dict
     """
     cell_width = WIDTH / len(metrics)
+    cosmic = render_cosmic_background("stats-card", WIDTH, HEIGHT, theme, preset="card")
 
     # Build metric cells
     cells = []
@@ -50,13 +52,14 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
+{cosmic.defs}
     <style>
       .metric-icon {{
         animation: count-glow 4s ease-in-out infinite;
       }}
       @keyframes count-glow {{
-        0%, 100% {{ fill-opacity: 0.7; }}
-        50% {{ fill-opacity: 1; }}
+        0%, 100% {{ opacity: 0.7; }}
+        50% {{ opacity: 1; }}
       }}
     </style>
     <filter id="num-glow" x="-30%" y="-30%" width="160%" height="160%">
@@ -65,8 +68,10 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
   </defs>
 
   <!-- Card background -->
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
+  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
+{cosmic.elements}
+  <g data-svg-layer="content">
 
   <!-- Section title -->
   <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">ATIVIDADE NO GITHUB</text>
@@ -76,4 +81,5 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
 
   <!-- Metric cells -->
 {cells_str}
+  </g>
 </svg>"""
