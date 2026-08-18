@@ -95,12 +95,15 @@ def generate(args):
 
     svgs = {
         "galaxy-header.svg": builder.render_galaxy_header(),
+        "galaxy-header-v3.svg": builder.render_galaxy_header(),
         "impact-card.svg": builder.render_impact_card(),
+        "impact-card-v3.svg": builder.render_impact_card(),
         "expertise-card.svg": builder.render_expertise_card(),
         "case-study.svg": builder.render_case_study(),
         "stats-card.svg": builder.render_stats_card(),
         "tech-stack.svg": builder.render_tech_stack(),
         "projects-constellation.svg": builder.render_projects_constellation(),
+        "projects-constellation-v3.svg": builder.render_projects_constellation(),
     }
 
     for filename, content in svgs.items():
@@ -109,7 +112,7 @@ def generate(args):
             f.write(content)
         logger.info("Wrote %s", path)
 
-    logger.info("Done! 7 SVGs generated.")
+    logger.info("Done! 10 SVGs generated.")
 
 
 def main():

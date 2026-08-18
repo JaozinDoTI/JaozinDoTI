@@ -1,0 +1,257 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="340" viewBox="0 0 850 340">
+  <defs>
+    <style>
+      .cosmic-star {
+        animation: cosmic-twinkle ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .cosmic-drift-far { animation: cosmic-drift-far 34s ease-in-out infinite alternate; }
+      .cosmic-drift-mid { animation: cosmic-drift-mid 27s ease-in-out infinite alternate; }
+      .cosmic-drift-near { animation: cosmic-drift-near 21s ease-in-out infinite alternate; }
+      .cosmic-flash { animation: cosmic-flash 13s ease-in-out infinite; }
+      @keyframes cosmic-twinkle {
+        0%, 100% { opacity: var(--star-low); transform: scale(0.92); }
+        48% { opacity: var(--star-high); transform: scale(1.05); }
+      }
+      @keyframes cosmic-drift-far { from { transform: translate(-2px, 1px); } to { transform: translate(3px, -1px); } }
+      @keyframes cosmic-drift-mid { from { transform: translate(2px, -1px); } to { transform: translate(-3px, 2px); } }
+      @keyframes cosmic-drift-near { from { transform: translate(-1px, -2px); } to { transform: translate(2px, 2px); } }
+      @keyframes cosmic-flash { 0%, 88%, 100% { opacity: 0.08; } 91% { opacity: 0.75; } 94% { opacity: 0.14; } }
+      @media (prefers-reduced-motion: reduce) {
+        svg * { animation: none !important; }
+      }
+    </style>
+    <filter id="cosmic-hero-jaozindoti-nebula-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="cosmic-hero-jaozindoti-bright-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.2" result="halo"/>
+      <feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="cosmic-hero-jaozindoti-clip">
+      <rect x="0" y="0" width="850" height="340" rx="12" ry="12"/>
+    </clipPath>
+    <linearGradient id="hero-shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#080c14" stop-opacity="0.97"/>
+      <stop offset="58%" stop-color="#080c14" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#080c14" stop-opacity="0.08"/>
+    </linearGradient>
+    <radialGradient id="planet-surface" cx="35%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.24"/>
+      <stop offset="45%" stop-color="#a78bfa" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#080c14" stop-opacity="0.94"/>
+    </radialGradient>
+    <linearGradient id="horizon-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00d4ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="hero-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+    <style>
+      .hero-reveal { opacity:0; animation:hero-reveal .9s ease-out var(--hero-delay,0s) forwards; }
+      .hero-node-pulse { animation:hero-node 4s ease-in-out var(--hero-delay,0s) infinite; transform-box:fill-box; transform-origin:center; }
+      .hero-orbit { animation:hero-orbit 34s linear infinite; transform-origin:648px 168px; }
+      .hero-orbit-reverse { animation:hero-orbit 48s linear infinite reverse; transform-origin:648px 168px; }
+      .hero-core { animation:hero-core 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+      @keyframes hero-reveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+      @keyframes hero-node { 0%,100% { opacity:.55; transform:scale(.88); } 50% { opacity:1; transform:scale(1.15); } }
+      @keyframes hero-orbit { to { transform:rotate(360deg); } }
+      @keyframes hero-core { 0%,100% { opacity:.72; transform:scale(.96); } 50% { opacity:1; transform:scale(1.05); } }
+    </style>
+  </defs>
+  <rect data-svg-layer="background" width="850" height="340" rx="16" fill="#080c14"/>
+  <g data-cosmic-background="hero" aria-hidden="true" clip-path="url(#cosmic-hero-jaozindoti-clip)">
+    <g class="cosmic-nebulae">
+      <circle cx="736.2" cy="84.9" r="56.6" fill="#00d4ff" opacity="0.025" filter="url(#cosmic-hero-jaozindoti-nebula-blur)"/>
+      <circle cx="262.8" cy="182.5" r="90.0" fill="#a78bfa" opacity="0.031" filter="url(#cosmic-hero-jaozindoti-nebula-blur)"/>
+      <circle cx="353.1" cy="203.8" r="109.9" fill="#ffb020" opacity="0.037" filter="url(#cosmic-hero-jaozindoti-nebula-blur)"/>
+    </g>
+    <g class="cosmic-dust" fill="#ffffff" opacity="0.12">
+      <circle cx="425.7" cy="92.2" r="0.23"/>
+      <circle cx="219.1" cy="87.2" r="0.26"/>
+      <circle cx="213.5" cy="90.7" r="0.28"/>
+      <circle cx="437.9" cy="46.0" r="0.38"/>
+      <circle cx="663.6" cy="304.6" r="0.24"/>
+      <circle cx="205.8" cy="316.0" r="0.23"/>
+      <circle cx="574.5" cy="32.7" r="0.36"/>
+      <circle cx="337.4" cy="170.5" r="0.26"/>
+      <circle cx="239.9" cy="92.8" r="0.23"/>
+      <circle cx="183.7" cy="252.5" r="0.24"/>
+      <circle cx="279.0" cy="35.8" r="0.21"/>
+      <circle cx="247.3" cy="147.7" r="0.35"/>
+    </g>
+    <g data-cosmic-layer="far" class="cosmic-drift-far">
+      <circle class="cosmic-star cosmic-star-far" cx="598.2" cy="47.5" r="0.66" fill="#00d4ff" opacity="0.13" style="--star-low:0.09; --star-high:0.18; animation-duration:15.3s; animation-delay:-3.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="268.6" cy="57.6" r="0.62" fill="#ffffff" opacity="0.13" style="--star-low:0.08; --star-high:0.17; animation-duration:11.4s; animation-delay:-10.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="593.9" cy="315.4" r="0.58" fill="#ffffff" opacity="0.27" style="--star-low:0.17; --star-high:0.36; animation-duration:9.9s; animation-delay:-0.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="751.0" cy="186.9" r="0.55" fill="#ffffff" opacity="0.13" style="--star-low:0.08; --star-high:0.17; animation-duration:14.3s; animation-delay:-11.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="614.2" cy="238.8" r="0.60" fill="#ffffff" opacity="0.11" style="--star-low:0.07; --star-high:0.14; animation-duration:11.2s; animation-delay:-5.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="68.4" cy="244.6" r="0.53" fill="#ffffff" opacity="0.18" style="--star-low:0.12; --star-high:0.24; animation-duration:10.9s; animation-delay:-14.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="62.0" cy="284.7" r="0.66" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:13.5s; animation-delay:-1.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="543.1" cy="169.2" r="0.57" fill="#ffffff" opacity="0.10" style="--star-low:0.07; --star-high:0.14; animation-duration:11.4s; animation-delay:-11.6s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="510.7" cy="177.0" r="0.68" fill="#ffffff" opacity="0.13" style="--star-low:0.08; --star-high:0.17; animation-duration:15.8s; animation-delay:-1.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="241.0" cy="164.3" r="0.38" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:14.1s; animation-delay:-1.1s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="451.4" cy="165.4" r="0.59" fill="#ffffff" opacity="0.23" style="--star-low:0.15; --star-high:0.31; animation-duration:15.0s; animation-delay:-9.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="50.9" cy="169.9" r="0.65" fill="#ffb020" opacity="0.08" style="--star-low:0.05; --star-high:0.11; animation-duration:11.1s; animation-delay:-7.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="289.8" cy="115.4" r="0.37" fill="#ffffff" opacity="0.12" style="--star-low:0.08; --star-high:0.17; animation-duration:15.1s; animation-delay:-12.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="772.4" cy="264.6" r="0.34" fill="#ffffff" opacity="0.21" style="--star-low:0.14; --star-high:0.29; animation-duration:14.0s; animation-delay:-4.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="779.1" cy="231.0" r="0.43" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:12.7s; animation-delay:-8.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="213.1" cy="234.6" r="0.47" fill="#ffffff" opacity="0.25" style="--star-low:0.16; --star-high:0.34; animation-duration:13.4s; animation-delay:-12.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="685.9" cy="196.6" r="0.66" fill="#ffffff" opacity="0.13" style="--star-low:0.08; --star-high:0.17; animation-duration:15.2s; animation-delay:-12.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="785.1" cy="327.4" r="0.51" fill="#ffffff" opacity="0.28" style="--star-low:0.18; --star-high:0.38; animation-duration:14.5s; animation-delay:-0.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="394.2" cy="274.3" r="0.57" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.30; animation-duration:15.3s; animation-delay:-9.0s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="266.1" cy="63.5" r="0.68" fill="#ffffff" opacity="0.25" style="--star-low:0.16; --star-high:0.33; animation-duration:9.6s; animation-delay:-10.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="765.6" cy="100.0" r="0.54" fill="#ffffff" opacity="0.12" style="--star-low:0.08; --star-high:0.16; animation-duration:13.6s; animation-delay:-11.0s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="445.0" cy="119.7" r="0.62" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:9.8s; animation-delay:-1.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="778.5" cy="78.8" r="0.49" fill="#a78bfa" opacity="0.22" style="--star-low:0.14; --star-high:0.29; animation-duration:9.1s; animation-delay:-0.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="613.7" cy="298.9" r="0.51" fill="#ffffff" opacity="0.12" style="--star-low:0.08; --star-high:0.16; animation-duration:11.5s; animation-delay:-11.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="658.6" cy="295.4" r="0.57" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.26; animation-duration:15.3s; animation-delay:-11.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="693.0" cy="152.0" r="0.67" fill="#ffffff" opacity="0.16" style="--star-low:0.11; --star-high:0.22; animation-duration:14.6s; animation-delay:-2.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="408.7" cy="319.2" r="0.55" fill="#ffffff" opacity="0.10" style="--star-low:0.07; --star-high:0.14; animation-duration:14.0s; animation-delay:-10.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="536.8" cy="105.3" r="0.42" fill="#ffffff" opacity="0.23" style="--star-low:0.15; --star-high:0.30; animation-duration:12.0s; animation-delay:-2.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="156.8" cy="325.2" r="0.62" fill="#ffffff" opacity="0.10" style="--star-low:0.06; --star-high:0.13; animation-duration:12.2s; animation-delay:-8.1s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="86.5" cy="192.4" r="0.51" fill="#ffffff" opacity="0.23" style="--star-low:0.15; --star-high:0.32; animation-duration:9.1s; animation-delay:-12.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="392.8" cy="95.5" r="0.29" fill="#ffffff" opacity="0.27" style="--star-low:0.17; --star-high:0.36; animation-duration:10.3s; animation-delay:-9.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="320.2" cy="309.2" r="0.53" fill="#ffffff" opacity="0.22" style="--star-low:0.14; --star-high:0.29; animation-duration:14.0s; animation-delay:-10.9s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="220.6" cy="190.5" r="0.65" fill="#ffffff" opacity="0.10" style="--star-low:0.07; --star-high:0.14; animation-duration:9.6s; animation-delay:-10.1s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="392.9" cy="307.1" r="0.68" fill="#00d4ff" opacity="0.15" style="--star-low:0.10; --star-high:0.20; animation-duration:15.5s; animation-delay:-12.0s"/>
+    </g>
+    <g data-cosmic-layer="mid" class="cosmic-drift-mid">
+      <circle class="cosmic-star cosmic-star-mid" cx="332.0" cy="297.1" r="0.60" fill="#a78bfa" opacity="0.20" style="--star-low:0.13; --star-high:0.26; animation-duration:6.5s; animation-delay:-5.1s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="422.1" cy="117.3" r="0.55" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.26; animation-duration:10.1s; animation-delay:-5.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="285.5" cy="290.3" r="0.57" fill="#ffffff" opacity="0.30" style="--star-low:0.19; --star-high:0.40; animation-duration:9.9s; animation-delay:-2.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="116.3" cy="27.5" r="0.84" fill="#ffffff" opacity="0.42" style="--star-low:0.27; --star-high:0.56; animation-duration:7.2s; animation-delay:-3.8s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="458.2" cy="18.3" r="1.03" fill="#ffffff" opacity="0.33" style="--star-low:0.22; --star-high:0.45; animation-duration:10.8s; animation-delay:-3.4s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="51.4" cy="224.7" r="0.84" fill="#ffffff" opacity="0.30" style="--star-low:0.20; --star-high:0.41; animation-duration:9.0s; animation-delay:-1.6s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="598.2" cy="102.7" r="0.58" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:9.9s; animation-delay:-3.4s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="78.7" cy="51.9" r="0.85" fill="#ffffff" opacity="0.18" style="--star-low:0.11; --star-high:0.24; animation-duration:9.1s; animation-delay:-3.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="667.2" cy="286.7" r="0.91" fill="#ffffff" opacity="0.30" style="--star-low:0.19; --star-high:0.40; animation-duration:11.4s; animation-delay:-7.7s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="550.5" cy="6.1" r="0.54" fill="#ffffff" opacity="0.44" style="--star-low:0.29; --star-high:0.60; animation-duration:10.9s; animation-delay:-1.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="493.4" cy="29.7" r="0.79" fill="#ffffff" opacity="0.40" style="--star-low:0.26; --star-high:0.54; animation-duration:7.9s; animation-delay:-2.0s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="800.6" cy="88.3" r="0.54" fill="#00d4ff" opacity="0.16" style="--star-low:0.11; --star-high:0.22; animation-duration:8.6s; animation-delay:-8.5s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="484.8" cy="223.8" r="0.78" fill="#ffffff" opacity="0.25" style="--star-low:0.17; --star-high:0.34; animation-duration:7.9s; animation-delay:-3.5s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="487.2" cy="269.1" r="0.74" fill="#ffffff" opacity="0.40" style="--star-low:0.26; --star-high:0.54; animation-duration:10.4s; animation-delay:-3.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="743.4" cy="83.0" r="0.79" fill="#ffffff" opacity="0.24" style="--star-low:0.15; --star-high:0.32; animation-duration:11.4s; animation-delay:-4.1s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="582.9" cy="107.3" r="0.86" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:9.4s; animation-delay:-10.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="455.1" cy="104.1" r="1.00" fill="#ffffff" opacity="0.24" style="--star-low:0.16; --star-high:0.32; animation-duration:7.0s; animation-delay:-9.9s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="650.9" cy="227.9" r="0.93" fill="#ffffff" opacity="0.39" style="--star-low:0.25; --star-high:0.52; animation-duration:10.9s; animation-delay:-7.5s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="520.4" cy="275.4" r="0.74" fill="#ffffff" opacity="0.19" style="--star-low:0.12; --star-high:0.25; animation-duration:7.1s; animation-delay:-7.0s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="286.9" cy="139.3" r="0.75" fill="#ffffff" opacity="0.27" style="--star-low:0.18; --star-high:0.37; animation-duration:10.9s; animation-delay:-9.9s"/>
+    </g>
+    <g data-cosmic-layer="near" class="cosmic-drift-near">
+      <circle class="cosmic-star cosmic-star-near" cx="208.7" cy="58.7" r="0.89" fill="#ffb020" opacity="0.40" filter="url(#cosmic-hero-jaozindoti-bright-glow)" style="--star-low:0.26; --star-high:0.55; animation-duration:7.6s; animation-delay:-4.6s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="361.8" cy="226.9" r="1.53" fill="#ffffff" opacity="0.52" style="--star-low:0.34; --star-high:0.70; animation-duration:8.4s; animation-delay:-3.7s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="838.2" cy="109.0" r="0.93" fill="#ffffff" opacity="0.42" style="--star-low:0.27; --star-high:0.56; animation-duration:5.5s; animation-delay:-3.8s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="253.7" cy="332.4" r="0.99" fill="#ffffff" opacity="0.32" style="--star-low:0.21; --star-high:0.43; animation-duration:5.6s; animation-delay:-7.4s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="260.2" cy="107.1" r="0.82" fill="#ffffff" opacity="0.47" style="--star-low:0.30; --star-high:0.63; animation-duration:7.3s; animation-delay:-2.2s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="755.6" cy="178.3" r="0.86" fill="#ffffff" opacity="0.55" style="--star-low:0.36; --star-high:0.75; animation-duration:6.2s; animation-delay:-1.1s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="465.9" cy="313.6" r="1.18" fill="#ffffff" opacity="0.61" style="--star-low:0.40; --star-high:0.83; animation-duration:8.0s; animation-delay:-7.8s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="223.3" cy="100.0" r="1.55" fill="#ffffff" opacity="0.52" filter="url(#cosmic-hero-jaozindoti-bright-glow)" style="--star-low:0.34; --star-high:0.70; animation-duration:8.4s; animation-delay:-3.9s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="25.6" cy="152.2" r="0.81" fill="#ffffff" opacity="0.69" style="--star-low:0.45; --star-high:0.92; animation-duration:8.1s; animation-delay:-5.6s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="389.2" cy="267.5" r="1.19" fill="#ffffff" opacity="0.56" style="--star-low:0.36; --star-high:0.75; animation-duration:8.1s; animation-delay:-2.3s"/>
+    </g>
+    <circle class="cosmic-flash" cx="154.7" cy="293.7" r="1.8" fill="#00d4ff" opacity="0.08" filter="url(#cosmic-hero-jaozindoti-bright-glow)" style="animation-delay:-0.0s"/>
+    <circle class="cosmic-flash" cx="45.0" cy="44.5" r="1.8" fill="#a78bfa" opacity="0.08" filter="url(#cosmic-hero-jaozindoti-bright-glow)" style="animation-delay:-4.7s"/>
+  </g>
+  <g data-svg-layer="content">
+    <rect width="850" height="340" rx="16" fill="url(#hero-shade)"/>
+    <path d="M430 323 Q645 270 850 302" fill="none" stroke="url(#horizon-line)" stroke-width="13" opacity="0.08" filter="url(#hero-glow)"/>
+    <path d="M430 323 Q645 270 850 302" fill="none" stroke="url(#horizon-line)" stroke-width="1.2" opacity="0.75"/>
+
+    <g opacity="0.72">
+      <circle cx="648" cy="168" r="100" fill="#00d4ff" opacity="0.05" filter="url(#hero-glow)"/>
+      <circle cx="648" cy="168" r="76" fill="url(#planet-surface)" stroke="#00d4ff" stroke-width="0.8" stroke-opacity="0.35"/>
+      <ellipse cx="648" cy="168" rx="126" ry="46" fill="none" stroke="#00d4ff" stroke-width="0.8" stroke-dasharray="4 8" opacity="0.30" class="hero-orbit"/>
+      <ellipse cx="648" cy="168" rx="102" ry="112" fill="none" stroke="#a78bfa" stroke-width="0.6" stroke-dasharray="3 11" opacity="0.24" class="hero-orbit-reverse"/>
+      <path d="M575 168 Q648 132 721 168 Q648 204 575 168Z" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.18"/>
+      <path d="M648 92 Q615 168 648 244 Q681 168 648 92Z" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.18"/>
+    </g>
+    <line x1="648" y1="168" x2="555" y2="92" stroke="#00d4ff" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <line x1="648" y1="168" x2="680" y2="78" stroke="#a78bfa" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <line x1="648" y1="168" x2="758" y2="145" stroke="#00d4ff" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <line x1="648" y1="168" x2="733" y2="246" stroke="#ffb020" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <line x1="648" y1="168" x2="604" y2="272" stroke="#a78bfa" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <line x1="648" y1="168" x2="522" y2="215" stroke="#ffb020" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>
+    <g class="hero-reveal" style="--hero-delay:0.6s">
+      <circle cx="555" cy="92" r="13" fill="#00d4ff" opacity="0.08"/>
+      <circle cx="555" cy="92" r="4" fill="#00d4ff" opacity="0.92" class="hero-node-pulse" style="--hero-delay:0.6s"/>
+      <circle cx="555" cy="92" r="8" fill="none" stroke="#00d4ff" stroke-width="0.6" opacity="0.35"/>
+      <text x="555" y="117" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">TypeScript</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:0.7s">
+      <circle cx="680" cy="78" r="13" fill="#a78bfa" opacity="0.08"/>
+      <circle cx="680" cy="78" r="4" fill="#a78bfa" opacity="0.92" class="hero-node-pulse" style="--hero-delay:0.7s"/>
+      <circle cx="680" cy="78" r="8" fill="none" stroke="#a78bfa" stroke-width="0.6" opacity="0.35"/>
+      <text x="680" y="103" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">Node.js</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:0.8s">
+      <circle cx="758" cy="145" r="13" fill="#00d4ff" opacity="0.08"/>
+      <circle cx="758" cy="145" r="4" fill="#00d4ff" opacity="0.92" class="hero-node-pulse" style="--hero-delay:0.8s"/>
+      <circle cx="758" cy="145" r="8" fill="none" stroke="#00d4ff" stroke-width="0.6" opacity="0.35"/>
+      <text x="758" y="170" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">Fastify</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:1.0s">
+      <circle cx="733" cy="246" r="13" fill="#ffb020" opacity="0.08"/>
+      <circle cx="733" cy="246" r="4" fill="#ffb020" opacity="0.92" class="hero-node-pulse" style="--hero-delay:1.0s"/>
+      <circle cx="733" cy="246" r="8" fill="none" stroke="#ffb020" stroke-width="0.6" opacity="0.35"/>
+      <text x="733" y="271" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">REST APIs</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:1.1s">
+      <circle cx="604" cy="272" r="13" fill="#a78bfa" opacity="0.08"/>
+      <circle cx="604" cy="272" r="4" fill="#a78bfa" opacity="0.92" class="hero-node-pulse" style="--hero-delay:1.1s"/>
+      <circle cx="604" cy="272" r="8" fill="none" stroke="#a78bfa" stroke-width="0.6" opacity="0.35"/>
+      <text x="604" y="297" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">SQL</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:1.2s">
+      <circle cx="522" cy="215" r="13" fill="#ffb020" opacity="0.08"/>
+      <circle cx="522" cy="215" r="4" fill="#ffb020" opacity="0.92" class="hero-node-pulse" style="--hero-delay:1.2s"/>
+      <circle cx="522" cy="215" r="8" fill="none" stroke="#ffb020" stroke-width="0.6" opacity="0.35"/>
+      <text x="522" y="240" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">PostgreSQL</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:1.3s">
+      <circle cx="648" cy="168" r="13" fill="#00d4ff" opacity="0.08"/>
+      <circle cx="648" cy="168" r="4" fill="#00d4ff" opacity="0.92" class="hero-node-pulse" style="--hero-delay:1.3s"/>
+      <circle cx="648" cy="168" r="8" fill="none" stroke="#00d4ff" stroke-width="0.6" opacity="0.35"/>
+      <text x="648" y="193" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">MySQL</text>
+    </g>
+    <g class="hero-core">
+      <circle cx="648" cy="168" r="31" fill="#00d4ff" opacity="0.10" filter="url(#hero-glow)"/>
+      <circle cx="648" cy="168" r="22" fill="#0f1623" stroke="#00d4ff" stroke-width="1.2"/>
+      <text x="648" y="165" text-anchor="middle" fill="#00d4ff" font-size="11" font-weight="bold" font-family="monospace">BACKEND</text>
+      <text x="648" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">DATA CORE</text>
+    </g>
+
+    <g class="hero-reveal" style="--hero-delay:.08s">
+      <text x="48" y="50" fill="#00d4ff" font-size="10" font-weight="bold" font-family="monospace" letter-spacing="2.4">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
+      <circle cx="34" cy="46" r="3" fill="#00d4ff"/>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.18s">
+      <text x="48" y="93" fill="#f1f5f9" font-size="32" font-weight="bold" font-family="sans-serif">João Henrique Gonçalves</text>
+      <rect x="48" y="106" width="92" height="2" rx="1" fill="#00d4ff"/>
+      <rect x="145" y="106" width="44" height="2" rx="1" fill="#a78bfa" opacity="0.75"/>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.3s">
+      <text x="48" y="139" fill="#94a3b8" font-size="14" font-family="sans-serif">Building production systems with backend, data and automation.</text>
+      <text x="48" y="160" fill="#64748b" font-size="11" font-family="monospace">TypeScript • Node.js • Fastify • SQL • PostgreSQL • REST APIs</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.42s">
+      <rect x="48" y="190" width="146" height="29" rx="14" fill="#00d4ff" opacity="0.09" stroke="#00d4ff" stroke-opacity="0.32"/>
+      <text x="121" y="208" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">PRODUCTION SYSTEMS</text>
+      <rect x="204" y="190" width="138" height="29" rx="14" fill="#a78bfa" opacity="0.08" stroke="#a78bfa" stroke-opacity="0.28"/>
+      <text x="273" y="208" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">DATA-INTENSIVE</text>
+      <rect x="352" y="190" width="112" height="29" rx="14" fill="#ffb020" opacity="0.08" stroke="#ffb020" stroke-opacity="0.28"/>
+      <text x="408" y="208" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">AUTOMATION</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.55s">
+      <text x="48" y="264" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">~192h → ~24s</text>
+      <text x="48" y="282" fill="#00d4ff" font-size="9" font-family="monospace" letter-spacing="1.1">AUTOMATED PROCESSING</text>
+      <line x1="205" y1="250" x2="205" y2="286" stroke="#1a2332"/>
+      <text x="230" y="264" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">R$ 500K+</text>
+      <text x="230" y="282" fill="#a78bfa" font-size="8" font-family="monospace" letter-spacing="1">PROJECTED ANNUAL VALUE</text>
+    </g>
+    <text x="48" y="320" fill="#64748b" font-size="8" font-family="monospace" letter-spacing="1.5">FLORIANÓPOLIS, BRAZIL  //  SYSTEMS • DATA • AUTOMATION</text>
+    <line x1="425" y1="326" x2="425" y2="340" stroke="#00d4ff" opacity="0.45"/>
+    <circle cx="425" cy="326" r="2" fill="#00d4ff" opacity="0.8"/>
+  </g>
+</svg>

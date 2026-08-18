@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="300" viewBox="0 0 850 300">
+  <defs>
+    <style>
+      .cosmic-star {
+        animation: cosmic-twinkle ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .cosmic-drift-far { animation: cosmic-drift-far 34s ease-in-out infinite alternate; }
+      .cosmic-drift-mid { animation: cosmic-drift-mid 27s ease-in-out infinite alternate; }
+      .cosmic-drift-near { animation: cosmic-drift-near 21s ease-in-out infinite alternate; }
+      .cosmic-flash { animation: cosmic-flash 13s ease-in-out infinite; }
+      @keyframes cosmic-twinkle {
+        0%, 100% { opacity: var(--star-low); transform: scale(0.92); }
+        48% { opacity: var(--star-high); transform: scale(1.05); }
+      }
+      @keyframes cosmic-drift-far { from { transform: translate(-2px, 1px); } to { transform: translate(3px, -1px); } }
+      @keyframes cosmic-drift-mid { from { transform: translate(2px, -1px); } to { transform: translate(-3px, 2px); } }
+      @keyframes cosmic-drift-near { from { transform: translate(-1px, -2px); } to { transform: translate(2px, 2px); } }
+      @keyframes cosmic-flash { 0%, 88%, 100% { opacity: 0.08; } 91% { opacity: 0.75; } 94% { opacity: 0.14; } }
+      @media (prefers-reduced-motion: reduce) {
+        svg * { animation: none !important; }
+      }
+    </style>
+    <filter id="cosmic-card-impact-proof-nebula-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="cosmic-card-impact-proof-bright-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.2" result="halo"/>
+      <feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="cosmic-card-impact-proof-clip">
+      <rect x="0" y="0" width="850" height="300" rx="12" ry="12"/>
+    </clipPath>
+    <radialGradient id="value-halo"><stop stop-color="#00d4ff" stop-opacity=".20"/><stop offset="1" stop-color="#00d4ff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="automation-bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#a78bfa" stop-opacity=".12"/><stop offset="1" stop-color="#00d4ff" stop-opacity=".035"/></linearGradient>
+    <style>
+      .impact-enter { opacity:0; animation:impact-enter .8s ease-out var(--impact-delay,0s) forwards; }
+      .impact-breathe { animation:impact-breathe 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+      .impact-orbit { animation:impact-orbit 34s linear infinite; transform-origin:188px 169px; }
+      @keyframes impact-enter { from { opacity:0; transform:translateY(9px); } to { opacity:1; transform:translateY(0); } }
+      @keyframes impact-breathe { 0%,100% { opacity:.55; transform:scale(.97); } 50% { opacity:1; transform:scale(1.04); } }
+      @keyframes impact-orbit { to { transform:rotate(360deg); } }
+    </style>
+  </defs>
+  <rect data-svg-layer="background" width="850" height="300" fill="#0f1623"/>
+  <g data-cosmic-background="card" aria-hidden="true" clip-path="url(#cosmic-card-impact-proof-clip)">
+    <g class="cosmic-nebulae">
+      <circle cx="201.9" cy="121.0" r="63.0" fill="#00d4ff" opacity="0.025" filter="url(#cosmic-card-impact-proof-nebula-blur)"/>
+      <circle cx="285.7" cy="56.4" r="77.9" fill="#a78bfa" opacity="0.031" filter="url(#cosmic-card-impact-proof-nebula-blur)"/>
+    </g>
+    <g class="cosmic-dust" fill="#ffffff" opacity="0.12">
+      <circle cx="248.2" cy="223.4" r="0.20"/>
+      <circle cx="708.5" cy="87.3" r="0.22"/>
+      <circle cx="519.6" cy="105.9" r="0.35"/>
+      <circle cx="291.9" cy="42.2" r="0.41"/>
+      <circle cx="144.2" cy="186.5" r="0.36"/>
+    </g>
+    <g data-cosmic-layer="far" class="cosmic-drift-far">
+      <circle class="cosmic-star cosmic-star-far" cx="311.7" cy="274.1" r="0.50" fill="#00d4ff" opacity="0.11" style="--star-low:0.07; --star-high:0.15; animation-duration:10.7s; animation-delay:-1.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="329.6" cy="52.4" r="0.30" fill="#ffffff" opacity="0.14" style="--star-low:0.09; --star-high:0.19; animation-duration:12.1s; animation-delay:-5.6s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="157.7" cy="29.6" r="0.62" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.27; animation-duration:10.6s; animation-delay:-7.4s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="833.5" cy="148.6" r="0.30" fill="#ffffff" opacity="0.25" style="--star-low:0.16; --star-high:0.34; animation-duration:10.2s; animation-delay:-7.5s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="394.8" cy="33.5" r="0.49" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:14.7s; animation-delay:-11.2s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="839.2" cy="222.6" r="0.29" fill="#ffffff" opacity="0.13" style="--star-low:0.09; --star-high:0.18; animation-duration:14.9s; animation-delay:-2.0s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="579.7" cy="128.5" r="0.62" fill="#ffffff" opacity="0.20" style="--star-low:0.13; --star-high:0.26; animation-duration:14.5s; animation-delay:-3.8s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="528.6" cy="265.3" r="0.48" fill="#ffffff" opacity="0.10" style="--star-low:0.06; --star-high:0.13; animation-duration:15.5s; animation-delay:-10.1s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="832.2" cy="251.7" r="0.58" fill="#ffffff" opacity="0.23" style="--star-low:0.15; --star-high:0.31; animation-duration:12.5s; animation-delay:-3.7s"/>
+      <circle class="cosmic-star cosmic-star-far" cx="598.7" cy="212.4" r="0.43" fill="#ffffff" opacity="0.23" style="--star-low:0.15; --star-high:0.32; animation-duration:11.9s; animation-delay:-15.5s"/>
+    </g>
+    <g data-cosmic-layer="mid" class="cosmic-drift-mid">
+      <circle class="cosmic-star cosmic-star-mid" cx="13.6" cy="232.3" r="0.66" fill="#a78bfa" opacity="0.15" style="--star-low:0.10; --star-high:0.21; animation-duration:7.7s; animation-delay:-8.0s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="147.9" cy="226.4" r="0.82" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:10.3s; animation-delay:-4.2s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="823.5" cy="209.3" r="1.04" fill="#ffffff" opacity="0.25" style="--star-low:0.16; --star-high:0.33; animation-duration:6.6s; animation-delay:-5.0s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="191.6" cy="238.5" r="0.94" fill="#ffffff" opacity="0.26" style="--star-low:0.17; --star-high:0.35; animation-duration:8.0s; animation-delay:-11.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="443.4" cy="16.6" r="0.69" fill="#ffffff" opacity="0.41" style="--star-low:0.26; --star-high:0.55; animation-duration:11.7s; animation-delay:-9.3s"/>
+      <circle class="cosmic-star cosmic-star-mid" cx="123.4" cy="63.1" r="0.73" fill="#ffffff" opacity="0.41" style="--star-low:0.27; --star-high:0.56; animation-duration:10.9s; animation-delay:-0.6s"/>
+    </g>
+    <g data-cosmic-layer="near" class="cosmic-drift-near">
+      <circle class="cosmic-star cosmic-star-near" cx="83.3" cy="216.6" r="1.37" fill="#ffb020" opacity="0.68" filter="url(#cosmic-card-impact-proof-bright-glow)" style="--star-low:0.44; --star-high:0.92; animation-duration:5.6s; animation-delay:-4.8s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="108.1" cy="211.9" r="1.42" fill="#ffffff" opacity="0.30" style="--star-low:0.19; --star-high:0.40; animation-duration:6.3s; animation-delay:-7.0s"/>
+      <circle class="cosmic-star cosmic-star-near" cx="817.5" cy="163.9" r="1.38" fill="#ffffff" opacity="0.49" style="--star-low:0.32; --star-high:0.67; animation-duration:6.2s; animation-delay:-0.5s"/>
+    </g>
+    <circle class="cosmic-flash" cx="105.5" cy="246.4" r="1.8" fill="#00d4ff" opacity="0.08" filter="url(#cosmic-card-impact-proof-bright-glow)" style="animation-delay:-0.0s"/>
+  </g>
+  <g data-svg-layer="content">
+    <line x1="425" y1="0" x2="425" y2="17" stroke="#00d4ff" opacity=".42"/>
+    <text x="35" y="36" fill="#64748b" font-size="10" font-family="monospace" letter-spacing="3">PROOF OF IMPACT</text>
+    <text x="815" y="36" text-anchor="end" fill="#64748b" font-size="8" font-family="monospace">SOFTWARE ENGINEERING • AUTOMATION • DATA</text>
+    <line x1="35" y1="52" x2="815" y2="52" stroke="#1a2332" opacity=".5"/>
+
+    <g class="impact-enter" style="--impact-delay:.08s">
+      <rect x="35" y="70" width="285" height="202" rx="16" fill="#080c14" stroke="#00d4ff" stroke-opacity=".32"/>
+      <circle cx="188" cy="169" r="91" fill="url(#value-halo)" class="impact-breathe"/>
+      <circle cx="188" cy="169" r="68" fill="none" stroke="#00d4ff" stroke-width=".8" stroke-dasharray="3 9" opacity=".36" class="impact-orbit"/>
+      <text x="58" y="94" fill="#00d4ff" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.2">BUSINESS IMPACT • PROJECTED</text>
+      <text x="177" y="158" text-anchor="middle" fill="#f1f5f9" font-size="39" font-weight="bold" font-family="sans-serif">R$ 500K+</text>
+      <text x="177" y="183" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">PROJECTED ANNUAL</text>
+      <text x="177" y="199" text-anchor="middle" fill="#00d4ff" font-size="9" font-weight="bold" font-family="monospace">OPERATIONAL VALUE</text>
+      <text x="177" y="235" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="sans-serif">Potential value from released human capacity</text>
+      <text x="177" y="252" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">ESTIMATE • NOT REVENUE</text>
+    </g>
+
+    <g class="impact-enter" style="--impact-delay:.20s">
+      <rect x="340" y="70" width="475" height="91" rx="14" fill="url(#automation-bar)" stroke="#a78bfa" stroke-opacity=".30"/>
+      <text x="365" y="92" fill="#a78bfa" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1">AUTOMATION</text>
+      <text x="365" y="132" fill="#f1f5f9" font-size="29" font-weight="bold" font-family="sans-serif">~99.997%</text>
+      <text x="365" y="149" fill="#a78bfa" font-size="8" font-weight="bold" font-family="monospace">PROCESSING TIME REDUCTION</text>
+      <line x1="535" y1="86" x2="535" y2="145" stroke="#1a2332"/>
+      <text x="560" y="111" fill="#f1f5f9" font-size="17" font-weight="bold" font-family="sans-serif">~192 HOURS → ~24 SECONDS</text>
+      <text x="560" y="137" fill="#00d4ff" font-size="11" font-weight="bold" font-family="monospace">~28,800× FASTER THAN MANUAL REFERENCE</text>
+    </g>
+
+    <g class="impact-enter" style="--impact-delay:.32s">
+      <rect x="340" y="176" width="294" height="96" rx="14" fill="#080c14" stroke="#ffb020" stroke-opacity=".28"/>
+      <text x="365" y="199" fill="#ffb020" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1">SCALE + COMPLEXITY</text>
+      <text x="365" y="239" fill="#f1f5f9" font-size="31" font-weight="bold" font-family="sans-serif">~24s</text>
+      <text x="452" y="222" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">AUTOMATED ANALYSIS</text>
+      <text x="452" y="240" fill="#94a3b8" font-size="10" font-family="monospace">~4K RECORDS • 108 FIELDS</text>
+      <text x="452" y="257" fill="#94a3b8" font-size="10" font-family="monospace">~53 BUSINESS RULES / ANALYSIS</text>
+    </g>
+
+    <g class="impact-enter" style="--impact-delay:.44s">
+      <rect x="649" y="176" width="166" height="96" rx="14" fill="#080c14" stroke="#00d4ff" stroke-opacity=".28"/>
+      <text x="669" y="199" fill="#00d4ff" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1">ANALYSIS QUALITY</text>
+      <text x="669" y="236" fill="#f1f5f9" font-size="27" font-weight="bold" font-family="sans-serif">+3.03%</text>
+      <text x="669" y="254" fill="#00d4ff" font-size="7" font-weight="bold" font-family="monospace">MORE INCONSISTENCIES</text>
+      <text x="669" y="265" fill="#00d4ff" font-size="7" font-weight="bold" font-family="monospace">DETECTED</text>
+    </g>
+    <line x1="425" y1="285" x2="425" y2="300" stroke="#a78bfa" opacity=".42"/>
+  </g>
+</svg>
