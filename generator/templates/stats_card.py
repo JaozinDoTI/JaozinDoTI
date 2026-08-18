@@ -34,7 +34,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
       </g>
       <text x="0" y="2" text-anchor="middle" fill="{icon_color}" font-size="28" font-weight="bold" font-family="sans-serif" opacity="0.35" filter="url(#num-glow)">{value}</text>
       <text x="0" y="2" text-anchor="middle" fill="{theme['text_bright']}" font-size="28" font-weight="bold" font-family="sans-serif">{value}</text>
-      <text x="0" y="21" text-anchor="middle" fill="{theme['text_faint']}" font-size="12" font-family="monospace" letter-spacing="1">{label}</text>
+      <text x="0" y="20" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="1">{label}</text>
     </g>""")
 
         # Vertical divider between cells (not after last)
@@ -48,12 +48,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
     cells_str = "\n".join(cells)
     dividers_str = "\n".join(dividers)
 
-    summary = ", ".join(
-        f"{format_number(stats.get(key, 0))} {METRIC_LABELS.get(key, key)}" for key in metrics
-    )
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="stats-title stats-desc">
-  <title id="stats-title">Atividade no GitHub</title>
-  <desc id="stats-desc">{summary}. Métricas atualizadas automaticamente.</desc>
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
     <style>
       .metric-icon {{
@@ -62,9 +57,6 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
       @keyframes count-glow {{
         0%, 100% {{ fill-opacity: 0.7; }}
         50% {{ fill-opacity: 1; }}
-      }}
-      @media (prefers-reduced-motion: reduce) {{
-        .metric-icon {{ animation: none !important; }}
       }}
     </style>
     <filter id="num-glow" x="-30%" y="-30%" width="160%" height="160%">
@@ -77,7 +69,7 @@ def render(stats: dict, metrics: list, theme: dict) -> str:
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
 
   <!-- Section title -->
-  <text x="30" y="38" fill="{theme['text_faint']}" font-size="12" font-family="monospace" letter-spacing="3">ATIVIDADE NO GITHUB</text>
+  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">MISSION TELEMETRY</text>
 
   <!-- Dividers -->
 {dividers_str}

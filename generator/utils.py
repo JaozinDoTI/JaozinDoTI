@@ -17,20 +17,7 @@ DEFAULT_THEME = {
     "axon_amber": "#ffb020",
     "text_bright": "#f1f5f9",
     "text_dim": "#94a3b8",
-    "text_faint": "#8b949e",
-}
-
-# Light-mode companion palette used by GitHub's <picture> color-scheme support.
-DEFAULT_LIGHT_THEME = {
-    "void": "#f6f8fa",
-    "nebula": "#ffffff",
-    "star_dust": "#d0d7de",
-    "synapse_cyan": "#0969da",
-    "dendrite_violet": "#8250df",
-    "axon_amber": "#9a6700",
-    "text_bright": "#1f2328",
-    "text_dim": "#424a53",
-    "text_faint": "#57606a",
+    "text_faint": "#64748b",
 }
 
 

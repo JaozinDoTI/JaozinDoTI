@@ -28,11 +28,11 @@ def _build_language_bars(lang_data, theme, left_x, start_y):
         delay = f"{i * 0.1}s"
 
         bar_lines.append(f"""    <g transform="translate({left_x}, {y})">
-      <text x="0" y="0" fill="{theme['text_dim']}" font-size="12" font-family="sans-serif" dominant-baseline="middle">{esc(lang['name'])}</text>
+      <text x="0" y="0" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif" dominant-baseline="middle">{esc(lang['name'])}</text>
       <rect x="110" y="-6" width="{bar_w}" height="12" rx="3" fill="{lang['color']}" opacity="0.85">
         <animate attributeName="width" from="0" to="{bar_w}" dur="0.8s" begin="{delay}" fill="freeze"/>
       </rect>
-      <text x="320" y="0" fill="{theme['text_faint']}" font-size="12" font-family="monospace" dominant-baseline="middle">{lang['percentage']}%</text>
+      <text x="320" y="0" fill="{theme['text_faint']}" font-size="10" font-family="monospace" dominant-baseline="middle">{lang['percentage']}%</text>
     </g>""")
 
     return "\n".join(bar_lines)
@@ -176,14 +176,14 @@ def _build_radar_labels_and_dots(sector_data, galaxy_arms, rcx, rcy, radius, the
 
         parts.append(
             f'    <text x="{lx:.1f}" y="{ly:.1f}" fill="{sec["color"]}" '
-            f'font-size="11" font-family="monospace" text-anchor="{anchor}" '
+            f'font-size="9" font-family="monospace" text-anchor="{anchor}" '
             f'dominant-baseline="middle">{esc(sec["name"])}</text>'
         )
         # Item count below name
         count_y = ly + 12
         parts.append(
             f'    <text x="{lx:.1f}" y="{count_y:.1f}" fill="{theme["text_faint"]}" '
-            f'font-size="10" font-family="monospace" text-anchor="{anchor}" '
+            f'font-size="8" font-family="monospace" text-anchor="{anchor}" '
             f'dominant-baseline="middle">({sec["items"]})</text>'
         )
 
@@ -289,29 +289,21 @@ def render(
 
     radar_str = "\n".join(radar_parts)
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}" role="img" aria-labelledby="tech-title tech-desc">
-  <title id="tech-title">Linguagens dos repositórios e áreas de foco</title>
-  <desc id="tech-desc">Distribuição por bytes de código nos repositórios públicos, acompanhada das áreas de foco selecionadas por João.</desc>
-  <defs>
-    <style>
-      @media (prefers-reduced-motion: reduce) {{
-        * {{ animation: none !important; }}
-      }}
-    </style>
-  </defs>
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
+  <defs/>
 
   <!-- Card background -->
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="12" ry="12"
         fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
 
   <!-- Left: Language Telemetry -->
-  <text x="30" y="38" fill="{theme['text_faint']}" font-size="12" font-family="monospace" letter-spacing="2">LINGUAGENS NOS REPOSITÓRIOS</text>
+  <text x="30" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">LANGUAGE TELEMETRY</text>
 
   <!-- Vertical divider -->
   <line x1="425" y1="25" x2="425" y2="{height - 25}" stroke="{theme['star_dust']}" stroke-width="1" opacity="0.4"/>
 
   <!-- Right: Focus Sectors -->
-  <text x="460" y="38" fill="{theme['text_faint']}" font-size="12" font-family="monospace" letter-spacing="2">ÁREAS DE FOCO</text>
+  <text x="460" y="38" fill="{theme['text_faint']}" font-size="11" font-family="monospace" letter-spacing="3">FOCUS SECTORS</text>
 
 {bars_str}
 

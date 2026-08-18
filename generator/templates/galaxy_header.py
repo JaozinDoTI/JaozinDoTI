@@ -401,9 +401,7 @@ def render(
     core = _build_galaxy_core(CENTER_X, CENTER_Y, theme, initial)
 
     # ── Assemble SVG ──
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="galaxy-title galaxy-desc">
-  <title id="galaxy-title">{esc(name)} — {esc(tagline)}</title>
-  <desc id="galaxy-desc">Perfil profissional de {esc(name)} em uma galáxia que conecta suas tecnologias e áreas de atuação.</desc>
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
     <style>
       .star-bg {{
@@ -447,11 +445,6 @@ def render(
         15% {{ opacity: 0.6; transform: translate(var(--shoot-tx), var(--shoot-ty)); }}
         20% {{ opacity: 0; transform: translate(var(--shoot-tx), var(--shoot-ty)); }}
         100% {{ opacity: 0; }}
-      }}
-      @media (prefers-reduced-motion: reduce) {{
-        *, .star-bg, .star-mid, .star-fg, .core-ring, .core-ring-inner, .shooting-star {{
-          animation: none !important;
-        }}
       }}
     </style>
 
@@ -519,7 +512,7 @@ def render(
 {core}
 
   <!-- 12. Profile text -->
-  <text x="{CENTER_X}" y="30" text-anchor="middle" fill="{theme['text_bright']}" font-size="26" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
-  <text x="{CENTER_X}" y="52" text-anchor="middle" fill="{theme['text_dim']}" font-size="15" font-family="sans-serif">{esc(tagline)}</text>
-  <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="12" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
+  <text x="{CENTER_X}" y="26" text-anchor="middle" fill="{theme['text_bright']}" font-size="20" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
+  <text x="{CENTER_X}" y="44" text-anchor="middle" fill="{theme['text_dim']}" font-size="12" font-family="sans-serif">{esc(tagline)}</text>
+  <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
 </svg>"""

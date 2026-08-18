@@ -52,7 +52,7 @@ def run_init():
 
     # Validate
     try:
-        with open(path, encoding="utf-8") as f:
+        with open(path) as f:
             raw = yaml.safe_load(f)
         validate_config(raw)
         print(f"\n✅ Config saved and validated: {path}")
@@ -68,9 +68,8 @@ def _detect_existing_config() -> dict | None:
     if not os.path.isfile(path):
         return None
     try:
-        with open(path, encoding="utf-8") as f:
-            loaded = yaml.safe_load(f)
-            return loaded if isinstance(loaded, dict) else None
+        with open(path) as f:
+            return yaml.safe_load(f)
     except Exception:
         return None
 
@@ -349,7 +348,7 @@ def _save_config(config: dict) -> str:
         "#   python -m generator.main --demo\n\n"
     )
 
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, "w") as f:
         f.write(header)
         yaml.dump(config, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 

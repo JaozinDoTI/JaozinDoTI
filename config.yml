@@ -2,15 +2,11 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Desenvolvedor Backend • PHP • Laravel • Java"
+  tagline: "Full-Stack Developer | Backend Engineering | Laravel"
   company: ""
-  location: "Florianópolis, SC — Brasil"
-  bio: "Desenvolvedor focado em aplicações web, organização de código e evolução de sistemas reais."
-  philosophy: "Código claro, evolução constante."
-
-social:
-  linkedin: "joao-goncalves-ti"
-  website: "https://tryhackme.com/p/Jaozim"
+  location: ""
+  bio: ""
+  philosophy: ""
 
 galaxy_arms:
   - name: "Backend Engineering"
@@ -35,7 +31,7 @@ galaxy_arms:
 projects:
   - repo: "JaozinDoTI/camup-system"
     arm: 0
-    description: "Sistema colaborativo com entregas reais, refatoração, desempenho e organização de fluxo."
+    description: "Collaborative real-world system with feature delivery, refactoring, performance improvements, and workflow organization."
 
 stats:
   metrics:

@@ -1,8 +1,6 @@
 """Entry point for the Galaxy Profile README generator."""
 
 import argparse
-import copy
-import json
 import logging
 import os
 import sys
@@ -13,13 +11,8 @@ import yaml
 from generator.config import ConfigError, validate_config
 from generator.github_api import GitHubAPI
 from generator.svg_builder import SVGBuilder
-from generator.social_preview import render_social_preview
-from generator.utils import DEFAULT_LIGHT_THEME
 
 logger = logging.getLogger(__name__)
-
-STATS_START = "<!-- stats:start -->"
-STATS_END = "<!-- stats:end -->"
 
 DEMO_STATS = {"commits": 1847, "stars": 342, "prs": 156, "issues": 89, "repos": 42}
 DEMO_LANGUAGES = {
@@ -32,32 +25,6 @@ DEMO_LANGUAGES = {
     "Dockerfile": 15000,
     "CSS": 10000,
 }
-
-
-def update_readme_stats(readme_path: str, stats: dict[str, int]) -> None:
-    """Update the accessible Markdown summary between the managed stats markers."""
-    try:
-        with open(readme_path, encoding="utf-8") as file:
-            content = file.read()
-    except FileNotFoundError:
-        return
-
-    if STATS_START not in content or STATS_END not in content:
-        return
-
-    labels = {
-        "commits": "Commits",
-        "stars": "Stars recebidas",
-        "prs": "Pull requests",
-        "issues": "Issues",
-        "repos": "Repositórios públicos",
-    }
-    cells = " | ".join(f"**{stats.get(key, 0)}** {label}" for key, label in labels.items())
-    replacement = f"{STATS_START}\n{cells}\n{STATS_END}"
-    before, remainder = content.split(STATS_START, 1)
-    _, after = remainder.split(STATS_END, 1)
-    with open(readme_path, "w", encoding="utf-8") as file:
-        file.write(before + replacement + after)
 
 
 def generate(args):
@@ -77,7 +44,7 @@ def generate(args):
         config_path = os.path.join(os.path.dirname(__file__), "..", "config.yml")
 
     try:
-        with open(config_path, encoding="utf-8") as f:
+        with open(config_path) as f:
             config = yaml.safe_load(f)
     except FileNotFoundError:
         if demo:
@@ -93,14 +60,6 @@ def generate(args):
         sys.exit(1)
 
     username = config["username"]
-    output_dir = os.path.join(os.path.dirname(__file__), "..", "assets", "generated")
-    os.makedirs(output_dir, exist_ok=True)
-    cache_path = os.path.join(output_dir, "profile-data.json")
-    try:
-        with open(cache_path, encoding="utf-8") as file:
-            cached_data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        cached_data = {}
 
     logger.info("Generating profile SVGs for @%s...", username)
 
@@ -116,53 +75,38 @@ def generate(args):
         try:
             stats = api.fetch_stats()
         except (requests.exceptions.RequestException, ValueError, KeyError) as e:
-            logger.warning("Could not fetch stats (%s). Using cached data when available.", e)
-            stats = cached_data.get(
-                "stats", {"commits": 0, "stars": 0, "prs": 0, "issues": 0, "repos": 0}
-            )
+            logger.warning("Could not fetch stats (%s). Using defaults.", e)
+            stats = {"commits": 0, "stars": 0, "prs": 0, "issues": 0, "repos": 0}
 
         logger.info("Fetching languages...")
         try:
             languages = api.fetch_languages()
         except (requests.exceptions.RequestException, ValueError, KeyError) as e:
-            logger.warning("Could not fetch languages (%s). Using cached data when available.", e)
-            languages = cached_data.get("languages", {})
+            logger.warning("Could not fetch languages (%s). Using defaults.", e)
+            languages = {}
 
     logger.info("Stats: %s", stats)
     logger.info("Languages: %d found", len(languages))
 
-    with open(cache_path, "w", encoding="utf-8") as file:
-        json.dump({"stats": stats, "languages": languages}, file, ensure_ascii=False, indent=2)
-
     # Build SVGs
     builder = SVGBuilder(config, stats, languages)
-    light_config = copy.deepcopy(config)
-    light_config["theme"] = DEFAULT_LIGHT_THEME.copy()
-    light_builder = SVGBuilder(light_config, stats, languages)
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "assets", "generated")
+    os.makedirs(output_dir, exist_ok=True)
+
     svgs = {
         "galaxy-header.svg": builder.render_galaxy_header(),
         "stats-card.svg": builder.render_stats_card(),
         "tech-stack.svg": builder.render_tech_stack(),
         "projects-constellation.svg": builder.render_projects_constellation(),
-        "galaxy-header-light.svg": light_builder.render_galaxy_header(),
-        "stats-card-light.svg": light_builder.render_stats_card(),
-        "tech-stack-light.svg": light_builder.render_tech_stack(),
-        "projects-constellation-light.svg": light_builder.render_projects_constellation(),
     }
 
     for filename, content in svgs.items():
         path = os.path.join(output_dir, filename)
-        with open(path, "w", encoding="utf-8") as f:
+        with open(path, "w") as f:
             f.write(content)
         logger.info("Wrote %s", path)
 
-    social_preview_path = os.path.join(output_dir, "social-preview.png")
-    render_social_preview(config, social_preview_path)
-    logger.info("Wrote %s", social_preview_path)
-    readme_path = os.path.join(os.path.dirname(__file__), "..", "README.md")
-    update_readme_stats(readme_path, stats)
-    logger.info("Updated accessible stats in %s", readme_path)
-    logger.info("Done! 8 SVGs and 1 social preview generated.")
+    logger.info("Done! 4 SVGs generated.")
 
 
 def main():
