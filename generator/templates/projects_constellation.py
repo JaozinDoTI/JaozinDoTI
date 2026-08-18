@@ -1,355 +1,88 @@
-"""SVG template: Featured Systems / Projects Constellation (850x220)."""
+"""Featured systems presented as real products, not repository badges."""
 
 from generator.templates.cosmic_background import render as render_cosmic_background
-from generator.templates.foreground_animation import render as render_foreground_animation
 from generator.utils import esc, resolve_arm_colors, wrap_text
 
-WIDTH, HEIGHT = 850, 220
+WIDTH, HEIGHT = 850, 310
 
 
-def _build_defs(n, card_width, gap, card_colors, theme):
-    """Build all defs (filters, gradients, clip paths, CSS)."""
-    defs_parts = []
-
-    # Glow filters per card
-    for i in range(n):
-        color = card_colors[i]
-        defs_parts.append(
-            f"""    <filter id="proj-glow-{i}" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="4" in="SourceGraphic" result="blur"/>
-      <feFlood flood-color="{color}" flood-opacity="0.6" result="color"/>
-      <feComposite in="color" in2="blur" operator="in" result="glow"/>
-      <feMerge>
-        <feMergeNode in="glow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>"""
-        )
-
-    # Card background gradients
-    for i in range(n):
-        color = card_colors[i]
-        defs_parts.append(f"""    <linearGradient id="card-bg-{i}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="{theme['star_dust']}" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="{theme['nebula']}" stop-opacity="0.9"/>
-    </linearGradient>""")
-
-    # Connection line gradient (between card colors)
-    if n >= 2:
-        defs_parts.append(f"""    <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="{card_colors[0]}" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="{card_colors[-1]}" stop-opacity="0.4"/>
-    </linearGradient>""")
-
-    # Clip paths per card
-    for i in range(n):
-        card_x = gap + i * (card_width + gap)
-        defs_parts.append(f"""    <clipPath id="card-clip-{i}">
-      <rect x="{card_x}" y="55" width="{card_width}" height="140" rx="8" ry="8"/>
-    </clipPath>""")
-
-    # CSS keyframes
-    defs_parts.append("""    <style>
-      @keyframes twinkle {
-        0%, 100% { opacity: 0.1; }
-        50% { opacity: 0.6; }
-      }
-      @keyframes orbit {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      @keyframes card-appear {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes scan-sweep {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(160px); }
-      }
-    </style>""")
-
-    return "\n".join(defs_parts)
-
-
-def _build_grid_overlay(width, height, theme):
-    """Build the horizontal and vertical dashed grid lines."""
-    grid_lines = []
-    # Horizontal dashed lines every ~40px
-    for y in range(40, height, 40):
-        grid_lines.append(
-            f'  <line x1="12" y1="{y}" x2="{width - 12}" y2="{y}" '
-            f'stroke="{theme["text_faint"]}" stroke-width="0.5" '
-            f'stroke-dasharray="4,8" opacity="0.12"/>'
-        )
-    # Vertical dashed lines every ~80px
-    for x in range(80, width, 80):
-        grid_lines.append(
-            f'  <line x1="{x}" y1="12" x2="{x}" y2="{height - 12}" '
-            f'stroke="{theme["text_faint"]}" stroke-width="0.5" '
-            f'stroke-dasharray="4,8" opacity="0.08"/>'
-        )
-    return "\n".join(grid_lines)
-
-
-def _build_connections(n, card_width, gap):
-    """Build connection lines between cards."""
-    conn_lines = []
-    if n >= 2:
-        for i in range(n - 1):
-            x1 = gap + i * (card_width + gap) + card_width / 2
-            x2 = gap + (i + 1) * (card_width + gap) + card_width / 2
-            conn_lines.append(
-                f'  <line x1="{x1:.1f}" y1="85" x2="{x2:.1f}" y2="85" '
-                f'stroke="url(#conn-grad)" stroke-width="1" '
-                f'stroke-dasharray="6,4" opacity="0.5"/>'
-            )
-    return "\n".join(conn_lines)
-
-
-def _build_title_area(n, width, height, theme):
-    """Build the corner brackets, title, status dot, and status text."""
-    title_parts = []
-    # Corner brackets (4 L-shaped pairs)
-    bk = theme["text_faint"]
-    bl = 16  # bracket arm length
-    title_parts.append(
-        f'  <g opacity="0.4">'
-        # Top-left
-        f'\n    <polyline points="5,{bl + 5} 5,5 {bl + 5},5" fill="none" stroke="{bk}" stroke-width="1.5"/>'
-        # Top-right
-        f'\n    <polyline points="{width - bl - 5},5 {width - 5},5 {width - 5},{bl + 5}" fill="none" stroke="{bk}" stroke-width="1.5"/>'
-        # Bottom-left
-        f'\n    <polyline points="5,{height - bl - 5} 5,{height - 5} {bl + 5},{height - 5}" fill="none" stroke="{bk}" stroke-width="1.5"/>'
-        # Bottom-right
-        f'\n    <polyline points="{width - bl - 5},{height - 5} {width - 5},{height - 5} {width - 5},{height - bl - 5}" fill="none" stroke="{bk}" stroke-width="1.5"/>'
-        f"\n  </g>"
-    )
-    # Section title
-    title_parts.append(
-        f'  <text x="30" y="38" fill="{theme["text_faint"]}" font-size="11" '
-        f'font-family="monospace" letter-spacing="3">PROJETOS EM DESTAQUE</text>'
-    )
-    # Pulsing status dot
-    cyan = theme.get("synapse_cyan", "#00d4ff")
-    title_parts.append(
-        f'  <circle cx="218" cy="34" r="3" fill="{cyan}" opacity="0.8" '
-        f'class="svg-pulse-opacity" style="--motion-low:.4; --motion-high:1; --motion-duration:2s"/>'
-    )
-    # Right-aligned status text
-    title_parts.append(
-        f'  <text x="{width - 30}" y="38" fill="{theme["text_faint"]}" font-size="10" '
-        f'font-family="monospace" text-anchor="end" opacity="0.5">{n} PROJETOS</text>'
-    )
-    return "\n".join(title_parts)
-
-
-def _build_project_card(i, proj, arm, color, card_width, card_x, theme):
-    """Build a single project card."""
-    card_cx = card_x + card_width / 2
-    repo_name = proj["repo"].split("/")[-1] if "/" in proj["repo"] else proj["repo"]
-    desc = proj.get("description", "")
-    # Wrap description to fit card width (approx chars)
-    max_chars = int(card_width / 7.5)
-    desc_lines = wrap_text(desc, max_chars)
-
-    delay = f"{i * 0.3}s"
-
-    card_parts = []
-    card_parts.append(
-        f'  <g class="project-card" opacity="0" style="animation: card-appear 0.6s ease {delay} forwards">'
-    )
-
-    # Card container
-    card_parts.append(
-        f'    <rect x="{card_x}" y="55" width="{card_width}" height="140" rx="8" ry="8" '
-        f'fill="url(#card-bg-{i})" stroke="{theme["star_dust"]}" stroke-width="1"/>'
-    )
-
-    # Scan line clipped inside the card.
-    card_parts.append(f'    <g clip-path="url(#card-clip-{i})">')
-    card_parts.append(
-        f'      <rect x="{card_x}" y="55" width="{card_width}" height="2" '
-        f'fill="{color}" opacity="0.1" class="svg-scan-y" '
-        f'style="--motion-distance:140px; --motion-duration:6s"/>'
-    )
-    card_parts.append("    </g>")
-
-    # Star indicator — orbital ring + glow + core + center
-    # Orbital ring (rotating dashed circle)
-    card_parts.append(
-        f'    <circle cx="{card_cx}" cy="85" r="14" fill="none" '
-        f'stroke="{color}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5" '
-        f'class="svg-rotate" style="--motion-duration:12s"/>'
-    )
-    # Glow halo
-    card_parts.append(
-        f'    <circle cx="{card_cx}" cy="85" r="8" fill="{color}" '
-        f'opacity="0.15" filter="url(#proj-glow-{i})"/>'
-    )
-    # Pulsing core
-    card_parts.append(
-        f'    <circle cx="{card_cx}" cy="85" r="5" fill="{color}" opacity="0.7" '
-        f'class="svg-pulse-core" style="--motion-low:.5; --motion-high:.9; '
-        f'--motion-duration:3s; --motion-delay:{delay}"/>'
-    )
-    # White center dot
-    card_parts.append(f'    <circle cx="{card_cx}" cy="85" r="2" fill="#ffffff" opacity="0.9"/>')
-
-    # Project name (centered)
-    card_parts.append(
-        f'    <text x="{card_cx}" y="111" fill="{theme["text_bright"]}" '
-        f'font-size="14" font-weight="bold" font-family="sans-serif" '
-        f'text-anchor="middle">{esc(repo_name)}</text>'
-    )
-
-    # Description lines (centered)
-    for j, line in enumerate(desc_lines[:2]):
-        y_pos = 129 + j * 15
-        card_parts.append(
-            f'    <text x="{card_cx}" y="{y_pos}" fill="{theme["text_dim"]}" '
-            f'font-size="11" font-family="sans-serif" '
-            f'text-anchor="middle">{esc(line)}</text>'
-        )
-
-    # Category tag (pill shape)
-    tag_text = arm["name"]
-    tag_width = len(tag_text) * 7 + 16
-    tag_x = card_cx - tag_width / 2
-    card_parts.append(
-        f'    <rect x="{tag_x}" y="163" width="{tag_width}" height="18" rx="9" ry="9" '
-        f'fill="{color}" opacity="0.12"/>'
-    )
-    card_parts.append(
-        f'    <text x="{card_cx}" y="175" fill="{color}" '
-        f'font-size="9" font-family="monospace" text-anchor="middle" '
-        f'opacity="0.85">{esc(tag_text)}</text>'
-    )
-
-    card_parts.append("  </g>")
-    return "\n".join(card_parts)
-
-
-def _build_scan_line(width, theme):
-    """Build the global scan line."""
-    cyan = theme.get("synapse_cyan", "#00d4ff")
-    return (
-        f'  <rect x="12" y="50" width="{width - 24}" height="1.5" '
-        f'fill="{cyan}" opacity="0.08" class="svg-scan-y" '
-        f'style="--motion-distance:160px; --motion-duration:6s"/>'
+def _text_lines(text: str, x: int, y: int, max_chars: int, theme: dict, size: int = 10, limit: int = 2) -> str:
+    return "\n".join(
+        f'      <text x="{x}" y="{y + index * 15}" fill="{theme["text_dim"]}" font-size="{size}" font-family="sans-serif">{esc(line)}</text>'
+        for index, line in enumerate(wrap_text(text, max_chars)[:limit])
     )
 
 
 def render(projects: list, galaxy_arms: list, theme: dict) -> str:
-    """Render the projects constellation SVG.
+    cosmic = render_cosmic_background("featured-systems", WIDTH, HEIGHT, theme, preset="card")
+    cyan, violet, amber = theme["synapse_cyan"], theme["dendrite_violet"], theme["axon_amber"]
+    colors = resolve_arm_colors(galaxy_arms, theme) if galaxy_arms else [cyan, violet, amber]
+    featured = projects[0] if projects else {"repo": "Featured system"}
+    secondary = projects[1] if len(projects) > 1 else None
+    featured_color = colors[featured.get("arm", 0) % len(colors)]
+    featured_name = featured.get("repo", "System").split("/")[-1]
 
-    Args:
-        projects: list of project dicts with repo, arm, description
-        galaxy_arms: list of arm configs for color mapping
-        theme: color palette dict
-    """
-    all_arm_colors = resolve_arm_colors(galaxy_arms, theme)
-
-    n = min(len(projects), 3)
-    cosmic = render_cosmic_background(
-        "projects-constellation", WIDTH, HEIGHT, theme, preset="card"
-    )
-    foreground_animation = render_foreground_animation(
-        ".project-card { opacity: 1 !important; transform: none !important; }"
-    )
-
-    if n == 0:
-        # No projects — render an empty card
-        return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
-  <defs>
-{cosmic.defs}
-{foreground_animation}
-  </defs>
-  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
-        fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
-{cosmic.elements}
-  <g data-svg-layer="content">
-  <text x="{WIDTH / 2}" y="{HEIGHT / 2}" fill="{theme['text_faint']}" font-size="12"
-        font-family="monospace" text-anchor="middle" dominant-baseline="middle">No featured projects configured</text>
-  </g>
-</svg>"""
-
-    # Adaptive card sizing
-    card_width = 340 if n == 2 else 240
-    total_cards_width = card_width * n
-    gap = (WIDTH - total_cards_width) / (n + 1)
-
-    # Resolve arm indices and colors per card
-    card_arms = []
-    card_colors = []
-    for i in range(n):
-        proj = projects[i]
-        arm_idx = proj.get("arm", 0)
-        arm_idx = arm_idx if arm_idx < len(galaxy_arms) else 0
-        card_arms.append(arm_idx)
-        card_colors.append(all_arm_colors[arm_idx])
-
-    # ── Layer 0: Defs ──
-    defs_str = _build_defs(n, card_width, gap, card_colors, theme)
-
-    # ── Layer 1: Background rect ──
-    bg = (
-        f'  <rect data-svg-layer="background" x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" '
-        f'rx="12" ry="12" fill="{theme["nebula"]}" '
-        f'stroke="{theme["star_dust"]}" stroke-width="1"/>'
-    )
-
-    # ── Layer 2: Star field (25 particles) ──
-    # ── Layer 3: Faint grid overlay ──
-    grid_str = _build_grid_overlay(WIDTH, HEIGHT, theme)
-
-    # ── Layer 4: Connection lines between cards ──
-    conn_str = _build_connections(n, card_width, gap)
-
-    # ── Layer 5: Title area ──
-    title_str = _build_title_area(n, WIDTH, HEIGHT, theme)
-
-    # ── Layer 6: Project cards ──
-    cards = []
-    for i in range(n):
-        proj = projects[i]
-        arm = galaxy_arms[card_arms[i]]
-        color = card_colors[i]
-        card_x = gap + i * (card_width + gap)
-
-        cards.append(_build_project_card(i, proj, arm, color, card_width, card_x, theme))
-
-    cards_str = "\n".join(cards)
-
-    # ── Layer 7: Global scan line ──
-    scan_line = _build_scan_line(WIDTH, theme)
+    secondary_markup = ""
+    if secondary:
+        secondary_color = colors[secondary.get("arm", 0) % len(colors)]
+        secondary_name = secondary.get("repo", "Project").split("/")[-1]
+        secondary_markup = f"""    <g class="product-enter" style="--product-delay:.35s">
+      <rect x="560" y="70" width="255" height="210" rx="14" fill="{theme['void']}" stroke="{secondary_color}" stroke-opacity="0.30"/>
+      <circle cx="590" cy="101" r="17" fill="{secondary_color}" opacity="0.08"/>
+      <circle cx="590" cy="101" r="5" fill="{secondary_color}" class="product-pulse"/>
+      <text x="620" y="99" fill="{theme['text_bright']}" font-size="16" font-weight="bold" font-family="sans-serif">{esc(secondary_name)}</text>
+      <text x="620" y="115" fill="{secondary_color}" font-size="8" font-family="monospace" letter-spacing="1">COLLABORATIVE WEB SYSTEM</text>
+      <text x="582" y="148" fill="{theme['text_faint']}" font-size="8" font-weight="bold" font-family="monospace">CHALLENGE</text>
+{_text_lines(secondary.get('problem', secondary.get('description', '')), 582, 167, 35, theme, 10, 2)}
+      <text x="582" y="206" fill="{theme['text_faint']}" font-size="8" font-weight="bold" font-family="monospace">ENGINEERING</text>
+{_text_lines(secondary.get('solution', ''), 582, 225, 35, theme, 10, 2)}
+      <rect x="580" y="250" width="215" height="20" rx="10" fill="{secondary_color}" opacity="0.08"/>
+      <text x="687" y="263" text-anchor="middle" fill="{secondary_color}" font-size="8" font-family="monospace">{esc(secondary.get('stack', ''))}</text>
+    </g>"""
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
 {cosmic.defs}
-{foreground_animation}
-{defs_str}
+    <linearGradient id="featured-glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{featured_color}" stop-opacity=".11"/><stop offset=".6" stop-color="{theme['void']}" stop-opacity=".88"/></linearGradient>
+    <style>
+      .product-enter {{ opacity:0; animation:product-enter .8s ease-out var(--product-delay,0s) forwards; }}
+      .product-pulse {{ animation:product-pulse 4s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }}
+      .product-orbit {{ animation:product-orbit 36s linear infinite; transform-origin:472px 117px; }}
+      @keyframes product-enter {{ from {{ opacity:0; transform:translateY(10px); }} to {{ opacity:1; transform:translateY(0); }} }}
+      @keyframes product-pulse {{ 0%,100% {{ opacity:.5; transform:scale(.85); }} 50% {{ opacity:1; transform:scale(1.18); }} }}
+      @keyframes product-orbit {{ to {{ transform:rotate(360deg); }} }}
+    </style>
   </defs>
-
-  <!-- Background -->
-{bg}
-
-  <!-- Shared cosmic background -->
+  <rect data-svg-layer="background" width="{WIDTH}" height="{HEIGHT}" fill="{theme['nebula']}"/>
 {cosmic.elements}
   <g data-svg-layer="content">
+    <line x1="425" y1="0" x2="425" y2="17" stroke="{violet}" opacity="0.4"/>
+    <text x="35" y="36" fill="{theme['text_faint']}" font-size="10" font-family="monospace" letter-spacing="3">FEATURED SYSTEMS</text>
+    <text x="815" y="36" text-anchor="end" fill="{theme['text_faint']}" font-size="8" font-family="monospace">PROBLEM → SOFTWARE → IMPACT</text>
+    <line x1="35" y1="52" x2="815" y2="52" stroke="{theme['star_dust']}" opacity="0.5"/>
 
-  <!-- Grid overlay -->
-{grid_str}
+    <g class="product-enter" style="--product-delay:.12s">
+      <rect x="35" y="70" width="500" height="210" rx="14" fill="url(#featured-glow)" stroke="{featured_color}" stroke-opacity="0.38"/>
+      <rect x="35" y="70" width="5" height="210" rx="2" fill="{featured_color}" opacity="0.55"/>
+      <text x="65" y="97" fill="{featured_color}" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.5">FLAGSHIP • PRODUCTION AUTOMATION</text>
+      <text x="65" y="130" fill="{theme['text_bright']}" font-size="25" font-weight="bold" font-family="sans-serif">{esc(featured_name)}</text>
+      <text x="65" y="151" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">{esc(featured.get('description', ''))}</text>
 
-  <!-- Connection lines -->
-{conn_str}
+      <text x="65" y="185" fill="{theme['text_faint']}" font-size="8" font-weight="bold" font-family="monospace">PROBLEM</text>
+      <text x="65" y="204" fill="{theme['text_bright']}" font-size="11" font-family="sans-serif">{esc(featured.get('problem', ''))}</text>
+      <text x="65" y="230" fill="{theme['text_faint']}" font-size="8" font-weight="bold" font-family="monospace">BUILT</text>
+      <text x="65" y="249" fill="{theme['text_bright']}" font-size="11" font-family="sans-serif">{esc(featured.get('solution', ''))}</text>
+      <rect x="65" y="259" width="285" height="14" rx="7" fill="{featured_color}" opacity="0.07"/>
+      <text x="207" y="269" text-anchor="middle" fill="{featured_color}" font-size="7" font-family="monospace">{esc(featured.get('stack', ''))}</text>
 
-  <!-- Title area -->
-{title_str}
-
-  <!-- Project cards -->
-{cards_str}
-
-  <!-- Global scan line -->
-{scan_line}
+      <circle cx="464" cy="130" r="55" fill="{featured_color}" opacity="0.06"/>
+      <circle cx="464" cy="130" r="40" fill="none" stroke="{featured_color}" stroke-width="0.8" stroke-dasharray="3 8" opacity="0.40" class="product-orbit"/>
+      <circle cx="464" cy="130" r="25" fill="{theme['void']}" stroke="{featured_color}" stroke-opacity="0.5"/>
+      <text x="464" y="126" text-anchor="middle" fill="{theme['text_bright']}" font-size="17" font-weight="bold" font-family="sans-serif">~99.99%</text>
+      <text x="464" y="143" text-anchor="middle" fill="{featured_color}" font-size="7" font-weight="bold" font-family="monospace">LESS MANUAL WORK</text>
+      <path d="M365 204 C420 204 431 184 464 173" fill="none" stroke="{featured_color}" stroke-width=".8" stroke-dasharray="3 6" opacity=".35"/>
+    </g>
+{secondary_markup}
+    <line x1="425" y1="294" x2="425" y2="310" stroke="{cyan}" opacity="0.4"/>
   </g>
 </svg>"""

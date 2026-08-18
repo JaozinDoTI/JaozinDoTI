@@ -50,7 +50,7 @@ class SVGBuilder:
 
     def render_expertise_card(self) -> str:
         return expertise_card.render(
-            items=self.config.get("recruiter_focus", []),
+            config=self.config.get("technology_constellation", {}),
             theme=self.theme,
         )
 

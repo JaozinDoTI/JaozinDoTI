@@ -1,354 +1,127 @@
-"""SVG template: Galaxy Header — the signature spiral galaxy banner (850x280)."""
-
-import math
+"""Signature profile hero: software engineering, data and space."""
 
 from generator.templates.cosmic_background import render as render_cosmic_background
-from generator.templates.foreground_animation import render as render_foreground_animation
-from generator.utils import esc, resolve_arm_colors, spiral_points
+from generator.utils import esc
 
-# ── Module-level constants ──
-WIDTH, HEIGHT = 850, 280
-CENTER_X, CENTER_Y = 425, 155
-MAX_RADIUS = 220
-SPIRAL_TURNS = 0.85
-NUM_POINTS = 30
-X_SCALE, Y_SCALE = 1.5, 0.38
-START_ANGLES = [25, 150, 265]
+WIDTH, HEIGHT = 850, 340
 
 
-def _build_glow_filters(galaxy_arms, arm_colors):
-    """Build the star glow filters, one per arm."""
-    glow_filters = []
-    for i, _arm in enumerate(galaxy_arms):
-        color = arm_colors[i]
-        glow_filters.append(
-            f'    <filter id="star-glow-{i}" x="-100%" y="-100%" width="300%" height="300%">\n'
-            f'      <feGaussianBlur stdDeviation="3" result="blur"/>\n'
-            f'      <feFlood flood-color="{color}" flood-opacity="0.5" result="color"/>\n'
-            f'      <feComposite in="color" in2="blur" operator="in" result="glow"/>\n'
-            f"      <feMerge>\n"
-            f'        <feMergeNode in="glow"/>\n'
-            f'        <feMergeNode in="SourceGraphic"/>\n'
-            f"      </feMerge>\n"
-            f"    </filter>"
-        )
-    return "\n".join(glow_filters)
+def _node(x: int, y: int, label: str, color: str, delay: float, anchor: str = "middle") -> str:
+    text_x = x if anchor == "middle" else x + (15 if anchor == "start" else -15)
+    return f"""    <g class="hero-reveal" style="--hero-delay:{delay:.1f}s">
+      <circle cx="{x}" cy="{y}" r="13" fill="{color}" opacity="0.08"/>
+      <circle cx="{x}" cy="{y}" r="4" fill="{color}" opacity="0.92" class="hero-node-pulse" style="--hero-delay:{delay:.1f}s"/>
+      <circle cx="{x}" cy="{y}" r="8" fill="none" stroke="{color}" stroke-width="0.6" opacity="0.35"/>
+      <text x="{text_x}" y="{y + 25}" text-anchor="{anchor}" fill="{color}" font-size="9" font-weight="bold" font-family="monospace">{esc(label)}</text>
+    </g>"""
 
 
-def _points_to_path(points):
-    """Build a quadratic Bezier SVG path string from a list of (x, y) points."""
-    d = f"M {points[0][0]:.1f} {points[0][1]:.1f}"
-    for j in range(1, len(points)):
-        px, py = points[j - 1]
-        x, y = points[j]
-        cpx = (px + x) / 2
-        cpy = (py + y) / 2
-        d += f" Q {px:.1f} {py:.1f} {cpx:.1f} {cpy:.1f}"
-    d += f" L {points[-1][0]:.1f} {points[-1][1]:.1f}"
-    return d
-
-
-def _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points):
-    """Build arm paths (segmented fade) and arm particles."""
-    arm_paths = []
-    arm_particles = []
-    segment_count = 4
-    opacity_steps = [0.50, 0.40, 0.30, 0.20]
-    width_steps = [2.0, 1.7, 1.4, 1.1]
-
-    for arm_idx, _arm in enumerate(galaxy_arms):
-        color = arm_colors[arm_idx]
-        points = all_arm_points[arm_idx]
-
-        if len(points) < 2:
-            continue
-
-        # Split into segments (Step 4)
-        pts_per_seg = len(points) // segment_count
-        for seg in range(segment_count):
-            start_i = seg * pts_per_seg
-            end_i = min(start_i + pts_per_seg + 1, len(points))
-            seg_pts = points[start_i:end_i]
-
-            if len(seg_pts) < 2:
-                continue
-
-            seg_d = _points_to_path(seg_pts)
-
-            op = opacity_steps[seg]
-            sw = width_steps[seg]
-            arm_paths.append(
-                f'    <path d="{seg_d}" fill="none" stroke="{color}" '
-                f'stroke-width="{sw:.1f}" opacity="{op:.2f}" stroke-linecap="round" '
-                f'class="svg-pulse-opacity" style="--motion-low:{op - 0.1:.2f}; '
-                f'--motion-high:{op + 0.1:.2f}; --motion-duration:8s; --motion-delay:{arm_idx}s"/>'
-            )
-
-        # Arm particles — 2 per arm (Step 7)
-    return "\n".join(arm_paths), "\n".join(arm_particles)
-
-
-def _build_tech_labels(galaxy_arms, arm_colors, all_arm_points, cx, cy):
-    """Build tech dots, leader lines, and labels with radial placement."""
-    arm_dots = []
-    outer_start = 8  # Only use outer 65% of spiral (indices 8-27 of 30)
-
-    for arm_idx, arm in enumerate(galaxy_arms):
-        color = arm_colors[arm_idx]
-        points = all_arm_points[arm_idx]
-        items = arm.get("items", [])
-
-        if not items:
-            continue
-
-        # Distribute items across outer portion of spiral
-        available = len(points) - outer_start - 2  # leave last 2 points free
-        spacing = max(1, available // max(len(items), 1))
-
-        for i, item in enumerate(items):
-            pt_idx = min(outer_start + i * spacing, len(points) - 1)
-            px, py = points[pt_idx]
-
-            # Radial direction from core (Step 3)
-            dx = px - cx
-            dy = py - cy
-            dist = math.sqrt(dx * dx + dy * dy) or 1
-            nx = dx / dist
-            ny = dy / dist
-
-            # Label position: 18px outward from dot
-            label_x = px + nx * 18
-            label_y = py + ny * 18
-
-            # Dynamic text-anchor based on position
-            if dx > 20:
-                anchor = "start"
-            elif dx < -20:
-                anchor = "end"
-            else:
-                anchor = "middle"
-
-            # Dot with opacity pulse animation (Step 7)
-            arm_dots.append(
-                f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="2.5" fill="{color}" opacity="0.85" '
-                f'class="svg-pulse-opacity" style="--motion-low:.85; --motion-high:1; '
-                f'--motion-duration:5s; --motion-delay:{i * 0.7}s"/>'
-            )
-
-            # Leader line — dashed, subtle (Step 3)
-            arm_dots.append(
-                f'    <line x1="{px:.1f}" y1="{py:.1f}" x2="{label_x:.1f}" y2="{label_y:.1f}" '
-                f'stroke="{color}" stroke-width="0.5" opacity="0.25" stroke-dasharray="2 2"/>'
-            )
-
-            # Label glow (blurred duplicate behind — Step 9)
-            arm_dots.append(
-                f'    <text x="{label_x:.1f}" y="{label_y + 3:.1f}" text-anchor="{anchor}" '
-                f'fill="{color}" font-size="9" font-family="monospace" opacity="0.2" '
-                f'filter="url(#label-glow)">{esc(item)}</text>'
-            )
-
-            # Main label (Step 9)
-            arm_dots.append(
-                f'    <text x="{label_x:.1f}" y="{label_y + 3:.1f}" text-anchor="{anchor}" '
-                f'fill="{color}" font-size="9" font-family="monospace" opacity="0.85">{esc(item)}</text>'
-            )
-
-    return "\n".join(arm_dots)
-
-
-def _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points):
-    """Build project star circles."""
-    project_stars = []
-    for proj in projects[:3]:
-        arm_idx = proj.get("arm", 0) % len(galaxy_arms)
-        color = arm_colors[arm_idx]
-        points = all_arm_points[arm_idx]
-
-        pt_idx = min(len(points) - 3, 24)
-        px, py = points[pt_idx]
-        delay = f"{arm_idx * 0.8}s"
-
-        project_stars.append(
-            f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{color}" opacity="0.6" '
-            f'filter="url(#star-glow-{arm_idx})" class="svg-pulse-opacity" '
-            f'style="--motion-low:.6; --motion-high:1; --motion-duration:4s; --motion-delay:{delay}"/>'
-        )
-
-    return "\n".join(project_stars)
-
-
-def _build_orbital_rings(cx, cy, theme):
-    """Build the orbital ring ellipses."""
-    return (
-        f'    <ellipse cx="{cx}" cy="{cy}" rx="55" ry="18" fill="none" '
-        f'stroke="{theme["synapse_cyan"]}" stroke-width="0.6" opacity="0.15" '
-        f'stroke-dasharray="4 6" class="svg-rotate" style="--motion-duration:20s"/>\n'
-        f'    <ellipse cx="{cx}" cy="{cy}" rx="75" ry="24" fill="none" '
-        f'stroke="{theme["dendrite_violet"]}" stroke-width="0.5" opacity="0.1" '
-        f'stroke-dasharray="3 8" class="svg-counter-rotate" style="--motion-duration:30s"/>'
-    )
-
-
-def _build_galaxy_core(cx, cy, theme, initial):
-    """Build the core layers (haze, glow, rings, solid core, initial)."""
-    return (
-        f"    <!-- Outer haze -->\n"
-        f'    <circle cx="{cx}" cy="{cy}" r="40" fill="url(#core-haze-gradient)" opacity="0.4"/>\n'
-        f"    <!-- Inner glow -->\n"
-        f'    <circle cx="{cx}" cy="{cy}" r="24" fill="url(#core-inner-gradient)" opacity="0.6"/>\n'
-        f"    <!-- Outer ring -->\n"
-        f'    <ellipse cx="{cx}" cy="{cy}" rx="20" ry="18" fill="none" '
-        f'stroke="{theme["synapse_cyan"]}" stroke-width="1.2" opacity="0.55" '
-        f'stroke-dasharray="5 3" class="core-ring"/>\n'
-        f"    <!-- Inner ring -->\n"
-        f'    <circle cx="{cx}" cy="{cy}" r="14" fill="none" '
-        f'stroke="{theme["dendrite_violet"]}" stroke-width="0.8" opacity="0.4" class="core-ring-inner"/>\n'
-        f"    <!-- Solid core -->\n"
-        f'    <circle cx="{cx}" cy="{cy}" r="11" fill="{theme["nebula"]}" '
-        f'stroke="{theme["star_dust"]}" stroke-width="0.5"/>\n'
-        f"    <!-- Bright center dot -->\n"
-        f'    <circle cx="{cx}" cy="{cy}" r="3" fill="{theme["synapse_cyan"]}" '
-        f'filter="url(#core-bright-glow)" opacity="0.9"/>\n'
-        f"    <!-- Initial -->\n"
-        f'    <text x="{cx}" y="{cy + 5}" text-anchor="middle" fill="{theme["synapse_cyan"]}" '
-        f'font-size="14" font-weight="bold" font-family="monospace">{initial}</text>'
-    )
-
-
-def render(
-    config: dict,
-    theme: dict,
-    galaxy_arms: list,
-    projects: list,
-) -> str:
-    """Render the galaxy header SVG.
-
-    Args:
-        config: full profile config dict
-        theme: color palette dict
-        galaxy_arms: list of arm configs
-        projects: list of project dicts
-    """
-    username = config.get("username", "user")
+def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
     profile = config.get("profile", {})
-    name = profile.get("name", username)
-    tagline = profile.get("tagline", "")
-    philosophy = profile.get("philosophy", "")
-    initial = name[0].upper() if name else "?"
-
-    arm_colors = resolve_arm_colors(galaxy_arms, theme)
-
-    # ── Spiral geometry (Step 2) ──
-    # Generate arm points for all arms
-    all_arm_points = [
-        spiral_points(
-            CENTER_X,
-            CENTER_Y,
-            START_ANGLES[arm_idx % len(START_ANGLES)],
-            NUM_POINTS,
-            MAX_RADIUS,
-            SPIRAL_TURNS,
-            X_SCALE,
-            Y_SCALE,
-        )
-        for arm_idx in range(len(galaxy_arms))
-    ]
-
-    # ── Defs: filters, gradients, animations ──
-
-    # Glow filters for project stars
-    glow_filters_str = _build_glow_filters(galaxy_arms, arm_colors)
-
-    # Label glow filter (Step 9)
-    label_glow_filter = (
-        '    <filter id="label-glow" x="-20%" y="-20%" width="140%" height="140%">\n'
-        '      <feGaussianBlur stdDeviation="2" result="blur"/>\n'
-        "    </filter>"
+    name = profile.get("name", config.get("username", "Developer"))
+    tagline = profile.get("tagline", "Backend Developer | Data & Automation")
+    cosmic = render_cosmic_background(config.get("username", "profile"), WIDTH, HEIGHT, theme, preset="hero")
+    cyan = theme["synapse_cyan"]
+    violet = theme["dendrite_violet"]
+    amber = theme["axon_amber"]
+    stack = config.get("technology_constellation", {})
+    core = stack.get("core", ["TypeScript", "Node.js", "Fastify", "REST APIs"])
+    data = stack.get("data", ["SQL", "PostgreSQL", "MySQL"])
+    labels = (core + data)[:7]
+    positions = [(555, 92), (680, 78), (758, 145), (733, 246), (604, 272), (522, 215), (648, 168)]
+    colors = [cyan, violet, cyan, amber, violet, amber, cyan]
+    nodes = [_node(x, y, labels[i], colors[i], 0.6 + i * 0.12) for i, (x, y) in enumerate(positions) if i < len(labels)]
+    connections = "\n".join(
+        f'    <line x1="648" y1="168" x2="{x}" y2="{y}" stroke="{colors[i]}" stroke-width="0.8" opacity="0.24" stroke-dasharray="3 6"/>'
+        for i, (x, y) in enumerate(positions[:-1])
+        if i < len(labels) - 1
     )
 
-    # Core glow filter
-    core_glow_filter = (
-        '    <filter id="core-bright-glow" x="-100%" y="-100%" width="300%" height="300%">\n'
-        '      <feGaussianBlur stdDeviation="4"/>\n'
-        "    </filter>"
-    )
-
-    # ── Build all layers via helper functions ──
-    cosmic = render_cosmic_background(username, WIDTH, HEIGHT, theme, preset="hero")
-    foreground_animation = render_foreground_animation()
-    arm_paths_str, arm_particles_str = _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points)
-    arm_dots_str = _build_tech_labels(galaxy_arms, arm_colors, all_arm_points, CENTER_X, CENTER_Y)
-    project_stars_str = _build_project_stars(projects, galaxy_arms, arm_colors, all_arm_points)
-    orbital_rings = _build_orbital_rings(CENTER_X, CENTER_Y, theme)
-    core = _build_galaxy_core(CENTER_X, CENTER_Y, theme, initial)
-
-    # ── Assemble SVG ──
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
   <defs>
 {cosmic.defs}
-{foreground_animation}
+    <linearGradient id="hero-shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="{theme['void']}" stop-opacity="0.97"/>
+      <stop offset="58%" stop-color="{theme['void']}" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="{theme['void']}" stop-opacity="0.08"/>
+    </linearGradient>
+    <radialGradient id="planet-surface" cx="35%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="{cyan}" stop-opacity="0.24"/>
+      <stop offset="45%" stop-color="{violet}" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="{theme['void']}" stop-opacity="0.94"/>
+    </radialGradient>
+    <linearGradient id="horizon-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="{cyan}" stop-opacity="0"/>
+      <stop offset="50%" stop-color="{cyan}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="{violet}" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="hero-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
     <style>
-      .core-ring {{
-        animation: pulse-core 3s ease-in-out infinite;
-        transform-origin: {CENTER_X}px {CENTER_Y}px;
-      }}
-      .core-ring-inner {{
-        animation: pulse-core 3s ease-in-out infinite 1.5s;
-        transform-origin: {CENTER_X}px {CENTER_Y}px;
-      }}
-      @keyframes pulse-core {{
-        0%, 100% {{ opacity: 0.3; transform: scale(1); }}
-        50% {{ opacity: 0.8; transform: scale(1.06); }}
-      }}
+      .hero-reveal {{ opacity:0; animation:hero-reveal .9s ease-out var(--hero-delay,0s) forwards; }}
+      .hero-node-pulse {{ animation:hero-node 4s ease-in-out var(--hero-delay,0s) infinite; transform-box:fill-box; transform-origin:center; }}
+      .hero-orbit {{ animation:hero-orbit 34s linear infinite; transform-origin:648px 168px; }}
+      .hero-orbit-reverse {{ animation:hero-orbit 48s linear infinite reverse; transform-origin:648px 168px; }}
+      .hero-core {{ animation:hero-core 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }}
+      @keyframes hero-reveal {{ from {{ opacity:0; transform:translateY(8px); }} to {{ opacity:1; transform:translateY(0); }} }}
+      @keyframes hero-node {{ 0%,100% {{ opacity:.55; transform:scale(.88); }} 50% {{ opacity:1; transform:scale(1.15); }} }}
+      @keyframes hero-orbit {{ to {{ transform:rotate(360deg); }} }}
+      @keyframes hero-core {{ 0%,100% {{ opacity:.72; transform:scale(.96); }} 50% {{ opacity:1; transform:scale(1.05); }} }}
     </style>
-
-{label_glow_filter}
-{core_glow_filter}
-
-    <radialGradient id="core-haze-gradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="{theme['synapse_cyan']}" stop-opacity="0.5"/>
-      <stop offset="50%" stop-color="{theme['dendrite_violet']}" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="{theme['synapse_cyan']}" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="core-inner-gradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="40%" stop-color="{theme['synapse_cyan']}" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="{theme['synapse_cyan']}" stop-opacity="0"/>
-    </radialGradient>
-
-{glow_filters_str}
   </defs>
-
-  <!-- 1. Background -->
-  <rect data-svg-layer="background" x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="12" ry="12" fill="{theme['void']}"/>
-
-  <!-- 2. Shared cosmic background -->
+  <rect data-svg-layer="background" width="{WIDTH}" height="{HEIGHT}" rx="16" fill="{theme['void']}"/>
 {cosmic.elements}
   <g data-svg-layer="content">
+    <rect width="{WIDTH}" height="{HEIGHT}" rx="16" fill="url(#hero-shade)"/>
+    <path d="M430 323 Q645 270 850 302" fill="none" stroke="url(#horizon-line)" stroke-width="13" opacity="0.08" filter="url(#hero-glow)"/>
+    <path d="M430 323 Q645 270 850 302" fill="none" stroke="url(#horizon-line)" stroke-width="1.2" opacity="0.75"/>
 
-  <!-- 6. Spiral arm paths (segmented fade) -->
-{arm_paths_str}
+    <g opacity="0.72">
+      <circle cx="648" cy="168" r="100" fill="{cyan}" opacity="0.05" filter="url(#hero-glow)"/>
+      <circle cx="648" cy="168" r="76" fill="url(#planet-surface)" stroke="{cyan}" stroke-width="0.8" stroke-opacity="0.35"/>
+      <ellipse cx="648" cy="168" rx="126" ry="46" fill="none" stroke="{cyan}" stroke-width="0.8" stroke-dasharray="4 8" opacity="0.30" class="hero-orbit"/>
+      <ellipse cx="648" cy="168" rx="102" ry="112" fill="none" stroke="{violet}" stroke-width="0.6" stroke-dasharray="3 11" opacity="0.24" class="hero-orbit-reverse"/>
+      <path d="M575 168 Q648 132 721 168 Q648 204 575 168Z" fill="none" stroke="{cyan}" stroke-width="0.5" opacity="0.18"/>
+      <path d="M648 92 Q615 168 648 244 Q681 168 648 92Z" fill="none" stroke="{violet}" stroke-width="0.5" opacity="0.18"/>
+    </g>
+{connections}
+{chr(10).join(nodes)}
+    <g class="hero-core">
+      <circle cx="648" cy="168" r="31" fill="{cyan}" opacity="0.10" filter="url(#hero-glow)"/>
+      <circle cx="648" cy="168" r="22" fill="{theme['nebula']}" stroke="{cyan}" stroke-width="1.2"/>
+      <text x="648" y="165" text-anchor="middle" fill="{cyan}" font-size="11" font-weight="bold" font-family="monospace">BACKEND</text>
+      <text x="648" y="180" text-anchor="middle" fill="{theme['text_dim']}" font-size="9" font-family="monospace">DATA CORE</text>
+    </g>
 
-  <!-- 7. Arm particles -->
-{arm_particles_str}
-
-  <!-- 8. Tech dots + leader lines + labels -->
-{arm_dots_str}
-
-  <!-- 9. Project stars -->
-{project_stars_str}
-
-  <!-- 10. Orbital rings -->
-{orbital_rings}
-
-  <!-- 11. Galaxy core -->
-{core}
-
-  <!-- 12. Profile text -->
-  <text x="{CENTER_X}" y="30" text-anchor="middle" fill="{theme['text_bright']}" font-size="24" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
-  <text x="{CENTER_X}" y="50" text-anchor="middle" fill="{theme['text_dim']}" font-size="13" font-family="sans-serif">{esc(tagline)}</text>
-  <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
+    <g class="hero-reveal" style="--hero-delay:.08s">
+      <text x="48" y="50" fill="{cyan}" font-size="10" font-weight="bold" font-family="monospace" letter-spacing="2.4">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
+      <circle cx="34" cy="46" r="3" fill="{cyan}"/>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.18s">
+      <text x="48" y="93" fill="{theme['text_bright']}" font-size="32" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
+      <rect x="48" y="106" width="92" height="2" rx="1" fill="{cyan}"/>
+      <rect x="145" y="106" width="44" height="2" rx="1" fill="{violet}" opacity="0.75"/>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.3s">
+      <text x="48" y="139" fill="{theme['text_dim']}" font-size="14" font-family="sans-serif">Building production systems with backend, data and automation.</text>
+      <text x="48" y="160" fill="{theme['text_faint']}" font-size="11" font-family="monospace">TypeScript • Node.js • Fastify • SQL • PostgreSQL • REST APIs</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.42s">
+      <rect x="48" y="190" width="146" height="29" rx="14" fill="{cyan}" opacity="0.09" stroke="{cyan}" stroke-opacity="0.32"/>
+      <text x="121" y="208" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">PRODUCTION SYSTEMS</text>
+      <rect x="204" y="190" width="138" height="29" rx="14" fill="{violet}" opacity="0.08" stroke="{violet}" stroke-opacity="0.28"/>
+      <text x="273" y="208" text-anchor="middle" fill="{violet}" font-size="9" font-weight="bold" font-family="monospace">DATA-INTENSIVE</text>
+      <rect x="352" y="190" width="112" height="29" rx="14" fill="{amber}" opacity="0.08" stroke="{amber}" stroke-opacity="0.28"/>
+      <text x="408" y="208" text-anchor="middle" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace">AUTOMATION</text>
+    </g>
+    <g class="hero-reveal" style="--hero-delay:.55s">
+      <text x="48" y="264" fill="{theme['text_bright']}" font-size="24" font-weight="bold" font-family="sans-serif">~99.99%</text>
+      <text x="48" y="282" fill="{cyan}" font-size="9" font-family="monospace" letter-spacing="1.3">LESS HUMAN WORK</text>
+      <line x1="164" y1="250" x2="164" y2="286" stroke="{theme['star_dust']}"/>
+      <text x="190" y="264" fill="{theme['text_bright']}" font-size="24" font-weight="bold" font-family="sans-serif">9.5×</text>
+      <text x="190" y="282" fill="{violet}" font-size="9" font-family="monospace" letter-spacing="1.3">FASTER PROCESSING</text>
+    </g>
+    <text x="48" y="320" fill="{theme['text_faint']}" font-size="8" font-family="monospace" letter-spacing="1.5">FLORIANÓPOLIS, BRAZIL  //  SYSTEMS • DATA • AUTOMATION</text>
+    <line x1="425" y1="326" x2="425" y2="340" stroke="{cyan}" opacity="0.45"/>
+    <circle cx="425" cy="326" r="2" fill="{cyan}" opacity="0.8"/>
   </g>
 </svg>"""

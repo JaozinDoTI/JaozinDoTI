@@ -12,15 +12,36 @@ social:
   linkedin: "joaohenrique-goncalves"
 
 impact:
-  - value: "≈ 99,99%"
-    label: "MENOS TEMPO HUMANO"
-    detail: "em tarefas específicas automatizadas"
-  - value: "89,46%"
-    label: "EXPORTAÇÃO MAIS RÁPIDA"
-    detail: "ganho de performance de 9,49×"
-  - value: "18,25 s"
-    label: "PROCESSAMENTO EM LOTE"
-    detail: "4.000 registros × 108 colunas"
+  - value: "~99.99%"
+    label: "LESS MANUAL WORK"
+    detail: "in automated workflow steps"
+  - value: "9.5×"
+    label: "FASTER PROCESSING"
+    detail: "after performance optimization"
+  - value: "-89.46%"
+    label: "EXPORT TIME"
+    detail: "measured execution reduction"
+  - value: "+3.03%"
+    label: "MORE ISSUES DETECTED"
+    detail: "compared with manual analysis"
+
+technology_constellation:
+  core:
+    - "TypeScript"
+    - "Node.js"
+    - "Fastify"
+    - "REST APIs"
+  data:
+    - "SQL"
+    - "PostgreSQL"
+    - "MySQL"
+  satellites:
+    - "React 19"
+    - "Vite"
+    - "Python"
+    - "PHP / Laravel"
+    - "Zod"
+    - "Docker"
 
 recruiter_focus:
   - value: "BACKEND"
@@ -34,15 +55,15 @@ recruiter_focus:
     detail: "fluxos internos e integrações"
 
 case_study:
-  title: "CASE • AUTOMAÇÃO E PROCESSAMENTO DE DADOS"
-  status: "SISTEMA EM PRODUÇÃO"
-  problem_title: "PROCESSO MANUAL"
-  problem: "Análise manual em grande escala"
-  role_title: "RESPONSABILIDADE TÉCNICA"
-  role: "Backend, dados e automação"
-  outcome_title: "SOFTWARE AUTOMATIZADO"
-  outcome: "Fluxo automatizado e rastreável"
-  stack: "PYTHON • SQL • PROCESSAMENTO EM LOTE • REGRAS DE NEGÓCIO • AUTOMAÇÃO"
+  title: "PRODUCTION CASE • DATA & AUTOMATION"
+  status: "RUNNING IN PRODUCTION"
+  problem_title: "MANUAL OPERATIONS"
+  problem: "High-volume analysis with complex rules"
+  role_title: "TECHNICAL OWNERSHIP"
+  role: "Architecture, backend, data and integrations"
+  outcome_title: "AUTOMATED SOFTWARE"
+  outcome: "Fast, traceable and consistent workflow"
+  stack: "PYTHON • SQL • BATCH PROCESSING • BUSINESS RULES • AUTOMATION"
 
 galaxy_arms:
   - name: "Backend"
@@ -67,10 +88,18 @@ galaxy_arms:
 projects:
   - repo: "PRISMA"
     arm: 2
-    description: "Plataforma interna em produção que automatiza validações complexas e processa grandes volumes de dados."
+    description: "Production platform for high-volume data validation and complex business rules."
+    problem: "Manual, high-volume data analysis"
+    solution: "Automated validation and processing engine"
+    impact: "~99.99% less human work in automated steps"
+    stack: "PYTHON • SQL • DATA PROCESSING • AUTOMATION"
   - repo: "JaozinDoTI/camup-system"
     arm: 0
-    description: "Sistema web colaborativo com atuação em backend, refatoração, performance e evolução de funcionalidades."
+    description: "Collaborative web system with backend evolution, refactoring and performance work."
+    problem: "Complex collaborative workflows"
+    solution: "Backend evolution and feature delivery"
+    impact: "Production-oriented engineering"
+    stack: "PHP • LARAVEL • JAVASCRIPT • GIT"
 
 stats:
   metrics:
