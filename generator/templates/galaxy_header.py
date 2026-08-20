@@ -117,7 +117,7 @@ def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
       <text x="48" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">~192h → ~24s</text>
       <text x="48" y="282" fill="{cyan}" font-size="9" font-family="monospace" letter-spacing="1.1">AUTOMATED PROCESSING</text>
       <line x1="205" y1="250" x2="205" y2="286" stroke="{theme['star_dust']}"/>
-      <text x="230" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">R$ 500K+</text>
+      <text x="230" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">R$ 3M+</text>
       <text x="230" y="282" fill="{violet}" font-size="8" font-family="monospace" letter-spacing="1">PROJECTED ANNUAL VALUE</text>
     </g>
     <text x="48" y="320" fill="{theme['text_faint']}" font-size="8" font-family="monospace" letter-spacing="1.5">FLORIANÓPOLIS, BRAZIL  //  SYSTEMS • DATA • AUTOMATION</text>

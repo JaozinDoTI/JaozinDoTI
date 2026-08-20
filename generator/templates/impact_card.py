@@ -11,7 +11,7 @@ def _metric(items: list, index: int, fallback: dict) -> dict:
 
 
 def render(items: list, theme: dict) -> str:
-    business = _metric(items, 0, {"value": "R$ 500K+", "label": "PROJECTED ANNUAL OPERATIONAL VALUE", "detail": "potential operational value"})
+    business = _metric(items, 0, {"value": "R$ 3M+", "label": "PROJECTED ANNUAL OPERATIONAL VALUE", "detail": "potential operational value"})
     automation = _metric(items, 1, {"value": "~99.997%", "label": "PROCESSING TIME REDUCTION", "detail": "~192h → ~24s · ~28,800× faster"})
     scale = _metric(items, 2, {"value": "~24s", "label": "AUTOMATED ANALYSIS", "detail": "~4K records • 108 fields • ~53 business rules"})
     quality = _metric(items, 3, {"value": "+3.03%", "label": "MORE ISSUES DETECTED", "detail": "higher analysis effectiveness"})
