@@ -74,8 +74,8 @@ def render(config: dict, theme: dict) -> str:
 {cosmic.elements}
   <g data-svg-layer="content">
     <line x1="425" y1="0" x2="425" y2="18" stroke="{violet}" opacity="0.4"/>
-    <text x="35" y="36" fill="{theme['text_faint']}" font-size="10" font-family="monospace" letter-spacing="3">CORE TECHNOLOGY CONSTELLATION</text>
-    <text x="815" y="36" text-anchor="end" fill="{theme['text_faint']}" font-size="8" font-family="monospace">TYPED BACKEND • DATA • APIS</text>
+    <text x="35" y="36" fill="{theme['text_faint']}" font-size="10" font-family="monospace" letter-spacing="3">TECNOLOGIAS DE BACKEND</text>
+    <text x="815" y="36" text-anchor="end" fill="{theme['text_faint']}" font-size="8" font-family="monospace">ENGENHARIA DE SOFTWARE • DADOS • APIs</text>
     <line x1="35" y1="51" x2="815" y2="51" stroke="{theme['star_dust']}" opacity="0.5"/>
 {lines}
 {flow_dots}
@@ -84,7 +84,7 @@ def render(config: dict, theme: dict) -> str:
 {chr(10).join(satellite_nodes)}
     <text x="35" y="267" fill="{theme['text_faint']}" font-size="8" font-family="monospace" letter-spacing="1">CORE PATH</text>
     <line x1="96" y1="264" x2="205" y2="264" stroke="{cyan}" opacity="0.35"/>
-    <text x="815" y="267" text-anchor="end" fill="{theme['text_faint']}" font-size="8" font-family="monospace">REACT • VITE • ZOD • PYTHON • PHP/LARAVEL • DOCKER</text>
+    <text x="815" y="267" text-anchor="end" fill="{theme['text_faint']}" font-size="8" font-family="monospace">REACT • VITE • FASTIFY • PYTHON • PHP/LARAVEL • DOCKER</text>
     <line x1="425" y1="270" x2="425" y2="285" stroke="{cyan}" opacity="0.4"/>
   </g>
 </svg>"""

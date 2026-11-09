@@ -84,8 +84,8 @@
   </g>
   <g data-svg-layer="content">
     <line x1="425" y1="0" x2="425" y2="18" stroke="#a78bfa" opacity="0.4"/>
-    <text x="35" y="36" fill="#64748b" font-size="10" font-family="monospace" letter-spacing="3">CORE TECHNOLOGY CONSTELLATION</text>
-    <text x="815" y="36" text-anchor="end" fill="#64748b" font-size="8" font-family="monospace">TYPED BACKEND • DATA • APIS</text>
+    <text x="35" y="36" fill="#64748b" font-size="10" font-family="monospace" letter-spacing="3">TECNOLOGIAS DE BACKEND</text>
+    <text x="815" y="36" text-anchor="end" fill="#64748b" font-size="8" font-family="monospace">ENGENHARIA DE SOFTWARE • DADOS • APIs</text>
     <line x1="35" y1="51" x2="815" y2="51" stroke="#1a2332" opacity="0.5"/>
     <line x1="105" y1="128" x2="295" y2="128" stroke="#a78bfa" stroke-width="0.8" opacity="0.26" stroke-dasharray="3 6"/>
     <line x1="295" y1="128" x2="490" y2="128" stroke="#00d4ff" stroke-width="0.8" opacity="0.26" stroke-dasharray="3 6"/>
@@ -118,7 +118,7 @@
       <circle cx="490" cy="128" r="33" fill="#00d4ff" opacity="0.035"/>
       <circle cx="490" cy="128" r="25" fill="#0f1623" stroke="#00d4ff" stroke-width="1.2" stroke-opacity="0.68"/>
       <circle cx="490" cy="128" r="3" fill="#00d4ff" class="stack-pulse"/>
-      <text x="490" y="171" text-anchor="middle" fill="#00d4ff" font-size="11" font-weight="bold" font-family="monospace">Fastify</text>
+      <text x="490" y="171" text-anchor="middle" fill="#00d4ff" font-size="11" font-weight="bold" font-family="monospace">Go</text>
     </g>
     <g class="stack-node">
       <circle cx="700" cy="128" r="33" fill="#ffb020" opacity="0.035"/>
@@ -172,7 +172,7 @@
       <circle cx="773" cy="80" r="23" fill="#a78bfa" opacity="0.035"/>
       <circle cx="773" cy="80" r="15" fill="#0f1623" stroke="#a78bfa" stroke-width="0.7" stroke-opacity="0.42"/>
       <circle cx="773" cy="80" r="3" fill="#a78bfa" class="stack-pulse"/>
-      <text x="773" y="113" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">Zod</text>
+      <text x="773" y="113" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">Fastify</text>
     </g>
     <g class="stack-node">
       <circle cx="639" cy="228" r="23" fill="#a78bfa" opacity="0.035"/>
@@ -182,7 +182,7 @@
     </g>
     <text x="35" y="267" fill="#64748b" font-size="8" font-family="monospace" letter-spacing="1">CORE PATH</text>
     <line x1="96" y1="264" x2="205" y2="264" stroke="#00d4ff" opacity="0.35"/>
-    <text x="815" y="267" text-anchor="end" fill="#64748b" font-size="8" font-family="monospace">REACT • VITE • ZOD • PYTHON • PHP/LARAVEL • DOCKER</text>
+    <text x="815" y="267" text-anchor="end" fill="#64748b" font-size="8" font-family="monospace">REACT • VITE • FASTIFY • PYTHON • PHP/LARAVEL • DOCKER</text>
     <line x1="425" y1="270" x2="425" y2="285" stroke="#00d4ff" opacity="0.4"/>
   </g>
 </svg>

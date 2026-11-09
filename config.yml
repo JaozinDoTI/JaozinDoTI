@@ -2,7 +2,7 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Engenharia de Software | Backend e APIs"
+  tagline: "Engenharia de Software | Go, Backend e APIs"
   company: ""
   location: "Florianópolis, SC"
   bio: "Backend, consumo de APIs e arquitetura de sistemas para a administração pública estadual."
@@ -29,7 +29,7 @@ technology_constellation:
   core:
     - "TypeScript"
     - "Node.js"
-    - "Fastify"
+    - "Go"
     - "REST APIs"
   data:
     - "SQL"
@@ -40,7 +40,7 @@ technology_constellation:
     - "Vite"
     - "Python"
     - "PHP / Laravel"
-    - "Zod"
+    - "Fastify"
     - "Docker"
 
 recruiter_focus:

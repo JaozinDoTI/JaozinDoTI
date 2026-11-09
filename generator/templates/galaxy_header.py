@@ -92,7 +92,7 @@ def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
     </g>
 
     <g class="hero-reveal" style="--hero-delay:.08s">
-      <text x="48" y="50" fill="{cyan}" font-size="10" font-weight="bold" font-family="monospace" letter-spacing="2.4">BACKEND DEVELOPER • SOFTWARE ENGINEER</text>
+      <text x="48" y="50" fill="{cyan}" font-size="13" font-weight="bold" font-family="monospace" letter-spacing="1.6">ENGENHARIA DE SOFTWARE</text>
       <circle cx="34" cy="46" r="3" fill="{cyan}"/>
     </g>
     <g class="hero-reveal" style="--hero-delay:.18s">
@@ -101,16 +101,16 @@ def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
       <rect x="145" y="106" width="44" height="2" rx="1" fill="{violet}" opacity="0.75"/>
     </g>
     <g class="hero-reveal" style="--hero-delay:.3s">
-      <text x="48" y="139" fill="{theme['text_dim']}" font-size="14" font-family="sans-serif">Backend systems for state public administration.</text>
-      <text x="48" y="160" fill="{theme['text_faint']}" font-size="11" font-family="monospace">TypeScript • Node.js • Fastify • SQL • PostgreSQL • REST APIs</text>
+      <text x="48" y="139" fill="{theme['text_dim']}" font-size="14" font-family="sans-serif">Sistemas para a administração pública estadual.</text>
+      <text x="48" y="160" fill="{theme['text_faint']}" font-size="11" font-family="monospace">Go • TypeScript • Node.js • APIs REST • PostgreSQL</text>
     </g>
     <g class="hero-reveal" style="--hero-delay:.42s">
       <rect x="48" y="190" width="146" height="29" rx="14" fill="{cyan}" opacity="0.09" stroke="{cyan}" stroke-opacity="0.32"/>
-      <text x="121" y="208" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">SOFTWARE ENGINEERING</text>
+      <text x="121" y="208" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">BACKEND</text>
       <rect x="204" y="190" width="138" height="29" rx="14" fill="{violet}" opacity="0.08" stroke="{violet}" stroke-opacity="0.28"/>
-      <text x="273" y="208" text-anchor="middle" fill="{violet}" font-size="9" font-weight="bold" font-family="monospace">ARCHITECTURE</text>
+      <text x="273" y="208" text-anchor="middle" fill="{violet}" font-size="9" font-weight="bold" font-family="monospace">ARQUITETURA</text>
       <rect x="352" y="190" width="112" height="29" rx="14" fill="{amber}" opacity="0.08" stroke="{amber}" stroke-opacity="0.28"/>
-      <text x="408" y="208" text-anchor="middle" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace">API CONSUMPTION</text>
+      <text x="408" y="208" text-anchor="middle" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace">CONSUMO DE APIs</text>
     </g>
     <g class="hero-reveal" style="--hero-delay:.55s">
       <text x="48" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">~192h → ~24s</text>

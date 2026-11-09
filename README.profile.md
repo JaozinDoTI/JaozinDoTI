@@ -23,4 +23,4 @@
 <br/>
 
 ## João Henrique Gonçalves
-Engenharia de software · Arquitetura backend · Consumo de APIs · Setor público estadual · Go em estudo
+Engenharia de software · Arquitetura backend · Consumo de APIs · Setor público estadual · Go
