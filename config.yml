@@ -2,19 +2,19 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Backend Developer | Software Engineer | Data & Automation"
+  tagline: "Software Engineer | Backend, APIs & Architecture"
   company: ""
   location: "Florianópolis, SC"
-  bio: "Backend, processamento de dados e automação para sistemas reais de produção."
-  philosophy: "Transformo processos manuais complexos em software confiável, rastreável e escalável."
+  bio: "Backend, consumo de APIs e arquitetura de sistemas para a administração pública estadual."
+  philosophy: "Desenvolvo sistemas que integram serviços e aplicam regras de negócio com rastreabilidade."
 
 social:
   linkedin: "joaohenrique-goncalves"
 
 impact:
-  - value: "R$ 3M+"
-    label: "PROJECTED ANNUAL OPERATIONAL VALUE"
-    detail: "potential value from released human capacity"
+  - value: "~4K"
+    label: "RECORDS VALIDATED"
+    detail: "108 fields evaluated per record"
   - value: "~99.997%"
     label: "PROCESSING TIME REDUCTION"
     detail: "~192h → ~24s · ~28,800× faster"
@@ -50,12 +50,12 @@ recruiter_focus:
   - value: "DADOS"
     label: "SQL • POSTGRESQL • MYSQL"
     detail: "modelagem, análise e processamento"
-  - value: "AUTOMAÇÃO"
-    label: "PYTHON • REGRAS DE NEGÓCIO"
+  - value: "INTEGRAÇÕES"
+    label: "CONSUMO DE APIs • REGRAS DE NEGÓCIO"
     detail: "fluxos internos e integrações"
 
 case_study:
-  title: "PRODUCTION CASE • DATA & AUTOMATION"
+  title: "PRODUCTION CASE • DATA VALIDATION"
   status: "RUNNING IN PRODUCTION"
   problem_title: "MANUAL OPERATIONS"
   problem: "High-volume analysis with complex rules"

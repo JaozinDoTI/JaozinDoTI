@@ -11,7 +11,7 @@ def _metric(items: list, index: int, fallback: dict) -> dict:
 
 
 def render(items: list, theme: dict) -> str:
-    business = _metric(items, 0, {"value": "R$ 3M+", "label": "PROJECTED ANNUAL OPERATIONAL VALUE", "detail": "potential operational value"})
+    business = _metric(items, 0, {"value": "~4K", "label": "RECORDS VALIDATED", "detail": "records evaluated per run"})
     automation = _metric(items, 1, {"value": "~99.997%", "label": "PROCESSING TIME REDUCTION", "detail": "~192h → ~24s · ~28,800× faster"})
     scale = _metric(items, 2, {"value": "~24s", "label": "AUTOMATED ANALYSIS", "detail": "~4K records • 108 fields • ~53 business rules"})
     quality = _metric(items, 3, {"value": "+3.03%", "label": "MORE ISSUES DETECTED", "detail": "higher analysis effectiveness"})
@@ -44,12 +44,12 @@ def render(items: list, theme: dict) -> str:
       <rect x="35" y="70" width="285" height="202" rx="16" fill="{theme['void']}" stroke="{cyan}" stroke-opacity=".32"/>
       <circle cx="188" cy="169" r="91" fill="url(#value-halo)" class="impact-breathe"/>
       <circle cx="188" cy="169" r="68" fill="none" stroke="{cyan}" stroke-width=".8" stroke-dasharray="3 9" opacity=".36" class="impact-orbit"/>
-      <text x="58" y="94" fill="{cyan}" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.2">BUSINESS IMPACT • PROJECTED</text>
+      <text x="58" y="94" fill="{cyan}" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.2">PRODUCTION DATA VALIDATION</text>
       <text x="177" y="158" text-anchor="middle" fill="{theme['text_bright']}" font-size="39" font-weight="bold" font-family="sans-serif">{esc(business['value'])}</text>
-      <text x="177" y="183" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">PROJECTED ANNUAL</text>
-      <text x="177" y="199" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">OPERATIONAL VALUE</text>
-      <text x="177" y="235" text-anchor="middle" fill="{theme['text_dim']}" font-size="9" font-family="sans-serif">Potential value from released human capacity</text>
-      <text x="177" y="252" text-anchor="middle" fill="{theme['text_faint']}" font-size="8" font-family="monospace">ESTIMATE • NOT REVENUE</text>
+      <text x="177" y="183" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">RECORDS</text>
+      <text x="177" y="199" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">VALIDATED</text>
+      <text x="177" y="235" text-anchor="middle" fill="{theme['text_dim']}" font-size="9" font-family="sans-serif">108 fields evaluated per record</text>
+      <text x="177" y="252" text-anchor="middle" fill="{theme['text_faint']}" font-size="8" font-family="monospace">APPROXIMATE VOLUME</text>
     </g>
 
     <g class="impact-enter" style="--impact-delay:.20s">

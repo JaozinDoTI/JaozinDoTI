@@ -1,18 +1,16 @@
-<div align="center">
-  <img src="./assets/generated/galaxy-header-v3.svg" width="850" alt="João Henrique Gonçalves — Backend Developer and Software Engineer focused on TypeScript, Node.js, data and automation"/>
-  <img src="./assets/generated/impact-card-v3.svg" width="850" alt="Measured production impact: R$ 3M+ projected annual operational value, approximately 99.997% processing time reduction from 192 hours to 24 seconds, analysis of 4,000 records across 108 fields with around 53 business rules, and 3.03% more inconsistencies detected"/>
-  <img src="./assets/generated/expertise-card.svg" width="850" alt="Technology constellation connecting TypeScript, Node.js, Fastify, REST APIs, SQL, PostgreSQL, React, Python and Docker"/>
-  <img src="./assets/generated/case-study.svg" width="850" alt="Production engineering case transforming high-volume manual analysis into traceable automated software"/>
-  <img src="./assets/generated/projects-constellation-v3.svg" width="850" alt="Featured production systems presented through problem, solution, technology and impact"/>
-</div>
+# João Henrique Gonçalves
 
-<div align="center">
-  <br/>
-  <a href="https://www.linkedin.com/in/joaohenrique-goncalves/">LinkedIn</a>
-  &nbsp;•&nbsp;
-  Backend Development
-  &nbsp;•&nbsp;
-  Data & Automation
-  &nbsp;•&nbsp;
-  Florianópolis, Brazil
-</div>
+**Engenharia de software · Backend · Sistemas para a administração pública estadual**
+
+Atuo no desenvolvimento de sistemas que integram serviços e aplicam regras de negócio a dados usados em operações do setor público estadual.
+
+- **APIs e integrações** — desenvolvimento e consumo de APIs REST para conectar sistemas e trocar dados.
+- **Arquitetura de software** — desenho de serviços backend, modelagem de dados e organização de regras de negócio para facilitar manutenção e rastreabilidade.
+- **Tecnologias** — TypeScript, Node.js, Fastify, PHP/Laravel, Python, SQL, PostgreSQL, MySQL e Docker. Go é uma linguagem que quero explorar no desenvolvimento de serviços backend.
+
+## Projetos
+
+- **PRISMA** — sistema em produção para validar cerca de 4 mil registros em 108 campos, com aproximadamente 53 regras de negócio. O processamento passou de cerca de 192 horas para 24 segundos.
+- **CAMUP** — evolução do backend de um sistema web colaborativo em Laravel, com entrega de funcionalidades, refatoração e melhorias de desempenho. [Repositório do CAMUP](https://github.com/JaozinDoTI/camup-system)
+
+Florianópolis, SC · [LinkedIn](https://www.linkedin.com/in/joaohenrique-goncalves/)
