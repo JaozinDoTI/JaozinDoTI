@@ -241,7 +241,7 @@
       <rect x="204" y="190" width="138" height="29" rx="14" fill="#a78bfa" opacity="0.08" stroke="#a78bfa" stroke-opacity="0.28"/>
       <text x="273" y="208" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold" font-family="monospace">ARCHITECTURE</text>
       <rect x="352" y="190" width="112" height="29" rx="14" fill="#ffb020" opacity="0.08" stroke="#ffb020" stroke-opacity="0.28"/>
-      <text x="408" y="208" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">API INTEGRATION</text>
+      <text x="408" y="208" text-anchor="middle" fill="#ffb020" font-size="9" font-weight="bold" font-family="monospace">API CONSUMPTION</text>
     </g>
     <g class="hero-reveal" style="--hero-delay:.55s">
       <text x="48" y="264" fill="#f1f5f9" font-size="21" font-weight="bold" font-family="sans-serif">~192h → ~24s</text>
