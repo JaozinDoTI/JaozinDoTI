@@ -64,7 +64,7 @@ def render(projects: list, galaxy_arms: list, theme: dict) -> str:
     <g class="product-enter" style="--product-delay:.12s">
       <rect x="35" y="70" width="500" height="210" rx="14" fill="url(#featured-glow)" stroke="{featured_color}" stroke-opacity="0.38"/>
       <rect x="35" y="70" width="5" height="210" rx="2" fill="{featured_color}" opacity="0.55"/>
-      <text x="65" y="97" fill="{featured_color}" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.5">FLAGSHIP • PRODUCTION AUTOMATION</text>
+      <text x="65" y="97" fill="{featured_color}" font-size="8" font-weight="bold" font-family="monospace" letter-spacing="1.5">FLAGSHIP • PRODUCTION SYSTEM</text>
       <text x="65" y="130" fill="{theme['text_bright']}" font-size="25" font-weight="bold" font-family="sans-serif">{esc(featured_name)}</text>
       <text x="65" y="151" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">{esc(featured.get('description', ''))}</text>
 

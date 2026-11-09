@@ -19,7 +19,6 @@ def _node(x: int, y: int, label: str, color: str, delay: float, anchor: str = "m
 def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
     profile = config.get("profile", {})
     name = profile.get("name", config.get("username", "Developer"))
-    tagline = profile.get("tagline", "Backend Developer | Data & Automation")
     cosmic = render_cosmic_background(config.get("username", "profile"), WIDTH, HEIGHT, theme, preset="hero")
     cyan = theme["synapse_cyan"]
     violet = theme["dendrite_violet"]
@@ -102,25 +101,25 @@ def render(config: dict, theme: dict, galaxy_arms: list, projects: list) -> str:
       <rect x="145" y="106" width="44" height="2" rx="1" fill="{violet}" opacity="0.75"/>
     </g>
     <g class="hero-reveal" style="--hero-delay:.3s">
-      <text x="48" y="139" fill="{theme['text_dim']}" font-size="14" font-family="sans-serif">Building production systems with backend, data and automation.</text>
+      <text x="48" y="139" fill="{theme['text_dim']}" font-size="14" font-family="sans-serif">Backend systems for state public administration.</text>
       <text x="48" y="160" fill="{theme['text_faint']}" font-size="11" font-family="monospace">TypeScript • Node.js • Fastify • SQL • PostgreSQL • REST APIs</text>
     </g>
     <g class="hero-reveal" style="--hero-delay:.42s">
       <rect x="48" y="190" width="146" height="29" rx="14" fill="{cyan}" opacity="0.09" stroke="{cyan}" stroke-opacity="0.32"/>
-      <text x="121" y="208" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">PRODUCTION SYSTEMS</text>
+      <text x="121" y="208" text-anchor="middle" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace">SOFTWARE ENGINEERING</text>
       <rect x="204" y="190" width="138" height="29" rx="14" fill="{violet}" opacity="0.08" stroke="{violet}" stroke-opacity="0.28"/>
-      <text x="273" y="208" text-anchor="middle" fill="{violet}" font-size="9" font-weight="bold" font-family="monospace">DATA-INTENSIVE</text>
+      <text x="273" y="208" text-anchor="middle" fill="{violet}" font-size="9" font-weight="bold" font-family="monospace">ARCHITECTURE</text>
       <rect x="352" y="190" width="112" height="29" rx="14" fill="{amber}" opacity="0.08" stroke="{amber}" stroke-opacity="0.28"/>
-      <text x="408" y="208" text-anchor="middle" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace">AUTOMATION</text>
+      <text x="408" y="208" text-anchor="middle" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace">API INTEGRATION</text>
     </g>
     <g class="hero-reveal" style="--hero-delay:.55s">
       <text x="48" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">~192h → ~24s</text>
-      <text x="48" y="282" fill="{cyan}" font-size="9" font-family="monospace" letter-spacing="1.1">AUTOMATED PROCESSING</text>
+      <text x="48" y="282" fill="{cyan}" font-size="9" font-family="monospace" letter-spacing="1.1">PROCESSING TIME</text>
       <line x1="205" y1="250" x2="205" y2="286" stroke="{theme['star_dust']}"/>
       <text x="230" y="264" fill="{theme['text_bright']}" font-size="21" font-weight="bold" font-family="sans-serif">~4K</text>
       <text x="230" y="282" fill="{violet}" font-size="8" font-family="monospace" letter-spacing="1">RECORDS VALIDATED</text>
     </g>
-    <text x="48" y="320" fill="{theme['text_faint']}" font-size="8" font-family="monospace" letter-spacing="1.5">FLORIANÓPOLIS, BRAZIL  //  SYSTEMS • DATA • AUTOMATION</text>
+    <text x="48" y="320" fill="{theme['text_faint']}" font-size="8" font-family="monospace" letter-spacing="1.5">FLORIANÓPOLIS, BRAZIL  //  BACKEND • APIS • DATA</text>
     <line x1="425" y1="326" x2="425" y2="340" stroke="{cyan}" opacity="0.45"/>
     <circle cx="425" cy="326" r="2" fill="{cyan}" opacity="0.8"/>
   </g>

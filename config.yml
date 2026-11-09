@@ -2,7 +2,7 @@ username: JaozinDoTI
 
 profile:
   name: "João Henrique Gonçalves"
-  tagline: "Software Engineer | Backend, APIs & Architecture"
+  tagline: "Engenharia de Software | Backend e APIs"
   company: ""
   location: "Florianópolis, SC"
   bio: "Backend, consumo de APIs e arquitetura de sistemas para a administração pública estadual."
@@ -19,7 +19,7 @@ impact:
     label: "PROCESSING TIME REDUCTION"
     detail: "~192h → ~24s · ~28,800× faster"
   - value: "~24s"
-    label: "AUTOMATED ANALYSIS"
+    label: "DATA VALIDATION"
     detail: "~4K records • 108 fields • ~53 business rules"
   - value: "+3.03%"
     label: "MORE ISSUES DETECTED"
@@ -57,13 +57,13 @@ recruiter_focus:
 case_study:
   title: "PRODUCTION CASE • DATA VALIDATION"
   status: "RUNNING IN PRODUCTION"
-  problem_title: "MANUAL OPERATIONS"
+  problem_title: "VALIDATION CHALLENGE"
   problem: "High-volume analysis with complex rules"
   role_title: "TECHNICAL OWNERSHIP"
   role: "Architecture, backend, data and integrations"
-  outcome_title: "AUTOMATED SOFTWARE"
+  outcome_title: "PRODUCTION SYSTEM"
   outcome: "Fast, traceable and consistent workflow"
-  stack: "PYTHON • SQL • BATCH PROCESSING • BUSINESS RULES • AUTOMATION"
+  stack: "PYTHON • SQL • BATCH PROCESSING • BUSINESS RULES"
 
 galaxy_arms:
   - name: "Backend"
@@ -89,10 +89,10 @@ projects:
   - repo: "PRISMA"
     arm: 2
     description: "Production platform for high-volume data validation and complex business rules."
-    problem: "Manual, high-volume data analysis"
-    solution: "Automated validation and processing engine"
+    problem: "High-volume data with complex validation rules"
+    solution: "Traceable validation and processing engine"
     impact: "~99.997% less processing time (~192h → ~24s)"
-    stack: "PYTHON • SQL • DATA PROCESSING • AUTOMATION"
+    stack: "PYTHON • SQL • DATA VALIDATION"
   - repo: "JaozinDoTI/camup-system"
     arm: 0
     description: "Collaborative web system with backend evolution, refactoring and performance work."

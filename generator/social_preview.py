@@ -51,7 +51,7 @@ def render_social_preview(config: dict, output_path: str | Path) -> None:
     draw.ellipse((948, 238, 1032, 322), fill="#0d1117", outline=accent, width=4)
     draw.ellipse((978, 268, 1002, 292), fill="#f0f6fc")
 
-    draw.text((110, 145), name, font=_font(58, bold=True), fill="#f0f6fc")
+    draw.text((110, 145), name, font=_font(48, bold=True), fill="#f0f6fc")
     draw.text((112, 225), tagline, font=_font(28), fill="#8b949e")
     draw.line((112, 286, 705, 286), fill="#30363d", width=3)
 

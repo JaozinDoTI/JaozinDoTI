@@ -1,4 +1,4 @@
-"""Production case: from manual operations to automated software."""
+"""Production case: traceable validation of complex data."""
 
 from generator.templates.cosmic_background import render as render_cosmic_background
 from generator.utils import esc
@@ -34,7 +34,7 @@ def render(config: dict, theme: dict) -> str:
 
     <g>
       <text x="70" y="91" fill="{amber}" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="1">{esc(config.get('problem_title', 'PROBLEM'))}</text>
-      <text x="70" y="119" fill="{theme['text_bright']}" font-size="15" font-weight="bold" font-family="sans-serif">Manual analysis</text>
+      <text x="70" y="119" fill="{theme['text_bright']}" font-size="15" font-weight="bold" font-family="sans-serif">Data validation</text>
       <text x="70" y="140" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">High data volume</text>
       <text x="70" y="158" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Complex business rules</text>
       <text x="70" y="176" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Repetitive validation</text>
@@ -62,14 +62,14 @@ def render(config: dict, theme: dict) -> str:
       <rect x="583" y="76" width="210" height="118" rx="12" fill="{cyan}" opacity="0.035" stroke="{cyan}" stroke-opacity="0.24"/>
       <text x="603" y="91" fill="{cyan}" font-size="9" font-weight="bold" font-family="monospace" letter-spacing="1">{esc(config.get('outcome_title', 'OUTCOME'))}</text>
       <text x="603" y="119" fill="{theme['text_bright']}" font-size="15" font-weight="bold" font-family="sans-serif">Production software</text>
-      <text x="603" y="140" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Automated workflow</text>
+      <text x="603" y="140" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Batch processing</text>
       <text x="603" y="158" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Traceable execution</text>
       <text x="603" y="176" fill="{theme['text_dim']}" font-size="11" font-family="sans-serif">Consistent results</text>
     </g>
 
     <rect x="57" y="211" width="736" height="34" rx="17" fill="{theme['void']}" stroke="{theme['star_dust']}"/>
     <text x="77" y="232" fill="{violet}" font-size="8" font-weight="bold" font-family="monospace">TECHNICAL OWNERSHIP</text>
-    <text x="220" y="232" fill="{theme['text_dim']}" font-size="9" font-family="monospace">ARCHITECTURE • BACKEND • DATA • INTEGRATIONS • AUTOMATION</text>
+    <text x="220" y="232" fill="{theme['text_dim']}" font-size="9" font-family="monospace">ARCHITECTURE • BACKEND • DATA • INTEGRATIONS</text>
     <line x1="425" y1="253" x2="425" y2="270" stroke="{violet}" opacity="0.4"/>
   </g>
 </svg>"""
